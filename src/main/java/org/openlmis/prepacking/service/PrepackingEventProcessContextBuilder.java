@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.slf4j.ext.XLoggerFactory.getXLogger;
@@ -23,13 +23,13 @@ import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import org.openlmis.pointofdelivery.dto.PointOfDeliveryEventDto;
-import org.openlmis.pointofdelivery.dto.referencedata.FacilityDto;
-import org.openlmis.pointofdelivery.service.referencedata.FacilityReferenceDataService;
-import org.openlmis.pointofdelivery.util.AuthenticationHelper;
-import org.openlmis.pointofdelivery.util.LazyResource;
-import org.openlmis.pointofdelivery.util.PointOfDeliveryEventProcessContext;
-import org.openlmis.pointofdelivery.util.ReferenceDataSupplier;
+import org.openlmis.prepacking.dto.PrepackingEventDto;
+import org.openlmis.prepacking.dto.referencedata.FacilityDto;
+import org.openlmis.prepacking.service.referencedata.FacilityReferenceDataService;
+import org.openlmis.prepacking.util.AuthenticationHelper;
+import org.openlmis.prepacking.util.LazyResource;
+import org.openlmis.prepacking.util.PrepackingEventProcessContext;
+import org.openlmis.prepacking.util.ReferenceDataSupplier;
 
 import org.slf4j.Logger;
 import org.slf4j.ext.XLogger;
@@ -47,12 +47,12 @@ import org.springframework.stereotype.Service;
 @Service
 @NoArgsConstructor
 @AllArgsConstructor
-public class PointOfDeliveryEventProcessContextBuilder {
+public class PrepackingEventProcessContextBuilder {
 
   private static final Logger LOGGER = getLogger(
-          PointOfDeliveryEventProcessContextBuilder.class);
+          PrepackingEventProcessContextBuilder.class);
   private static final XLogger XLOGGER = getXLogger(
-          PointOfDeliveryEventProcessContextBuilder.class);
+          PrepackingEventProcessContextBuilder.class);
   
   @Autowired
   private AuthenticationHelper authenticationHelper;
@@ -67,14 +67,14 @@ public class PointOfDeliveryEventProcessContextBuilder {
    * @param pointOfDeliveryEventDto pointOfDeliveryEventDto.
    * @return a context object that includes all needed ref data.
    */
-  public PointOfDeliveryEventProcessContext buildContext(
-          PointOfDeliveryEventDto pointOfDeliveryEventDto) {
+  public PrepackingEventProcessContext buildContext(
+          PrepackingEventDto pointOfDeliveryEventDto) {
     XLOGGER.entry(pointOfDeliveryEventDto);
     Profiler profiler = new Profiler("BUILD_CONTEXT");
     profiler.setLogger(XLOGGER);
 
     LOGGER.info("build stock event process context");
-    PointOfDeliveryEventProcessContext context = new PointOfDeliveryEventProcessContext();
+    PrepackingEventProcessContext context = new PrepackingEventProcessContext();
 
     profiler.start("CREATE_LAZY_USER");
     OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder

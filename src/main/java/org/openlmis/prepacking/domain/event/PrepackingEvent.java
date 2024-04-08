@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.domain.event;
+package org.openlmis.prepacking.domain.event;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -29,15 +29,15 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.pointofdelivery.domain.BaseEntity;
-import org.openlmis.pointofdelivery.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.domain.BaseEntity;
+import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "point_of_delivery_event", schema = "pointofdelivery")
-public class PointOfDeliveryEvent extends BaseEntity {
+@Table(name = "prepacking_event", schema = "prepacking")
+public class PrepackingEvent extends BaseEntity {
     
   private UUID sourceId;
   private String sourceFreeText;
@@ -78,7 +78,7 @@ public class PointOfDeliveryEvent extends BaseEntity {
 
   // One-to-many relationship with Discrepancy
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "point_of_delivery_event_id") // foreign key in Discrepancy table
+  @JoinColumn(name = "prepacking_event_id") // foreign key in Discrepancy table
   private List<Discrepancy> discrepancies;
 
 }

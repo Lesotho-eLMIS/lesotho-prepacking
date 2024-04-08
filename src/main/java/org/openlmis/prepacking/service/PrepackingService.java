@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,15 +22,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.openlmis.pointofdelivery.domain.event.PointOfDeliveryEvent;
-import org.openlmis.pointofdelivery.domain.qualitychecks.Discrepancy;
-import org.openlmis.pointofdelivery.dto.DiscrepancyDto;
-import org.openlmis.pointofdelivery.dto.PointOfDeliveryEventDto;
-import org.openlmis.pointofdelivery.exception.ResourceNotFoundException;
-import org.openlmis.pointofdelivery.repository.PointOfDeliveryEventsRepository;
-import org.openlmis.pointofdelivery.service.requisition.RejectionReasonService;
-import org.openlmis.pointofdelivery.util.Message;
-import org.openlmis.pointofdelivery.util.PointOfDeliveryEventProcessContext;
+import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.dto.DiscrepancyDto;
+import org.openlmis.prepacking.dto.PrepackingEventDto;
+import org.openlmis.prepacking.exception.ResourceNotFoundException;
+import org.openlmis.prepacking.repository.PrepackingEventsRepository;
+import org.openlmis.prepacking.service.requisition.RejectionReasonService;
+import org.openlmis.prepacking.util.Message;
+import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,14 +38,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PointOfDeliveryService {
-  private static final Logger LOGGER = LoggerFactory.getLogger(PointOfDeliveryService.class);
+public class PrepackingService {
+  private static final Logger LOGGER = LoggerFactory.getLogger(PrepackingService.class);
 
   @Autowired
-  private PointOfDeliveryEventsRepository pointOfDeliveryEventsRepository;
+  private PrepackingEventsRepository pointOfDeliveryEventsRepository;
 
   @Autowired
-  private PointOfDeliveryEventProcessContextBuilder contextBuilder;
+  private PrepackingEventProcessContextBuilder contextBuilder;
 
   @Autowired
   private RejectionReasonService rejectionReasonService;
@@ -56,8 +56,8 @@ public class PointOfDeliveryService {
    * @param destinationId destination id.
    * @return a list of pod events.
    */
-  public List<PointOfDeliveryEventDto> getPointOfDeliveryEventsByDestinationId(UUID destinationId) {
-    List<PointOfDeliveryEvent> pointOfDeliveryEvents = pointOfDeliveryEventsRepository
+  public List<PrepackingEventDto> getPrepackingEventsByDestinationId(UUID destinationId) {
+    List<PrepackingEvent> pointOfDeliveryEvents = pointOfDeliveryEventsRepository
         .findByDestinationId(destinationId);
     
     if (pointOfDeliveryEvents == null) {
@@ -72,7 +72,7 @@ public class PointOfDeliveryService {
    * @param id point of delivery event id.
    * @return a pod event.
    */
-  public Optional<PointOfDeliveryEvent> getPointOfDeliveryEventById(UUID id) {
+  public Optional<PrepackingEvent> getPrepackingEventById(UUID id) {
     return pointOfDeliveryEventsRepository.findById(id);
   }
 
@@ -82,7 +82,7 @@ public class PointOfDeliveryService {
    * @param dto POD event dto.
    * @return the saved POD event.
    */
-  public PointOfDeliveryEventDto updatePointOfDeliveryEvent(PointOfDeliveryEventDto dto, UUID id) {
+  public PrepackingEventDto updatePrepackingEvent(PrepackingEventDto dto, UUID id) {
     //LOGGER.info("update POS event");
     //physicalInventoryValidator.validateDraft(dto, id);
     //checkPermission(dto.getProgramId(), dto.getFacilityId());
@@ -90,14 +90,14 @@ public class PointOfDeliveryService {
     //checkIfDraftExists(dto, id);
     
     LOGGER.info("Attempting to fetch pod event with id = " + id);
-    Optional<PointOfDeliveryEvent> existingPodEventOpt = 
+    Optional<PrepackingEvent> existingPodEventOpt = 
         pointOfDeliveryEventsRepository.findById(id);
 
     if (existingPodEventOpt.isPresent()) {
-      PointOfDeliveryEvent existingPodEvent = existingPodEventOpt.get();
-      PointOfDeliveryEventProcessContext context = contextBuilder.buildContext(dto);
+      PrepackingEvent existingPodEvent = existingPodEventOpt.get();
+      PrepackingEventProcessContext context = contextBuilder.buildContext(dto);
       dto.setContext(context);
-      PointOfDeliveryEvent incomingPodEvent = dto.toPointOfDeliveryEvent();
+      PrepackingEvent incomingPodEvent = dto.toPrepackingEvent();
 
       // Update the Existing PodEvent object with values incoming DTO data
       existingPodEvent = copyAttributes(existingPodEvent, incomingPodEvent);
@@ -110,8 +110,8 @@ public class PointOfDeliveryService {
     }
   }
 
-  private PointOfDeliveryEvent copyAttributes(
-      PointOfDeliveryEvent existingPodEvent, PointOfDeliveryEvent incomingPodEvent) {
+  private PrepackingEvent copyAttributes(
+      PrepackingEvent existingPodEvent, PrepackingEvent incomingPodEvent) {
     if (incomingPodEvent.getSourceId() != null) {
       existingPodEvent.setSourceId(incomingPodEvent.getSourceId());
     }
@@ -179,7 +179,7 @@ public class PointOfDeliveryService {
    *
    * @param id POD event id.
    */
-  public void deletePointOfDeliveryEvent(UUID id) {
+  public void deletePrepackingEvent(UUID id) {
     //LOGGER.info("update POS event");
     //physicalInventoryValidator.validateDraft(dto, id);
     //checkPermission(dto.getProgramId(), dto.getFacilityId());
@@ -187,7 +187,7 @@ public class PointOfDeliveryService {
     //checkIfDraftExists(dto, id);
     
     LOGGER.info("Attempting to fetch pod event with id = " + id);
-    Optional<PointOfDeliveryEvent> existingPodEventOpt = 
+    Optional<PrepackingEvent> existingPodEventOpt = 
         pointOfDeliveryEventsRepository.findById(id);
 
     if (existingPodEventOpt.isPresent()) {
@@ -204,10 +204,10 @@ public class PointOfDeliveryService {
    * @param pointOfDeliveryEvents inventory jpa model.
    * @return created dto.
    */
-  private List<PointOfDeliveryEventDto> podToDto(
-        Collection<PointOfDeliveryEvent> pointOfDeliveryEvents) {
+  private List<PrepackingEventDto> podToDto(
+        Collection<PrepackingEvent> pointOfDeliveryEvents) {
 
-    List<PointOfDeliveryEventDto> podDtos = new ArrayList<>(pointOfDeliveryEvents.size());
+    List<PrepackingEventDto> podDtos = new ArrayList<>(pointOfDeliveryEvents.size());
     pointOfDeliveryEvents.forEach(i -> podDtos.add(podToDto(i)));
     return podDtos;
   }
@@ -218,8 +218,8 @@ public class PointOfDeliveryService {
    * @param pointOfDeliveryEvent inventory jpa model.
    * @return created dto.
    */
-  private PointOfDeliveryEventDto podToDto(PointOfDeliveryEvent pointOfDeliveryEvent) {
-    return PointOfDeliveryEventDto.builder()
+  private PrepackingEventDto podToDto(PrepackingEvent pointOfDeliveryEvent) {
+    return PrepackingEventDto.builder()
       .id(pointOfDeliveryEvent.getId())
       .sourceId(pointOfDeliveryEvent.getSourceId())
       .sourceFreeText(pointOfDeliveryEvent.getSourceFreeText())

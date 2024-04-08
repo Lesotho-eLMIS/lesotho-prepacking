@@ -14,7 +14,7 @@
  */
 
 
-package org.openlmis.pointofdelivery.dto;
+package org.openlmis.prepacking.dto;
 
 import static java.time.ZonedDateTime.now;
 import static java.util.Collections.emptyList;
@@ -30,16 +30,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import org.openlmis.pointofdelivery.domain.event.PointOfDeliveryEvent;
-import org.openlmis.pointofdelivery.domain.qualitychecks.Discrepancy;
-import org.openlmis.pointofdelivery.dto.DiscrepancyDto;
-import org.openlmis.pointofdelivery.util.PointOfDeliveryEventProcessContext;
+import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.dto.DiscrepancyDto;
+import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PointOfDeliveryEventDto {
+public class PrepackingEventDto {
 
   private UUID id;
 
@@ -80,21 +80,21 @@ public class PointOfDeliveryEventDto {
 
   private List<DiscrepancyDto> discrepancies;
 
-  private PointOfDeliveryEventProcessContext context;
+  private PrepackingEventProcessContext context;
 
   /**
    * Convert dto to jpa model.
    *
    * @return the converted jpa model object.
    */
-  public PointOfDeliveryEvent toPointOfDeliveryEvent() {
+  public PrepackingEvent toPrepackingEvent() {
 
     // List<Discrepancy> discrepanciesList = new ArrayList<>();
     // for (DiscrepancyDto discrepancydto : discrepancies) {
     //   discrepanciesList.add(discrepancydto.toDiscrepancy());
     // }
 
-    PointOfDeliveryEvent pointOfDeliveryEvent = new PointOfDeliveryEvent(
+    PrepackingEvent pointOfDeliveryEvent = new PrepackingEvent(
         sourceId, sourceFreeText, destinationId, destinationFreeText, 
         context.getCurrentUserId(), context.getCurrentUserNames(), now(), 
         referenceNumber, packingDate, packedBy, cartonsQuantityOnWaybill, 

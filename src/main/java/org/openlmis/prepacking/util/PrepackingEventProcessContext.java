@@ -13,15 +13,36 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.repository;
+package org.openlmis.prepacking.util;
 
-import java.util.List;
 import java.util.UUID;
-import org.openlmis.pointofdelivery.domain.event.PointOfDeliveryEvent;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
+import lombok.Setter;
 
-public interface PointOfDeliveryEventsRepository extends
-        PagingAndSortingRepository<PointOfDeliveryEvent, UUID> {
-  List<PointOfDeliveryEvent> findByDestinationId(@Param("destinationId") UUID destinationId);
+import org.openlmis.prepacking.dto.referencedata.FacilityDto;
+
+
+/**
+ * Before processing a pod event, one instance of this class will be created to hold all things
+ * needed from ref-data service. By doing this, all network traffic is concentrated in one place,
+ * not scattered around in different places. All resources use lazy loading so they are retrieved
+ * only when there is a need.
+ */
+@Setter
+public class PrepackingEventProcessContext {
+
+  private LazyResource<UUID> currentUserId;
+  private LazyResource<String> currentUserNames;
+  private LazyResource<FacilityDto> facility;
+
+  public UUID getCurrentUserId() {
+    return currentUserId.get();
+  }
+
+  public String getCurrentUserNames() {
+    return currentUserNames.get();
+  }
+
+  public FacilityDto getFacility() {
+    return facility.get();
+  }
 }

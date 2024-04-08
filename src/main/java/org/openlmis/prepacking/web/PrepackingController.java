@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -23,11 +23,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 import java.util.UUID;
-import org.openlmis.pointofdelivery.dto.PointOfDeliveryEventDto;
-// import org.openlmis.pointofdelivery.service.PermissionService;
-import org.openlmis.pointofdelivery.service.PointOfDeliveryEventProcessor;
-import org.openlmis.pointofdelivery.service.PointOfDeliveryService;
-import org.openlmis.pointofdelivery.web.BaseController;
+import org.openlmis.prepacking.dto.PrepackingEventDto;
+// import org.openlmis.prepacking.service.PermissionService;
+import org.openlmis.prepacking.service.PrepackingEventProcessor;
+import org.openlmis.prepacking.service.PrepackingService;
+import org.openlmis.prepacking.web.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
@@ -51,18 +51,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping("/api/podEvents")
-public class PointOfDeliveryController extends BaseController {
+public class PrepackingController extends BaseController {
   public static final String ID_PATH_VARIABLE = "/{id}";
-  private static final Logger LOGGER = LoggerFactory.getLogger(PointOfDeliveryController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PrepackingController.class);
 
   //   @Autowired
   //   private PermissionService permissionService;
 
   @Autowired
-  private PointOfDeliveryEventProcessor pointOfDeliveryEventProcessor;
+  private PrepackingEventProcessor pointOfDeliveryEventProcessor;
 
   @Autowired
-  private PointOfDeliveryService pointOfDeliveryService;
+  private PrepackingService pointOfDeliveryService;
 
   /**
    * Create point of delivery event.
@@ -72,8 +72,8 @@ public class PointOfDeliveryController extends BaseController {
    */
   @Transactional
   @RequestMapping(method = POST)
-  public ResponseEntity<UUID> createPointOfDeliveryEvent(
-        @RequestBody PointOfDeliveryEventDto pointOfDeliveryEventDto) {
+  public ResponseEntity<UUID> createPrepackingEvent(
+        @RequestBody PrepackingEventDto pointOfDeliveryEventDto) {
 
     LOGGER.debug("Try to create a point of delivery event");
 
@@ -97,13 +97,13 @@ public class PointOfDeliveryController extends BaseController {
    * @return List of pod events.
    */
   @RequestMapping(method = GET)
-  public ResponseEntity<List<PointOfDeliveryEventDto>> getPointOfDeliveryEvents(
+  public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
       @RequestParam() UUID destinationId) {
 
     LOGGER.debug("Try to load point of delivery events");
 
-    List<PointOfDeliveryEventDto> podsToReturn = 
-        pointOfDeliveryService.getPointOfDeliveryEventsByDestinationId(destinationId);
+    List<PrepackingEventDto> podsToReturn = 
+        pointOfDeliveryService.getPrepackingEventsByDestinationId(destinationId);
     
     return new ResponseEntity<>(podsToReturn, OK);
     // Profiler profiler = getProfiler("LIST_POD_EVENTS", pointOfDeliveryEventDto);
@@ -130,10 +130,10 @@ public class PointOfDeliveryController extends BaseController {
   @PutMapping(ID_PATH_VARIABLE)
   @ResponseStatus(OK)
   @ResponseBody
-  public ResponseEntity<PointOfDeliveryEventDto> updatePointOfDeliveryEvent(@PathVariable UUID id,
-                                                    @RequestBody PointOfDeliveryEventDto dto) {
-    PointOfDeliveryEventDto updatedPodEvent = pointOfDeliveryService
-        .updatePointOfDeliveryEvent(dto, id);
+  public ResponseEntity<PrepackingEventDto> updatePrepackingEvent(@PathVariable UUID id,
+                                                    @RequestBody PrepackingEventDto dto) {
+    PrepackingEventDto updatedPodEvent = pointOfDeliveryService
+        .updatePrepackingEvent(dto, id);
     return new ResponseEntity<>(updatedPodEvent, OK);
   }
 
@@ -144,8 +144,8 @@ public class PointOfDeliveryController extends BaseController {
    */
   @DeleteMapping(ID_PATH_VARIABLE)
   @ResponseStatus(NO_CONTENT)
-  public void deletePointOfDeliveryEvent(@PathVariable UUID id) {
-    pointOfDeliveryService.deletePointOfDeliveryEvent(id);
+  public void deletePrepackingEvent(@PathVariable UUID id) {
+    pointOfDeliveryService.deletePrepackingEvent(id);
   }
 
 }
