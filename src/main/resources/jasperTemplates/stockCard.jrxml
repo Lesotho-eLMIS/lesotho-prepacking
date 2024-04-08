@@ -11,8 +11,8 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<import value="org.openlmis.pointofdelivery.domain.card.*"/>
-	<import value="org.openlmis.pointofdelivery.dto.*"/>
+	<import value="org.openlmis.prepacking.domain.card.*"/>
+	<import value="org.openlmis.prepacking.dto.*"/>
 	<import value="java.time.LocalDate"/>
 	<import value="java.time.format.DateTimeFormatter"/>
 	<import value="java.text.DecimalFormat"/>
@@ -50,13 +50,13 @@
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
-		<field name="lineItem" class="org.openlmis.pointofdelivery.domain.card.StockCardLineItem">
+		<field name="lineItem" class="org.openlmis.prepacking.domain.card.StockCardLineItem">
 			<fieldDescription><![CDATA[lineItem]]></fieldDescription>
 		</field>
-		<field name="source" class="org.openlmis.pointofdelivery.dto.referencedata.FacilityDto">
+		<field name="source" class="org.openlmis.prepacking.dto.referencedata.FacilityDto">
 			<fieldDescription><![CDATA[source]]></fieldDescription>
 		</field>
-		<field name="destination" class="org.openlmis.pointofdelivery.dto.referencedata.FacilityDto">
+		<field name="destination" class="org.openlmis.prepacking.dto.referencedata.FacilityDto">
 			<fieldDescription><![CDATA[destination]]></fieldDescription>
 		</field>
 	</subDataset>
@@ -71,19 +71,19 @@
 	<field name="stockOnHand" class="java.lang.Integer">
 		<fieldDescription><![CDATA[stockOnHand]]></fieldDescription>
 	</field>
-	<field name="facility" class="org.openlmis.pointofdelivery.dto.referencedata.FacilityDto">
+	<field name="facility" class="org.openlmis.prepacking.dto.referencedata.FacilityDto">
 		<fieldDescription><![CDATA[facility]]></fieldDescription>
 	</field>
-	<field name="program" class="org.openlmis.pointofdelivery.dto.referencedata.ProgramDto">
+	<field name="program" class="org.openlmis.prepacking.dto.referencedata.ProgramDto">
 		<fieldDescription><![CDATA[program]]></fieldDescription>
 	</field>
 	<field name="lineItems" class="java.util.List">
 		<fieldDescription><![CDATA[lineItems]]></fieldDescription>
 	</field>
-	<field name="orderable" class="org.openlmis.pointofdelivery.dto.referencedata.OrderableDto">
+	<field name="orderable" class="org.openlmis.prepacking.dto.referencedata.OrderableDto">
 		<fieldDescription><![CDATA[orderable]]></fieldDescription>
 	</field>
-	<field name="lot" class="org.openlmis.pointofdelivery.dto.referencedata.LotDto"/>
+	<field name="lot" class="org.openlmis.prepacking.dto.referencedata.LotDto"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

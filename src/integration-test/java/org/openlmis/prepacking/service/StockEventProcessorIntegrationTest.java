@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.openlmis.pointofdelivery.testutils.StockEventDtoDataBuilder.createStockEventDto;
+import static org.openlmis.prepacking.testutils.StockEventDtoDataBuilder.createStockEventDto;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -32,22 +32,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.openlmis.pointofdelivery.BaseIntegrationTest;
-import org.openlmis.pointofdelivery.domain.reason.ReasonCategory;
-import org.openlmis.pointofdelivery.domain.reason.ReasonType;
-import org.openlmis.pointofdelivery.domain.reason.StockCardLineItemReason;
-import org.openlmis.pointofdelivery.domain.sourcedestination.Node;
-import org.openlmis.pointofdelivery.domain.sourcedestination.Organization;
-import org.openlmis.pointofdelivery.dto.PhysicalInventoryDto;
-import org.openlmis.pointofdelivery.dto.StockEventDto;
-import org.openlmis.pointofdelivery.repository.CalculatedStockOnHandRepository;
-import org.openlmis.pointofdelivery.repository.NodeRepository;
-import org.openlmis.pointofdelivery.repository.OrganizationRepository;
-import org.openlmis.pointofdelivery.repository.PhysicalInventoriesRepository;
-import org.openlmis.pointofdelivery.repository.StockCardLineItemReasonRepository;
-import org.openlmis.pointofdelivery.repository.StockCardLineItemRepository;
-import org.openlmis.pointofdelivery.repository.StockCardRepository;
-import org.openlmis.pointofdelivery.repository.StockEventsRepository;
+import org.openlmis.prepacking.BaseIntegrationTest;
+import org.openlmis.prepacking.domain.reason.ReasonCategory;
+import org.openlmis.prepacking.domain.reason.ReasonType;
+import org.openlmis.prepacking.domain.reason.StockCardLineItemReason;
+import org.openlmis.prepacking.domain.sourcedestination.Node;
+import org.openlmis.prepacking.domain.sourcedestination.Organization;
+import org.openlmis.prepacking.dto.PhysicalInventoryDto;
+import org.openlmis.prepacking.dto.StockEventDto;
+import org.openlmis.prepacking.repository.CalculatedStockOnHandRepository;
+import org.openlmis.prepacking.repository.NodeRepository;
+import org.openlmis.prepacking.repository.OrganizationRepository;
+import org.openlmis.prepacking.repository.PhysicalInventoriesRepository;
+import org.openlmis.prepacking.repository.StockCardLineItemReasonRepository;
+import org.openlmis.prepacking.repository.StockCardLineItemRepository;
+import org.openlmis.prepacking.repository.StockCardRepository;
+import org.openlmis.prepacking.repository.StockEventsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

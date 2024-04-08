@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.i18n;
+package org.openlmis.prepacking.i18n;
 
 import java.util.Locale;
 import java.util.Map;

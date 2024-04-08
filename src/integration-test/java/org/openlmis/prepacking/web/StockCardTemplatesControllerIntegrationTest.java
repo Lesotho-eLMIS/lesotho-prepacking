@@ -13,15 +13,15 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_FACILITY_TYPE_NOT_FOUND;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_PROGRAM_NOT_FOUND;
-import static org.openlmis.pointofdelivery.service.PermissionService.STOCK_CARD_TEMPLATES_MANAGE;
-import static org.openlmis.pointofdelivery.testutils.StockCardTemplateDataBuilder.createTemplateDto;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_FACILITY_TYPE_NOT_FOUND;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_PROGRAM_NOT_FOUND;
+import static org.openlmis.prepacking.service.PermissionService.STOCK_CARD_TEMPLATES_MANAGE;
+import static org.openlmis.prepacking.testutils.StockCardTemplateDataBuilder.createTemplateDto;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -30,14 +30,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.UUID;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openlmis.pointofdelivery.domain.template.StockCardTemplate;
-import org.openlmis.pointofdelivery.dto.StockCardTemplateDto;
-import org.openlmis.pointofdelivery.exception.AuthenticationException;
-import org.openlmis.pointofdelivery.exception.PermissionMessageException;
-import org.openlmis.pointofdelivery.exception.ValidationMessageException;
-import org.openlmis.pointofdelivery.service.PermissionService;
-import org.openlmis.pointofdelivery.service.StockCardTemplateService;
-import org.openlmis.pointofdelivery.util.Message;
+import org.openlmis.prepacking.domain.template.StockCardTemplate;
+import org.openlmis.prepacking.dto.StockCardTemplateDto;
+import org.openlmis.prepacking.exception.AuthenticationException;
+import org.openlmis.prepacking.exception.PermissionMessageException;
+import org.openlmis.prepacking.exception.ValidationMessageException;
+import org.openlmis.prepacking.service.PermissionService;
+import org.openlmis.prepacking.service.StockCardTemplateService;
+import org.openlmis.prepacking.util.Message;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;

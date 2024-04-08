@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.interceptor;
+package org.openlmis.prepacking.interceptor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

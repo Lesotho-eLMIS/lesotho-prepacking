@@ -1,15 +1,15 @@
 {
   "service": {
-    "Name": "pointofdelivery",
+    "Name": "prepacking",
     "Port": 8080,
     "Tags": ["openlmis-service"]
   },
   "raml": "src/main/resources/api-definition.yaml",
   "path": [
-    "pointofdelivery",
-    "pointofdelivery/docs",
-    "pointofdelivery/docs/<all>",
-    "pointofdelivery/webjars",
-    "pointofdelivery/webjars/<all>"
+    "prepacking",
+    "prepacking/docs",
+    "prepacking/docs/<all>",
+    "prepacking/webjars",
+    "prepacking/webjars/<all>"
   ]
 }

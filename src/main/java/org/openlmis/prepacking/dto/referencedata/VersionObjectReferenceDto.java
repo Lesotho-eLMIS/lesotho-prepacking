@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.dto.referencedata;
+package org.openlmis.prepacking.dto.referencedata;
 
 import java.util.UUID;
 
@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import lombok.ToString;
-import org.openlmis.pointofdelivery.dto.ObjectReferenceDto;
+import org.openlmis.prepacking.dto.ObjectReferenceDto;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

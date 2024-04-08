@@ -14,7 +14,7 @@
  */
 
 
-package org.openlmis.pointofdelivery.dto;
+package org.openlmis.prepacking.dto;
 
 import java.util.UUID;
 
@@ -22,8 +22,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.pointofdelivery.domain.qualitychecks.Discrepancy;
-import org.openlmis.pointofdelivery.dto.requisition.RejectionReasonDto;
+import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.dto.requisition.RejectionReasonDto;
 
 @Data
 @AllArgsConstructor

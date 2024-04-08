@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.openlmis.pointofdelivery.testutils.StockCardDtoDataBuilder.createStockCardDto;
+import static org.openlmis.prepacking.testutils.StockCardDtoDataBuilder.createStockCardDto;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,14 +34,14 @@ import com.google.common.collect.ImmutableSet;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.openlmis.pointofdelivery.dto.StockCardDto;
-import org.openlmis.pointofdelivery.exception.PermissionMessageException;
-import org.openlmis.pointofdelivery.exception.ResourceNotFoundException;
-import org.openlmis.pointofdelivery.service.PermissionService;
-import org.openlmis.pointofdelivery.service.StockCardService;
-import org.openlmis.pointofdelivery.service.StockCardSummariesService;
-import org.openlmis.pointofdelivery.testutils.StockCardDtoDataBuilder;
-import org.openlmis.pointofdelivery.util.Message;
+import org.openlmis.prepacking.dto.StockCardDto;
+import org.openlmis.prepacking.exception.PermissionMessageException;
+import org.openlmis.prepacking.exception.ResourceNotFoundException;
+import org.openlmis.prepacking.service.PermissionService;
+import org.openlmis.prepacking.service.StockCardService;
+import org.openlmis.prepacking.service.StockCardSummariesService;
+import org.openlmis.prepacking.testutils.StockCardDtoDataBuilder;
+import org.openlmis.prepacking.util.Message;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

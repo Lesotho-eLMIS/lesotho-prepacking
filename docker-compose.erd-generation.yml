@@ -1,8 +1,8 @@
 version: "2"
 services:
 
-  pointofdelivery:
-    image: openlmis/pointofdelivery
+  prepacking:
+    image: openlmis/prepacking
     links:
       - db
       - log
@@ -17,4 +17,4 @@ services:
   log:
     image: openlmis/rsyslog:1
     volumes:
-      - '../logs/pointofdelivery:/var/log'
+      - '../logs/prepacking:/var/log'

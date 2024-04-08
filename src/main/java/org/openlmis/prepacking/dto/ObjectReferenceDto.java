@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.dto;
+package org.openlmis.prepacking.dto;
 
-import static org.openlmis.pointofdelivery.service.ResourceNames.BASE_PATH;
-import static org.openlmis.pointofdelivery.service.ResourceNames.SEPARATOR;
+import static org.openlmis.prepacking.service.ResourceNames.BASE_PATH;
+import static org.openlmis.prepacking.service.ResourceNames.SEPARATOR;
 
 import java.util.UUID;
 import lombok.EqualsAndHashCode;

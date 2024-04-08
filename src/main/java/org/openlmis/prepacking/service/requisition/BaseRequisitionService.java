@@ -13,9 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service.requisition;
+package org.openlmis.prepacking.service.requisition;
 
-import org.openlmis.pointofdelivery.service.BaseCommunicationService;
+import org.openlmis.prepacking.service.BaseCommunicationService;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class BaseRequisitionService<T> extends BaseCommunicationService<T> {

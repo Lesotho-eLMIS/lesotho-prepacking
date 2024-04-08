@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery;
+package org.openlmis.prepacking;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openlmis.pointofdelivery.interceptor.MvcInterceptor;
+import org.openlmis.prepacking.interceptor.MvcInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -38,16 +38,16 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/pointofdelivery/docs")
-            .setViewName("redirect:" + serviceUrl + "/pointofdelivery/docs/");
-    registry.addViewController("/pointofdelivery/docs/")
-            .setViewName("forward:/pointofdelivery/docs/index.html");
+    registry.addViewController("/prepacking/docs")
+            .setViewName("redirect:" + serviceUrl + "/prepacking/docs/");
+    registry.addViewController("/prepacking/docs/")
+            .setViewName("forward:/prepacking/docs/index.html");
     super.addViewControllers(registry);
   }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/pointofdelivery/webjars/**")
+    registry.addResourceHandler("/prepacking/webjars/**")
             .addResourceLocations("classpath:/META-INF/resources/webjars/")
             .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS));
     super.addResourceHandlers(registry);

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.demodata;
+package org.openlmis.prepacking.demodata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -23,12 +23,12 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlmis.pointofdelivery.BaseIntegrationTest;
-import org.openlmis.pointofdelivery.domain.card.StockCard;
-import org.openlmis.pointofdelivery.dto.referencedata.OrderableDto;
-import org.openlmis.pointofdelivery.repository.StockCardRepository;
-import org.openlmis.pointofdelivery.service.CalculatedStockOnHandService;
-import org.openlmis.pointofdelivery.service.referencedata.OrderableReferenceDataService;
+import org.openlmis.prepacking.BaseIntegrationTest;
+import org.openlmis.prepacking.domain.card.StockCard;
+import org.openlmis.prepacking.dto.referencedata.OrderableDto;
+import org.openlmis.prepacking.repository.StockCardRepository;
+import org.openlmis.prepacking.service.CalculatedStockOnHandService;
+import org.openlmis.prepacking.service.referencedata.OrderableReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

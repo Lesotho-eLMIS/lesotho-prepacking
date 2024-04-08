@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.domain.qualitychecks;
+package org.openlmis.prepacking.domain.qualitychecks;
 
 import java.util.UUID;
 import javax.persistence.Entity;
@@ -23,15 +23,15 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.pointofdelivery.domain.BaseEntity;
-import org.openlmis.pointofdelivery.domain.event.PointOfDeliveryEvent;
+import org.openlmis.prepacking.domain.BaseEntity;
+import org.openlmis.prepacking.domain.event.PrepackingEvent;
 
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "point_of_delivery_event_discrepencies", schema = "pointofdelivery")
+@Table(name = "prepacking_event_discrepencies", schema = "prepacking")
 public class Discrepancy extends BaseEntity {
 
   private UUID rejectionReasonId;
@@ -39,10 +39,10 @@ public class Discrepancy extends BaseEntity {
   private Integer quantityAffected;
   private String comments;
 
-  // Many-to-one relationship with PointOfDeliveryEvent
+  // Many-to-one relationship with PrepackingEvent
   @ManyToOne
-  @JoinColumn(name = "point_of_delivery_event_id")
-  private PointOfDeliveryEvent pointOfDeliveryEvent;
+  @JoinColumn(name = "prepacking_event_id")
+  private PrepackingEvent pointOfDeliveryEvent;
 
   /**
    * Constructor for Discrepency.

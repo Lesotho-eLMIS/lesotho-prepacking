@@ -30,11 +30,11 @@ services:
     env_file: .env
   image:
     build: .
-    image: openlmis/pointofdelivery
+    image: openlmis/prepacking
   db:
     image: openlmis/postgres:12-debezium
     env_file: .env
   log:
     image: openlmis/rsyslog:1
     volumes:
-      - '../logs/pointofdelivery:/var/log'
+      - '../logs/prepacking:/var/log'

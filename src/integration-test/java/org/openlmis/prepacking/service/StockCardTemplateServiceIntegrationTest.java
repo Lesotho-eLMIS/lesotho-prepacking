@@ -13,24 +13,24 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.openlmis.pointofdelivery.testutils.StockCardTemplateDataBuilder.createTemplateDto;
+import static org.openlmis.prepacking.testutils.StockCardTemplateDataBuilder.createTemplateDto;
 
 import java.util.UUID;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlmis.pointofdelivery.BaseIntegrationTest;
-import org.openlmis.pointofdelivery.dto.StockCardFieldDto;
-import org.openlmis.pointofdelivery.dto.StockCardLineItemFieldDto;
-import org.openlmis.pointofdelivery.dto.StockCardTemplateDto;
-import org.openlmis.pointofdelivery.exception.ValidationMessageException;
-import org.openlmis.pointofdelivery.service.referencedata.ProgramFacilityTypeExistenceService;
+import org.openlmis.prepacking.BaseIntegrationTest;
+import org.openlmis.prepacking.dto.StockCardFieldDto;
+import org.openlmis.prepacking.dto.StockCardLineItemFieldDto;
+import org.openlmis.prepacking.dto.StockCardTemplateDto;
+import org.openlmis.prepacking.exception.ValidationMessageException;
+import org.openlmis.prepacking.service.referencedata.ProgramFacilityTypeExistenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

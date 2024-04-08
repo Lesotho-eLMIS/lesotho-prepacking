@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service.requisition;
+package org.openlmis.prepacking.service.requisition;
 
 import java.util.UUID;
-import org.openlmis.pointofdelivery.dto.requisition.RejectionReasonDto;
+import org.openlmis.prepacking.dto.requisition.RejectionReasonDto;
 import org.springframework.stereotype.Service;
 
 @Service
