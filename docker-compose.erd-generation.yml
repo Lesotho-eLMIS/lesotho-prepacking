@@ -1,0 +1,20 @@
+version: "2"
+services:
+
+  pointofdelivery:
+    image: openlmis/pointofdelivery
+    links:
+      - db
+      - log
+    env_file: .env
+
+  db:
+    image: openlmis/postgres:12-debezium
+    ports:
+      - "5432"
+    env_file: .env
+
+  log:
+    image: openlmis/rsyslog:1
+    volumes:
+      - '../logs/pointofdelivery:/var/log'

@@ -1,0 +1,189 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2017 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU Affero General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details. You should have received a copy of
+ * the GNU Affero General Public License along with this program. If not, see
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
+ */
+
+package org.openlmis.pointofdelivery.web;
+
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
+import java.util.UUID;
+import org.junit.Test;
+import org.openlmis.pointofdelivery.domain.sourcedestination.Organization;
+import org.openlmis.pointofdelivery.exception.PermissionMessageException;
+import org.openlmis.pointofdelivery.repository.OrganizationRepository;
+import org.openlmis.pointofdelivery.service.PermissionService;
+import org.openlmis.pointofdelivery.util.Message;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+
+public class OrganizationControllerIntegrationTest extends BaseWebTest {
+  private static final String ORGANIZATION_API = "/api/organizations/";
+
+  @MockBean
+  private PermissionService permissionService;
+
+  @MockBean
+  private OrganizationRepository organizationRepository;
+
+  @Test
+  public void shouldReturn201WhenOrganizationCreatedSuccessfully() throws Exception {
+    //given
+    Organization organization = createOrganization("New Org");
+    when(organizationRepository.save(organization)).thenReturn(organization);
+
+    //when
+    ResultActions resultActions = mvc.perform(post(ORGANIZATION_API)
+        .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectToJsonString(organization)));
+
+    //then
+    resultActions.andExpect(status().isCreated())
+        .andExpect(jsonPath("$.name", is(organization.getName())));
+  }
+
+  @Test
+  public void shouldReturn200WhenUserHasPermissionToGetOrganizations() throws Exception {
+    //given
+    when(organizationRepository.findAll()).thenReturn(
+        asList(createOrganization("Existing Org1"),
+            createOrganization("Existing Org2")));
+
+    //when
+    ResultActions resultActions = mvc.perform(get(ORGANIZATION_API)
+        .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+        .contentType(MediaType.APPLICATION_JSON));
+
+    //then
+    resultActions.andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(2)));
+  }
+
+  @Test
+  public void shouldReturn200WhenOrganizationUpdateCompleted() throws Exception {
+    //given
+    Organization organization = createOrganization("Updated Org");
+    organization.setId(UUID.randomUUID());
+    when(organizationRepository.existsById(organization.getId())).thenReturn(true);
+    when(organizationRepository.save(organization)).thenReturn(organization);
+
+    //when
+    ResultActions resultActions = mvc.perform(
+        put(ORGANIZATION_API + organization.getId().toString())
+            .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectToJsonString(organization)));
+
+    //then
+    resultActions.andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is(organization.getId().toString())))
+        .andExpect(jsonPath("$.name", is(organization.getName())));
+  }
+
+  @Test
+  public void shouldReturn403WhenUserHasNoPermissionToManageOrganizations()
+      throws Exception {
+    //given
+    doThrow(new PermissionMessageException(new Message("key")))
+        .when(permissionService).canManageOrganizations();
+    Organization organization = createOrganization("Would Get 403");
+
+    //1. try to create organization
+    ResultActions postResult = mvc.perform(post(ORGANIZATION_API)
+        .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectToJsonString(organization)));
+    postResult.andExpect(status().isForbidden());
+
+    //2. try to update organization
+    ResultActions putResult = mvc.perform(
+        put(ORGANIZATION_API + UUID.randomUUID().toString())
+            .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectToJsonString(organization)));
+    putResult.andExpect(status().isForbidden());
+
+    //3. try to retrieve organizations
+    ResultActions getResult = mvc.perform(get(ORGANIZATION_API)
+        .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+        .contentType(MediaType.APPLICATION_JSON));
+    getResult.andExpect(status().isForbidden());
+  }
+
+  @Test
+  public void shouldReturn200WhenTryToCreateOrganizationsHasExisted() throws Exception {
+    //given
+    Organization organization = createOrganization("Test Org");
+    when(organizationRepository.findByName(organization.getName())).thenReturn(organization);
+
+    //when
+    ResultActions resultActions = mvc.perform(post(ORGANIZATION_API)
+        .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectToJsonString(organization)));
+
+    //then
+    resultActions.andExpect(status().isOk());
+  }
+
+  @Test
+  public void shouldReturn400WhenReasonWithoutName() throws Exception {
+    //when
+    ResultActions resultActions = mvc.perform(post(ORGANIZATION_API)
+        .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectToJsonString(new Organization())));
+
+    //then
+    resultActions.andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void shouldReturn400WhenWouldBeUpdatedOrganizationContentExists()
+      throws Exception {
+    //given
+    Organization updateOrg = createOrganization("Existing Org Name");
+    when(organizationRepository.findById(updateOrg.getId())).thenReturn(Optional.of(updateOrg));
+    when(organizationRepository.findByName(updateOrg.getName()))
+        .thenReturn(createOrganization("Existing Org Name"));
+
+    //when
+    ResultActions resultActions = mvc.perform(
+        put(ORGANIZATION_API + updateOrg.getId())
+            .param(ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectToJsonString(updateOrg)));
+
+    //then
+    resultActions.andExpect(status().isBadRequest());
+  }
+
+  private Organization createOrganization(String name) {
+    Organization organization1 = new Organization();
+    organization1.setName(name);
+    return organization1;
+  }
+
+}

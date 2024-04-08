@@ -1,0 +1,89 @@
+execution:
+  - concurrency: 1
+    hold-for: 2m
+    scenario: create-reason
+  - concurrency: 1
+    hold-for: 2m
+    scenario: update-reason
+  - concurrency: 1
+    hold-for: 2m
+    scenario: get-reason
+  - concurrency: 1
+    hold-for: 2m
+    scenario: get-reasons
+
+scenarios:
+  create-reason:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/stockCardLineItemReasons
+        method: POST
+        label: CreateReason
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
+        jsr223:
+          execute: before
+          script-text: |
+            import groovy.json.JsonOutput;
+
+            def random = new Random();
+
+            def reason = new LinkedHashMap([
+              name: "performance-reason-" + random.nextInt(),
+              description: "this is a performance reason",
+              reasonType: "CREDIT",
+              reasonCategory: "TRANSFER",
+              isFreeTextAllowed: true
+            ]);
+            vars.put("reason", JsonOutput.toJson(reason));
+        body: ${reason}
+        extract-jsonpath:
+          reason_id: $.id
+  get-reason:
+    requests:
+      - include-scenario: create-reason
+      - url: ${__P(base-uri)}/api/stockCardLineItemReasons/${reason_id}
+        method: GET
+        label: GetReason
+        headers:
+          Authorization: Bearer ${access_token}
+  get-reasons:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/stockCardLineItemReasons
+        method: GET
+        label: GetReasons
+        headers:
+          Authorization: Bearer ${access_token}
+  update-reason:
+    requests:
+      - include-scenario: create-reason
+      - url: ${__P(base-uri)}/api/stockCardLineItemReasons/${reason_id}
+        method: PUT
+        label: UpdateReason
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
+        jsr223:
+          execute: before
+          script-text: |
+            import groovy.json.JsonSlurper;
+            import groovy.json.JsonOutput;
+
+            def response = prev.getResponseDataAsString();
+            def jsonSlurper = new JsonSlurper();
+            def reason = jsonSlurper.parseText(response);
+
+            reason.isFreeTextAllowed = false;
+
+            vars.put("reason", JsonOutput.toJson(reason));
+        body: ${reason}
+
+reporting:
+    - module: passfail
+      criteria:
+        Get Reason too slow: p90 of GetReason>200ms
+        Get Reasons too slow: p90 of GetReasons>15000ms
+        Create Reason too slow: p90 of CreateReason>500ms
+        Update Reason too slow: p90 of UpdateReason>500ms

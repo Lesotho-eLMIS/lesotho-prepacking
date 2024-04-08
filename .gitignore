@@ -1,0 +1,13 @@
+*.iml
+*.ipr
+*.iws
+.gradle/
+build/
+out/
+.idea/
+.env
+.manual-api-test-env
+.tx/
+node_modules/
+gradle/
+gradlew*

@@ -1,0 +1,267 @@
+#%RAML 0.8
+---
+title: OpenLMIS Point of Delivery
+version: "@version@"
+baseUri: "@baseUrl@"
+protocols: [ HTTP, HTTPS ]
+
+documentation:
+    - title: Getting Started
+      content: |
+        OpenLMIS Point of Delivery (POD). POD implements CRUD operations for OpenLMIS POD events.
+
+        This service provides the following functionality:
+        * Create Point of Delivery event - receive
+        * Get a list of Point of Delivery events for a given facility (destination)
+        * Edit/update a Point of Delivery event
+        * Delete a Point of Delivery event
+
+schemas:
+  - program: !include schemas/program.json
+  - facility: !include schemas/facility.json
+  - facilityType: !include schemas/facilityType.json
+  - reason: !include schemas/reason.json
+  - reasons: |
+       {
+           "type": "array",
+           "items": { "type": "object", "$ref": "schemas/reason.json" }
+       }
+  - geographicZone: !include schemas/geographicZone.json
+  - pointOfDeliveryEventDto: !include schemas/pointOfDeliveryEventDto.json
+  - pointOfDeliveryEventDtos: |
+        {
+            "type": "array",
+            "items": {"type": "object", "$ref": "schemas/pointOfDeliveryEventDto.json"}
+        }
+
+  - validSourceDestination: !include schemas/validSourceDestination.json
+  - validSourceDestinations: |
+        {
+            "type": "array",
+            "items": {"type": "object", "$ref": "schemas/validSourceDestination.json"}
+        }
+  - validReasonAssignment: !include schemas/validReasonAssignment.json
+  - validReasonAssignments: |
+        {
+            "type": "array",
+            "items": {"type": "object", "$ref": "schemas/validReasonAssignment.json"}
+        }
+  - organization: !include schemas/organization.json
+  - organizations: |
+        {
+            "type": "array",
+            "items": {"type": "object", "$ref": "schemas/organization.json"}
+        }
+  - localizedMessage: !include schemas/localizedMessage.json
+  - uuid: |
+      {
+        "type": "string",
+        "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+      }
+  - arrayOfStrings: |
+      {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+
+resourceTypes:
+    - collection:
+        get:
+            responses:
+                200:
+                  description: Collection retrieved successfully
+                  headers:
+                    X-Content-Type-Options:
+                    X-XSS-Protection:
+                  body:
+                      application/json:
+                          schema: <<schema>>
+                404:
+                  description: Collection is empty.
+                  headers:
+                    X-Content-Type-Options:
+                    X-XSS-Protection:
+        post:
+            body:
+                application/json:
+                    schema: <<schema>>
+            responses:
+                201:
+                  description: Item created successfully
+                  headers:
+                    X-Content-Type-Options:
+                    X-XSS-Protection:
+                  body:
+                      application/json:
+                          schema: <<schema>>
+    - member:
+        get:
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: <<schema>>
+        post:
+            body:
+                application/json:
+                    schema: <<schema>>
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: <<schema>>
+        delete:
+            responses:
+                200:
+
+traits:
+    - secured:
+        queryParameters:
+            access_token:
+                displayName: access_token
+                description: OAuth2 access token
+                type: string
+                required: false
+                repeat: false
+        headers:
+            Authorization:
+                displayName: Authorization
+                description: OAuth2 authorization token header. Takes the form of 'Bearer <token>'.
+                type: string
+                required: false
+                repeat: false
+
+
+
+    - paginated:
+        queryParameters:
+            page:
+                description: The page number which should be displayed. Note that the first page is numbered zero rather than one. Additionally, negative and undefined values are interpreted as zero.
+                type: integer
+                required: false
+                repeat: false
+            size:
+                description: The desired size of each page. This specifies the maximum number of values that should be returned by the server. Zero, undefined, and negative values should result in all possible values being returned.
+                type: integer
+                required: false
+                repeat: false
+    - sorted:
+        queryParameters:
+            sort:
+                description: Sorting criteria in the format "property(,asc|desc)". Default sort order is ascending. Multiple sort criteria are supported.
+                type: string
+                required: false
+                repeat: true
+
+/api:
+  /podEvents:
+      get:
+        is: [ secured ]
+        description: Get a list of point of delivery events
+        queryParameters:
+          destinationId:
+            required: true
+          
+        responses:
+          200:
+            description: |
+              Returns a default templte with all fields set to not display when no query parameters are passed.
+
+              Returns template that matches destination id.
+            headers:
+              X-Content-Type-Options:
+              X-XSS-Protection:
+            body:
+              application/json:
+                schema: pointOfDeliveryEventDtos
+          404:
+            description: Point of delivery events not found for the given query parameter.
+            body:
+              application/json:
+                schema: localizedMessage
+          400:
+            body:
+              application/json:
+                  schema: localizedMessage
+            description: Provided query parameters are not correctly formatted.
+
+      post:
+        is: [ secured ]
+        description: Create a new point of delivery event.
+        body:
+          application/json:
+            schema: pointOfDeliveryEventDto
+
+        responses:
+          201:
+            description: Point of delivery event has been processed with no validation error or persistence error.
+            headers:
+              Keep-Alive:
+            body:
+              application/json:
+                schema: uuid
+
+          400:
+            description: Failed to process point of delivery event due to validation error.
+            body:
+              application/json:
+                  schema: localizedMessage
+
+          403:
+            description: User does not have permission to create point of delivery events for given facility (destination).
+            body:
+              application/json:
+                  schema: localizedMessage
+
+      /{id}:
+        uriParameters:
+          id:
+            displayName: id
+            type: string
+            required: true
+            repeat: false
+        put:
+            is: [ secured ]
+            description: Update point of delivery event.
+            body:
+              application/json:
+                schema: pointOfDeliveryEventDto
+
+            responses:
+              200:
+                description: Point of delivery event updated.
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: pointOfDeliveryEventDto
+              400:
+                body:
+                  application/json:
+                      schema: localizedMessage
+                description: An error occured during request processing.
+
+              403:
+                description: User does not have permission to save a point of delivery event.
+                body:
+                  application/json:
+                      schema: localizedMessage
+        delete:
+          is: [ secured ]
+          description: Delete a Point of Delivery event.
+
+          responses:
+            204:
+              description: Point of Delivery event deleted.
+            400:
+              description: Point of Delivery event is not found.
+              body:
+                application/json:
+                    schema: localizedMessage
+            403:
+              description: User does not have permission to delete a Point of Delivery event.
+              body:
+                application/json:
+                    schema: localizedMessage            

@@ -1,0 +1,15 @@
+{
+  "service": {
+    "Name": "pointofdelivery",
+    "Port": 8080,
+    "Tags": ["openlmis-service"]
+  },
+  "raml": "src/main/resources/api-definition.yaml",
+  "path": [
+    "pointofdelivery",
+    "pointofdelivery/docs",
+    "pointofdelivery/docs/<all>",
+    "pointofdelivery/webjars",
+    "pointofdelivery/webjars/<all>"
+  ]
+}

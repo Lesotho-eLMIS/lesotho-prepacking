@@ -1,0 +1,10 @@
+{
+  "name": "openlmis-pointofdelivery",
+  "version": "0.0.1",
+  "devDependencies": {
+    "raml2html": "~3.0.0"
+  },
+  "scripts": {
+    "runApiHtmlConverter": "raml2html --input ./build/resources/main/api-definition-raml.yaml --output ./build/resources/main/api-definition.html"
+  }
+}
