@@ -23,8 +23,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
-import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
-import org.openlmis.prepacking.dto.DiscrepancyDto;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
+import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.exception.ResourceNotFoundException;
 import org.openlmis.prepacking.repository.PrepackingEventsRepository;
@@ -42,7 +42,7 @@ public class PrepackingService {
   private static final Logger LOGGER = LoggerFactory.getLogger(PrepackingService.class);
 
   @Autowired
-  private PrepackingEventsRepository pointOfDeliveryEventsRepository;
+  private PrepackingEventsRepository prepackingEventsRepository;
 
   @Autowired
   private PrepackingEventProcessContextBuilder contextBuilder;
@@ -57,13 +57,13 @@ public class PrepackingService {
    * @return a list of pod events.
    */
   public List<PrepackingEventDto> getPrepackingEventsByDestinationId(UUID destinationId) {
-    List<PrepackingEvent> pointOfDeliveryEvents = pointOfDeliveryEventsRepository
+    List<PrepackingEvent> prepackingEvents = prepackingEventsRepository
         .findByDestinationId(destinationId);
-    
-    if (pointOfDeliveryEvents == null) {
+
+    if (prepackingEvents == null) {
       return Collections.emptyList();
     }
-    return podToDto(pointOfDeliveryEvents);
+    return prepackingToDto(prepackingEvents);
   }
 
   /**
@@ -73,7 +73,7 @@ public class PrepackingService {
    * @return a pod event.
    */
   public Optional<PrepackingEvent> getPrepackingEventById(UUID id) {
-    return pointOfDeliveryEventsRepository.findById(id);
+    return prepackingEventsRepository.findById(id);
   }
 
   /**
@@ -83,15 +83,14 @@ public class PrepackingService {
    * @return the saved POD event.
    */
   public PrepackingEventDto updatePrepackingEvent(PrepackingEventDto dto, UUID id) {
-    //LOGGER.info("update POS event");
-    //physicalInventoryValidator.validateDraft(dto, id);
-    //checkPermission(dto.getProgramId(), dto.getFacilityId());
+    // LOGGER.info("update POS event");
+    // physicalInventoryValidator.validateDraft(dto, id);
+    // checkPermission(dto.getProgramId(), dto.getFacilityId());
 
-    //checkIfDraftExists(dto, id);
-    
+    // checkIfDraftExists(dto, id);
+
     LOGGER.info("Attempting to fetch pod event with id = " + id);
-    Optional<PrepackingEvent> existingPodEventOpt = 
-        pointOfDeliveryEventsRepository.findById(id);
+    Optional<PrepackingEvent> existingPodEventOpt = prepackingEventsRepository.findById(id);
 
     if (existingPodEventOpt.isPresent()) {
       PrepackingEvent existingPodEvent = existingPodEventOpt.get();
@@ -101,10 +100,10 @@ public class PrepackingService {
 
       // Update the Existing PodEvent object with values incoming DTO data
       existingPodEvent = copyAttributes(existingPodEvent, incomingPodEvent);
-    
-      //save updated pod event
-      pointOfDeliveryEventsRepository.save(existingPodEvent);
-      return podToDto(existingPodEvent);
+
+      // save updated pod event
+      prepackingEventsRepository.save(existingPodEvent);
+      return prepackingToDto(existingPodEvent);
     } else {
       return null;
     }
@@ -180,19 +179,18 @@ public class PrepackingService {
    * @param id POD event id.
    */
   public void deletePrepackingEvent(UUID id) {
-    //LOGGER.info("update POS event");
-    //physicalInventoryValidator.validateDraft(dto, id);
-    //checkPermission(dto.getProgramId(), dto.getFacilityId());
+    // LOGGER.info("update POS event");
+    // physicalInventoryValidator.validateDraft(dto, id);
+    // checkPermission(dto.getProgramId(), dto.getFacilityId());
 
-    //checkIfDraftExists(dto, id);
-    
+    // checkIfDraftExists(dto, id);
+
     LOGGER.info("Attempting to fetch pod event with id = " + id);
-    Optional<PrepackingEvent> existingPodEventOpt = 
-        pointOfDeliveryEventsRepository.findById(id);
+    Optional<PrepackingEvent> existingPodEventOpt = prepackingEventsRepository.findById(id);
 
     if (existingPodEventOpt.isPresent()) {
-      //delete pod event
-      pointOfDeliveryEventsRepository.delete(existingPodEventOpt.get());
+      // delete pod event
+      prepackingEventsRepository.delete(existingPodEventOpt.get());
     } else {
       throw new ResourceNotFoundException(new Message("Point of delivery event not found ", id));
     }
@@ -201,79 +199,77 @@ public class PrepackingService {
   /**
    * Create from jpa model.
    *
-   * @param pointOfDeliveryEvents inventory jpa model.
+   * @param prepackingEvents inventory jpa model.
    * @return created dto.
    */
-  private List<PrepackingEventDto> podToDto(
-        Collection<PrepackingEvent> pointOfDeliveryEvents) {
+  private List<PrepackingEventDto> prepackingToDto(
+      Collection<PrepackingEvent> prepackingEvents) {
 
-    List<PrepackingEventDto> podDtos = new ArrayList<>(pointOfDeliveryEvents.size());
-    pointOfDeliveryEvents.forEach(i -> podDtos.add(podToDto(i)));
+    List<PrepackingEventDto> podDtos = new ArrayList<>(prepackingEvents.size());
+    prepackingEvents.forEach(i -> podDtos.add(prepackingToDto(i)));
     return podDtos;
   }
 
   /**
    * Create dto from jpa model.
    *
-   * @param pointOfDeliveryEvent inventory jpa model.
+   * @param prepackingEvent inventory jpa model.
    * @return created dto.
    */
-  private PrepackingEventDto podToDto(PrepackingEvent pointOfDeliveryEvent) {
+  private PrepackingEventDto prepackingToDto(PrepackingEvent prepackingEvent) {
+
     return PrepackingEventDto.builder()
-      .id(pointOfDeliveryEvent.getId())
-      .sourceId(pointOfDeliveryEvent.getSourceId())
-      .sourceFreeText(pointOfDeliveryEvent.getSourceFreeText())
-      .destinationId(pointOfDeliveryEvent.getDestinationId())
-      .destinationFreeText(pointOfDeliveryEvent.getDestinationFreeText())
-      .receivedByUserId(pointOfDeliveryEvent.getReceivedByUserId())
-      .receivedByUserNames(pointOfDeliveryEvent.getReceivedByUserNames())
-      .receivingDate(pointOfDeliveryEvent.getReceivingDate())
-      .referenceNumber(pointOfDeliveryEvent.getReferenceNumber())
-      .packingDate(pointOfDeliveryEvent.getPackingDate())
-      .packedBy(pointOfDeliveryEvent.getPackedBy())
-      .cartonsQuantityOnWaybill(pointOfDeliveryEvent.getCartonsQuantityOnWaybill())
-      .cartonsQuantityShipped(pointOfDeliveryEvent.getCartonsQuantityShipped())
-      .cartonsQuantityAccepted(pointOfDeliveryEvent.getCartonsQuantityAccepted())
-      .cartonsQuantityRejected(pointOfDeliveryEvent.getCartonsQuantityRejected())
-      .containersQuantityOnWaybill(pointOfDeliveryEvent.getContainersQuantityOnWaybill())
-      .containersQuantityShipped(pointOfDeliveryEvent.getContainersQuantityShipped())
-      .containersQuantityAccepted(pointOfDeliveryEvent.getContainersQuantityAccepted())
-      .containersQuantityRejected(pointOfDeliveryEvent.getContainersQuantityRejected())
-      .remarks(pointOfDeliveryEvent.getRemarks())
-      .discrepancies(discrepaciesToDtos(pointOfDeliveryEvent.getDiscrepancies()))
-      .build();
+        .id(prepackingEvent.getId())
+        .dateCreated(prepackingEvent.getDateCreated())
+        .userId(prepackingEvent.getUserId())
+        .dateAuthorised(prepackingEvent.getDateAuthorised())
+        .programId(prepackingEvent.getProgramId())
+        .comments(prepackingEvent.getComments())
+        .supervisoryNodeId(prepackingEvent.getSupervisoryNodeId())
+        .status(prepackingEvent.getStatus())
+        .remarks(prepackingEvent.getRemarks())
+        .lineItems(prepackingEvent.getLineItems())
+        .build();
   }
 
   /**
    * Create from jpa model.
    *
-   * @param discrepancies inventory jpa model.
+   * @param prepackingEventLineItems inventory jpa model.
    * @return created dto.
    */
-  private List<DiscrepancyDto> discrepaciesToDtos(
-        Collection<Discrepancy> discrepancies) {
+  private List<PrepackingEventLineItemDto> prepackingEventLineItemsToDtos(
+      Collection<PrepackingEventLineItem> prepackingEventLineItems) {
 
-    List<DiscrepancyDto> discrepacyDtos = new ArrayList<>(discrepancies.size());
-    discrepancies.forEach(i -> discrepacyDtos.add(discrepancyToDto(i)));
-    return discrepacyDtos;
+    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos = new ArrayList<>(prepackingEventLineItems.size());
+    prepackingEventLineItems.forEach(i -> prepackingEventLineItemDtos.add(prepackingEventLineItemDto(i)));
+    return prepackingEventLineItemDtos;
   }
 
   /**
    * Create dto from jpa model.
    *
-   * @param discrepancy inventory jpa model.
+   * @param prepackingEventLineItem inventory jpa model.
    * @return created dto.
    */
-  private DiscrepancyDto discrepancyToDto(Discrepancy discrepancy) {
-
-    return DiscrepancyDto.builder()
-      .id(discrepancy.getId())
-      .rejectionReason(
-          rejectionReasonService.findOne(discrepancy.getRejectionReasonId()))
-      .shipmentType(discrepancy.getShipmentType())
-      .quantityAffected(discrepancy.getQuantityAffected())
-      .comments(discrepancy.getComments())
-      .build();
+  private PrepackingEventLineItemDto prepackingEventLineItemDto(PrepackingEventLineItem prepackingEventLineItem) {
+    /*
+     * prepackingEventId,
+     * orderableId,
+     * numberOfPrepacks,
+     * prepackSize,
+     * lotId,
+     * remarks);
+     */
+    return PrepackingEventLineItemDto.builder()
+        .id(prepackingEventLineItem.getId())
+        .prepackingEventId(prepackingEventLineItem.getPrepackingEventId())
+        .orderableId(prepackingEventLineItem.getOrderableId())
+        .numberOfPrepacks(prepackingEventLineItem.getNumberOfPrepacks())
+        .prepackSize(prepackingEventLineItem.getPrepackSize())
+        .lotId(prepackingEventLineItem.getLotId())
+        .remarks(prepackingEventLineItem.getRemarks())
+        .build();
   }
 
 }

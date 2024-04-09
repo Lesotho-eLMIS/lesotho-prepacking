@@ -22,33 +22,37 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.domain.qualitychecks.PrepackingEventLineItem;
 import org.openlmis.prepacking.dto.requisition.RejectionReasonDto;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DiscrepancyDto {
+public class PrepackingEventLineItemDto {
 
   private UUID id;
-  private RejectionReasonDto rejectionReason;
-  private String shipmentType;
-  private Integer quantityAffected;
-  private String comments;
+  private UUID prepackingEventId;
+  private UUID orderableId;
+  private int numberOfPrepacks;
+  private int prepackSize;
+  private UUID lotId;
+  private String remarks;
 
   /**
    * Convert dto to jpa model.
    *
    * @return the converted jpa model object.
    */
-  public Discrepancy toDiscrepancy() {
-    Discrepancy discrepancy = new Discrepancy(
-        rejectionReason.getId(),
-        shipmentType,
-        quantityAffected,
-        comments);
+  public PrepackingEventLineItem toPrepackingEventLineItem() {
+    PrepackingEventLineItem lineItem = new PrepackingEventLineItem(
+      prepackingEventId,
+      orderableId,
+      numberOfPrepacks,
+      prepackSize,
+      lotId,
+      remarks);
 
-    return discrepancy;
+    return lineItem;
   }
 }

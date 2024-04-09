@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-
 package org.openlmis.prepacking.dto;
 
 import static java.time.ZonedDateTime.now;
@@ -31,8 +30,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
-import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
-import org.openlmis.prepacking.dto.DiscrepancyDto;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
+import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 
 @Data
@@ -43,42 +42,16 @@ public class PrepackingEventDto {
 
   private UUID id;
 
-  private UUID sourceId;
-  private String sourceFreeText;
-
-  private UUID destinationId;
-  private String destinationFreeText;
-
-  private UUID receivedByUserId;
-  private String receivedByUserNames;
-
-  private ZonedDateTime receivingDate;
-
-  private String referenceNumber;
-
-  private LocalDate packingDate;
-
-  private String packedBy;
-
-  private Integer cartonsQuantityOnWaybill;
-
-  private Integer cartonsQuantityShipped;
-
-  private Integer cartonsQuantityAccepted;
-
-  private Integer cartonsQuantityRejected;
-
-  private Integer containersQuantityOnWaybill;
-
-  private Integer containersQuantityShipped;
-
-  private Integer containersQuantityAccepted;
-
-  private Integer containersQuantityRejected;
-
+  private LocalDate dateCreated;
+  private UUID userId;
+  private LocalDate dateAuthorised;
+  private UUID facilityId;
+  private UUID programId;
+  private String comments;
+  private UUID supervisoryNodeId;
+  private String status;
   private String remarks;
-
-  private List<DiscrepancyDto> discrepancies;
+  private List<PrepackingEventPrepackingEventLineItemDto> lineItems;
 
   private PrepackingEventProcessContext context;
 
@@ -89,43 +62,34 @@ public class PrepackingEventDto {
    */
   public PrepackingEvent toPrepackingEvent() {
 
-    // List<Discrepancy> discrepanciesList = new ArrayList<>();
-    // for (DiscrepancyDto discrepancydto : discrepancies) {
-    //   discrepanciesList.add(discrepancydto.toDiscrepancy());
-    // }
+    PrepackingEvent prepackingEvent = new PrepackingEvent(
 
-    PrepackingEvent pointOfDeliveryEvent = new PrepackingEvent(
-        sourceId, sourceFreeText, destinationId, destinationFreeText, 
-        context.getCurrentUserId(), context.getCurrentUserNames(), now(), 
-        referenceNumber, packingDate, packedBy, cartonsQuantityOnWaybill, 
-        cartonsQuantityShipped, cartonsQuantityAccepted, cartonsQuantityRejected,
-        containersQuantityOnWaybill, containersQuantityShipped, 
-        containersQuantityAccepted, containersQuantityRejected,
-        remarks, discrepancies());
-    return pointOfDeliveryEvent;
-  }
-
-  public boolean hasSourceId() {
-    return this.sourceId != null;
-  }
-
-  public boolean hasDestinationId() {
-    return this.destinationId != null;
+        now(),
+        context.getCurrentUserId(),
+        dateAuthorised,
+        facilityId,
+        programId,
+        comments,
+        supervisoryNodeId,
+        status,
+        remarks,
+        lineItems());
+    return prepackingEvent;
   }
 
   /**
-   * Gets discrepancies as {@link Discrepancy}.
+   * Gets lineItems as {@link PrepackingEventLineItem}.
    */
-  public List<Discrepancy> discrepancies() {
-    if (null == discrepancies) {
+  public List<PrepackingEventLineItem> lineItems() {
+    if (null == lineItems) {
       return emptyList();
     }
 
-    List<Discrepancy> discrepanciesList = new ArrayList<>();
-    for (DiscrepancyDto discrepancydto : discrepancies) {
-      discrepanciesList.add(discrepancydto.toDiscrepancy());
+    List<PrepackingEventLineItem> lineItemsList = new ArrayList<>();
+    for (PrepackingEventLineItemDto lineItemdto : lineItems) {
+      lineItemsList.add(lineItemdto.toPrepackingEventLineItem());
     }
-    return discrepanciesList;
+    return lineItemsList;
   }
 
 }

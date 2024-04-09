@@ -37,22 +37,13 @@ import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "prepacking_event", schema = "prepacking")
-public class PrepackingEvent extends BaseEntity {
+public class PrepackingEventLineItem extends BaseEntity {
 
-  @Column(nullable = false, columnDefinition = "timestamp")
-  private LocalDate dateCreated;
-  private UUID userId;
-  @Column(nullable = true, columnDefinition = "timestamp")
-  private LocalDate dateAuthorised;
-  private UUID facilityId;
-  private UUID programId;
-  private String comments;
-  private UUID supervisoryNodeId;
-  private String status;
-
-  // One-to-many relationship with Discrepancy
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "prepacking_event_id") // foreign key in PrepackingEventLineItem table
-  private List<PrepackingEventLineItem> lineItems;
+  private UUID prepackingEventId;
+  private UUID orderableId;
+  private int numberOfPrepacks;
+  private int prepackSize;
+  private UUID lotId;
+  private String remarks;
 
 }
