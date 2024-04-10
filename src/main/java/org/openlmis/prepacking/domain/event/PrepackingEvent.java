@@ -15,7 +15,6 @@
 
 package org.openlmis.prepacking.domain.event;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;

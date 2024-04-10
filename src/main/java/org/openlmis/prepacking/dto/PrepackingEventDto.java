@@ -18,7 +18,6 @@ package org.openlmis.prepacking.dto;
 import static java.time.ZonedDateTime.now;
 import static java.util.Collections.emptyList;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;

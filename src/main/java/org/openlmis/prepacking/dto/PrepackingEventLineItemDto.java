@@ -22,7 +22,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
-import org.openlmis.prepacking.dto.requisition.RejectionReasonDto;
 
 @Data
 @AllArgsConstructor

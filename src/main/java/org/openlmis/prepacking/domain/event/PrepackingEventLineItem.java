@@ -15,22 +15,13 @@
 
 package org.openlmis.prepacking.domain.event;
 
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.UUID;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.openlmis.prepacking.domain.BaseEntity;
-import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 
 @Entity
 @Data

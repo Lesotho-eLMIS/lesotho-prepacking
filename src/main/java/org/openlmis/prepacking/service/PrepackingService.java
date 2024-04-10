@@ -15,7 +15,6 @@
 
 package org.openlmis.prepacking.service;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,17 +22,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
 import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
-import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.dto.PrepackingEventDto;
+import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.exception.ResourceNotFoundException;
 import org.openlmis.prepacking.repository.PrepackingEventsRepository;
-import org.openlmis.prepacking.service.requisition.RejectionReasonService;
 import org.openlmis.prepacking.util.Message;
 import org.openlmis.prepacking.util.PrepackingEventProcessContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +44,6 @@ public class PrepackingService {
 
   @Autowired
   private PrepackingEventProcessContextBuilder contextBuilder;
-
-  @Autowired
-  private RejectionReasonService rejectionReasonService;
 
   /**
    * Get a list of Prepacking events.
@@ -81,7 +74,7 @@ public class PrepackingService {
   /**
    * Get a Prepacking event by status.
    *
-   * @param id prepacking event id.
+   * @param status prepacking event status.
    * @return a prepacking event.
    */
   public List<PrepackingEvent> getPrepackingEventsByStatus(String status) {
@@ -91,7 +84,7 @@ public class PrepackingService {
   /**
    * Get a Prepacking event by user id.
    *
-   * @param id prepacking event id.
+   * @param dateAuthorised prepacking event dateAuthorised.
    * @return a prepacking event.
    */
   public List<PrepackingEvent> getPrepackingEventsByDateAuthorised(ZonedDateTime dateAuthorised) {
@@ -101,7 +94,7 @@ public class PrepackingService {
   /**
    * Get a Prepacking event by user id.
    *
-   * @param id prepacking event id.
+   * @param userId prepacking event id.
    * @return a prepacking event.
    */
   public List<PrepackingEvent> getPrepackingEventsByUserId(UUID userId) {
@@ -237,8 +230,10 @@ public class PrepackingService {
   private List<PrepackingEventLineItemDto> prepackingEventLineItemsToDtos(
       Collection<PrepackingEventLineItem> prepackingEventLineItems) {
 
-    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos = new ArrayList<>(prepackingEventLineItems.size());
-    prepackingEventLineItems.forEach(i -> prepackingEventLineItemDtos.add(prepackingEventLineItemDto(i)));
+    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos 
+          = new ArrayList<>(prepackingEventLineItems.size());
+    prepackingEventLineItems.forEach(i -> prepackingEventLineItemDtos
+        .add(prepackingEventLineItemDto(i)));
     return prepackingEventLineItemDtos;
   }
 
@@ -248,7 +243,8 @@ public class PrepackingService {
    * @param prepackingEventLineItem prepacking event line item jpa model.
    * @return created dto.
    */
-  private PrepackingEventLineItemDto prepackingEventLineItemDto(PrepackingEventLineItem prepackingEventLineItem) {
+  private PrepackingEventLineItemDto prepackingEventLineItemDto(
+      PrepackingEventLineItem prepackingEventLineItem) {
     return PrepackingEventLineItemDto.builder()
         .id(prepackingEventLineItem.getId())
         .prepackingEventId(prepackingEventLineItem.getPrepackingEventId())

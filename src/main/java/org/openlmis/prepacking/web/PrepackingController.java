@@ -103,7 +103,8 @@ public class PrepackingController extends BaseController {
 
     LOGGER.debug("Try to load prepacking events");
 
-    List<PrepackingEventDto> podsToReturn = pointOfDeliveryService.getPrepackingEventsByProgramId(destinationId);
+    List<PrepackingEventDto> podsToReturn 
+        = pointOfDeliveryService.getPrepackingEventsByProgramId(destinationId);
 
     return new ResponseEntity<>(podsToReturn, OK);
     // Profiler profiler = getProfiler("LIST_POD_EVENTS", pointOfDeliveryEventDto);
