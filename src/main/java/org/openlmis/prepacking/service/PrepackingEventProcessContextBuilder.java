@@ -40,8 +40,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 
 /**
- * Before we process a pod event, this class will run first, to get all things we need from
- * reference data. So that network traffic will be concentrated at one place rather than scattered
+ * Before we process a pod event, this class will run first, to get all things
+ * we need from
+ * reference data. So that network traffic will be concentrated at one place
+ * rather than scattered
  * all around the place.
  */
 @Service
@@ -50,26 +52,26 @@ import org.springframework.stereotype.Service;
 public class PrepackingEventProcessContextBuilder {
 
   private static final Logger LOGGER = getLogger(
-          PrepackingEventProcessContextBuilder.class);
+      PrepackingEventProcessContextBuilder.class);
   private static final XLogger XLOGGER = getXLogger(
-          PrepackingEventProcessContextBuilder.class);
-  
+      PrepackingEventProcessContextBuilder.class);
+
   @Autowired
   private AuthenticationHelper authenticationHelper;
-  
+
   @Autowired
   private FacilityReferenceDataService facilityService;
-  
+
   /**
    * Before processing events, put all needed ref data into context so
    * we don't have to do frequent network requests.
    *
-   * @param pointOfDeliveryEventDto pointOfDeliveryEventDto.
+   * @param prepackingEventDto prepackingEventDto.
    * @return a context object that includes all needed ref data.
    */
   public PrepackingEventProcessContext buildContext(
-          PrepackingEventDto pointOfDeliveryEventDto) {
-    XLOGGER.entry(pointOfDeliveryEventDto);
+      PrepackingEventDto prepackingEventDto) {
+    XLOGGER.entry(prepackingEventDto);
     Profiler profiler = new Profiler("BUILD_CONTEXT");
     profiler.setLogger(XLOGGER);
 
@@ -81,30 +83,22 @@ public class PrepackingEventProcessContextBuilder {
         .getContext()
         .getAuthentication();
 
-    Supplier<UUID> userIdSupplier;
-    Supplier<String> userNamesSupplier;
+    Supplier<UUID> userIdPrepacker;
 
     if (authentication.isClientOnly()) {
-      userIdSupplier = pointOfDeliveryEventDto::getReceivedByUserId;
-      userNamesSupplier = pointOfDeliveryEventDto::getReceivedByUserNames;
+      userIdPrepacker = prepackingEventDto::getUserId;
     } else {
-      userIdSupplier = () -> authenticationHelper.getCurrentUser().getId();
-      userNamesSupplier = () -> authenticationHelper.getCurrentUser().getFirstName() 
-          + ", " + authenticationHelper.getCurrentUser().getLastName();
+      userIdPrepacker = () -> authenticationHelper.getCurrentUser().getId();
     }
 
-    LazyResource<UUID> userId = new LazyResource<>(userIdSupplier);
+    LazyResource<UUID> userId = new LazyResource<>(userIdPrepacker);
     context.setCurrentUserId(userId);
 
-    LazyResource<String> userNames = new LazyResource<>(userNamesSupplier);
-    context.setCurrentUserNames(userNames);
-
     profiler.start("CREATE_LAZY_FACILITY");
-    UUID facilityId = pointOfDeliveryEventDto.getDestinationId();
-    Supplier<FacilityDto> facilitySupplier = new ReferenceDataSupplier<>(
-        facilityService, facilityId
-    );
-    LazyResource<FacilityDto> facility = new LazyResource<>(facilitySupplier);
+    UUID facilityId = prepackingEventDto.getFacilityId();
+    Supplier<FacilityDto> facilityPrepacker = new ReferenceDataSupplier<>(
+        facilityService, facilityId);
+    LazyResource<FacilityDto> facility = new LazyResource<>(facilityPrepacker);
     context.setFacility(facility);
 
     return context;

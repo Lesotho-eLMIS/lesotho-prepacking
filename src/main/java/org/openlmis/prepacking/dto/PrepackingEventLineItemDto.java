@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-
 package org.openlmis.prepacking.dto;
 
 import java.util.UUID;
@@ -22,7 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.prepacking.domain.qualitychecks.PrepackingEventLineItem;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 import org.openlmis.prepacking.dto.requisition.RejectionReasonDto;
 
 @Data
@@ -46,12 +45,12 @@ public class PrepackingEventLineItemDto {
    */
   public PrepackingEventLineItem toPrepackingEventLineItem() {
     PrepackingEventLineItem lineItem = new PrepackingEventLineItem(
-      prepackingEventId,
-      orderableId,
-      numberOfPrepacks,
-      prepackSize,
-      lotId,
-      remarks);
+        prepackingEventId,
+        orderableId,
+        numberOfPrepacks,
+        prepackSize,
+        lotId,
+        remarks);
 
     return lineItem;
   }

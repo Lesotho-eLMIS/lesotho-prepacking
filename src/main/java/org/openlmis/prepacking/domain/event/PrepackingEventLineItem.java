@@ -30,7 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.openlmis.prepacking.domain.BaseEntity;
-import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 
 @Entity
 @Data

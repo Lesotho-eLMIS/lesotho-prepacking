@@ -30,7 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.openlmis.prepacking.domain.BaseEntity;
-import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 
 @Entity
 @Data
@@ -40,17 +40,17 @@ import org.openlmis.prepacking.domain.qualitychecks.Discrepancy;
 public class PrepackingEvent extends BaseEntity {
 
   @Column(nullable = false, columnDefinition = "timestamp")
-  private LocalDate dateCreated;
+  private ZonedDateTime dateCreated;
   private UUID userId;
   @Column(nullable = true, columnDefinition = "timestamp")
-  private LocalDate dateAuthorised;
+  private ZonedDateTime dateAuthorised;
   private UUID facilityId;
   private UUID programId;
   private String comments;
   private UUID supervisoryNodeId;
   private String status;
 
-  // One-to-many relationship with Discrepancy
+  // One-to-many relationship with PrepackingEventLineItem
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "prepacking_event_id") // foreign key in PrepackingEventLineItem table
   private List<PrepackingEventLineItem> lineItems;
