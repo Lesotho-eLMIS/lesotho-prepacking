@@ -27,7 +27,7 @@ import org.openlmis.prepacking.domain.BaseEntity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "prepacking_event", schema = "prepacking")
+@Table(name = "prepacking_event_line_item", schema = "prepacking")
 public class PrepackingEventLineItem extends BaseEntity {
 
   private UUID prepackingEventId;
