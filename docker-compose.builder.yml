@@ -30,7 +30,7 @@ services:
     env_file: .env
   image:
     build: .
-    image: openlmis/prepacking
+    image: elmislesotho/prepacking
   db:
     image: openlmis/postgres:12-debezium
     env_file: .env
