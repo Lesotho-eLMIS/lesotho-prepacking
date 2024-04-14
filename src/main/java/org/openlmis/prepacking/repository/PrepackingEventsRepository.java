@@ -34,6 +34,6 @@ public interface PrepackingEventsRepository extends
 
   List<PrepackingEvent> findByDateAuthorised(@Param("dateAuthorised") ZonedDateTime dateAuthorised);
 
-  Optional<PrepackingEvent> findByUserId(@Param("userId") UUID userId);
+  List<PrepackingEvent> findByUserId(@Param("userId") UUID userId);
 
 }
