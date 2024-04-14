@@ -83,7 +83,7 @@ public class PrepackingService {
    * @param id prepacking event id.
    * @return a prepacking event.
    */
-  public List<PrepackingEvent> getPrepackingEventById(UUID id) {
+  public Optional<PrepackingEvent> getPrepackingEventById(UUID id) {
     return prepackingEventsRepository.findById(id);
   }
 
