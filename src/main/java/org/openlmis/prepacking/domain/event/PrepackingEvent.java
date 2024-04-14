@@ -40,13 +40,18 @@ public class PrepackingEvent extends BaseEntity {
 
   @Column(nullable = false, columnDefinition = "timestamp")
   private ZonedDateTime dateCreated;
+  @Column(nullable = false)
   private UUID userId;
   @Column(nullable = true, columnDefinition = "timestamp")
   private ZonedDateTime dateAuthorised;
+  @Column(nullable = false)
   private UUID facilityId;
+  @Column(nullable = false)
   private UUID programId;
   private String comments;
+  @Column(nullable = false)
   private UUID supervisoryNodeId;
+  @Column(nullable = false)
   private String status;
 
   // One-to-many relationship with PrepackingEventLineItem

@@ -16,6 +16,7 @@
 package org.openlmis.prepacking.domain.event;
 
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -31,9 +32,13 @@ import org.openlmis.prepacking.domain.BaseEntity;
 public class PrepackingEventLineItem extends BaseEntity {
 
   private UUID prepackingEventId;
+  @Column(nullable = false)
   private UUID orderableId;
+  @Column(nullable = false)
   private int numberOfPrepacks;
+  @Column(nullable = false)
   private int prepackSize;
+  @Column(nullable = false)
   private UUID lotId;
   private String remarks;
 
