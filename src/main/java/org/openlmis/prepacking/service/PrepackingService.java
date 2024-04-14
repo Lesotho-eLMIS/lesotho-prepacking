@@ -48,7 +48,23 @@ public class PrepackingService {
   /**
    * Get a list of Prepacking events.
    *
-   * @param programId destination id.
+   * @param facilityId facility id.
+   * @return a list of prepacking events.
+   */
+  public List<PrepackingEventDto> getPrepackingEventsByFacilityId(UUID facilityId) {
+    List<PrepackingEvent> prepackingEvents = prepackingEventsRepository
+        .findByFacilityId(facilityId);
+
+    if (prepackingEvents == null) {
+      return Collections.emptyList();
+    }
+    return prepackingToDto(prepackingEvents);
+  }
+
+  /**
+   * Get a list of Prepacking events.
+   *
+   * @param programId program id.
    * @return a list of prepacking events.
    */
   public List<PrepackingEventDto> getPrepackingEventsByProgramId(UUID programId) {
@@ -230,8 +246,8 @@ public class PrepackingService {
   private List<PrepackingEventLineItemDto> prepackingEventLineItemsToDtos(
       Collection<PrepackingEventLineItem> prepackingEventLineItems) {
 
-    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos 
-          = new ArrayList<>(prepackingEventLineItems.size());
+    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos;
+    prepackingEventLineItemDtos = new ArrayList<>(prepackingEventLineItems.size());
     prepackingEventLineItems.forEach(i -> prepackingEventLineItemDtos
         .add(prepackingEventLineItemDto(i)));
     return prepackingEventLineItemDtos;
