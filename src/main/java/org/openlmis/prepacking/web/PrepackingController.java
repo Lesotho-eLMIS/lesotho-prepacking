@@ -77,7 +77,7 @@ public class PrepackingController extends BaseController {
 
     LOGGER.debug("Try to create a prepacking event");
 
-    Profiler profiler = getProfiler("CREATE_POD_EVENT", prepackingEventDto);
+    Profiler profiler = getProfiler("CREATE_PREPACKING_EVENT", prepackingEventDto);
 
     // checkPermission(prepackingEventDto,
     // profiler.startNested("CHECK_PERMISSION"));
@@ -94,20 +94,21 @@ public class PrepackingController extends BaseController {
   /**
    * List prepacking event.
    *
-   * @param destinationId a destination facility id.
+   * @param facilityId a destination facility id.
    * @return List of prepacking events.
    */
   @RequestMapping(method = GET)
   public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
-      @RequestParam() UUID destinationId) {
+      @RequestParam() UUID facilityId) {
 
     LOGGER.debug("Try to load prepacking events");
 
     List<PrepackingEventDto> prepacksToReturn;
-    prepacksToReturn = prepackingService.getPrepackingEventsByProgramId(destinationId);
+    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityId(facilityId);
 
     return new ResponseEntity<>(prepacksToReturn, OK);
-    // Profiler profiler = getProfiler("LIST_POD_EVENTS", prepackingEventDto);
+    // Profiler profiler = getProfiler("LIST_PREPACKING_EVENTS",
+    // prepackingEventDto);
 
     // checkPermission(prepackingEventDto,
     // profiler.startNested("CHECK_PERMISSION"));
@@ -123,11 +124,11 @@ public class PrepackingController extends BaseController {
   }
 
   /**
-   * Update a POD event.
+   * Update a prepacking event.
    *
-   * @param id  POD event id.
-   * @param dto POD dto.
-   * @return created POD dto.
+   * @param id  prepacking event id.
+   * @param dto prepacking dto.
+   * @return created prepacking dto.
    */
   @Transactional
   @PutMapping(ID_PATH_VARIABLE)
@@ -141,9 +142,9 @@ public class PrepackingController extends BaseController {
   }
 
   /**
-   * Delete a POD event.
+   * Delete a prepacking event.
    *
-   * @param id POD event id.
+   * @param id prepacking event id.
    */
   @DeleteMapping(ID_PATH_VARIABLE)
   @ResponseStatus(NO_CONTENT)

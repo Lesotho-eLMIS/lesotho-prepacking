@@ -24,6 +24,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface PrepackingEventsRepository extends
     PagingAndSortingRepository<PrepackingEvent, UUID> {
+
+  List<PrepackingEvent> findByFacilityId(@Param("facilityId") UUID facilityId);
+
   List<PrepackingEvent> findByProgramId(@Param("programId") UUID programId);
 
   List<PrepackingEvent> findByStatus(@Param("status") String status);
