@@ -246,7 +246,8 @@ public class PrepackingService {
   private List<PrepackingEventLineItemDto> prepackingEventLineItemsToDtos(
       Collection<PrepackingEventLineItem> prepackingEventLineItems) {
 
-    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos = new ArrayList<>(prepackingEventLineItems.size());
+    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos;
+    prepackingEventLineItemDtos = new ArrayList<>(prepackingEventLineItems.size());
     prepackingEventLineItems.forEach(i -> prepackingEventLineItemDtos
         .add(prepackingEventLineItemDto(i)));
     return prepackingEventLineItemDtos;
