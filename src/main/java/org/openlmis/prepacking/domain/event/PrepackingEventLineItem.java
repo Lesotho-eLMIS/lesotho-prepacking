@@ -31,9 +31,13 @@ import org.openlmis.prepacking.domain.BaseEntity;
 public class PrepackingEventLineItem extends BaseEntity {
 
   private UUID prepackingEventId;
+  @Column(nullable = false)
   private UUID orderableId;
+  @Column(nullable = false)
   private int numberOfPrepacks;
+  @Column(nullable = false)
   private int prepackSize;
+  @Column(nullable = false)
   private UUID lotId;
   private String remarks;
 
