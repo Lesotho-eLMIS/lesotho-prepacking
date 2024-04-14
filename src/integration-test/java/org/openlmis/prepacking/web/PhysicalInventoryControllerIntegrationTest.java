@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -23,11 +23,11 @@ import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_PHYSICAL_INVENTORY_IS_SUBMITTED;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_PHYSICAL_INVENTORY_LINE_ITEMS_MISSING;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_PHYSICAL_INVENTORY_NOT_FOUND;
-import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_PROGRAM_ID_MISSING;
-import static org.openlmis.pointofdelivery.web.PhysicalInventoryController.PRINT_PI;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_PHYSICAL_INVENTORY_IS_SUBMITTED;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_PHYSICAL_INVENTORY_LINE_ITEMS_MISSING;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_PHYSICAL_INVENTORY_NOT_FOUND;
+import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_PROGRAM_ID_MISSING;
+import static org.openlmis.prepacking.web.PhysicalInventoryController.PRINT_PI;
 
 import guru.nidi.ramltester.junit.RamlMatchers;
 import java.time.LocalDate;
@@ -39,16 +39,16 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.pointofdelivery.domain.JasperTemplate;
-import org.openlmis.pointofdelivery.domain.physicalinventory.PhysicalInventory;
-import org.openlmis.pointofdelivery.dto.PhysicalInventoryDto;
-import org.openlmis.pointofdelivery.dto.PhysicalInventoryLineItemDto;
-import org.openlmis.pointofdelivery.exception.ResourceNotFoundException;
-import org.openlmis.pointofdelivery.exception.ValidationMessageException;
-import org.openlmis.pointofdelivery.repository.PhysicalInventoriesRepository;
-import org.openlmis.pointofdelivery.service.JasperReportService;
-import org.openlmis.pointofdelivery.service.JasperTemplateService;
-import org.openlmis.pointofdelivery.service.PhysicalInventoryService;
+import org.openlmis.prepacking.domain.JasperTemplate;
+import org.openlmis.prepacking.domain.physicalinventory.PhysicalInventory;
+import org.openlmis.prepacking.dto.PhysicalInventoryDto;
+import org.openlmis.prepacking.dto.PhysicalInventoryLineItemDto;
+import org.openlmis.prepacking.exception.ResourceNotFoundException;
+import org.openlmis.prepacking.exception.ValidationMessageException;
+import org.openlmis.prepacking.repository.PhysicalInventoriesRepository;
+import org.openlmis.prepacking.service.JasperReportService;
+import org.openlmis.prepacking.service.JasperTemplateService;
+import org.openlmis.prepacking.service.PhysicalInventoryService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 

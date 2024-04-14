@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.i18n;
+package org.openlmis.prepacking.i18n;
 
 public abstract class MessageKeys {
 
-  private static final String SERVICE_PREFIX = "pointofdelivery";
+  private static final String SERVICE_PREFIX = "prepacking";
   //notifications
   public static final String NOTIFICATION_STOCKOUT_SUBJECT =
       SERVICE_PREFIX + ".email.stockout.subject";

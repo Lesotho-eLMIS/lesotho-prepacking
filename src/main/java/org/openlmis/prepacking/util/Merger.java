@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.util;
+package org.openlmis.prepacking.util;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.apache.commons.collections.CollectionUtils;
-import org.openlmis.pointofdelivery.web.Pagination;
+import org.openlmis.prepacking.web.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

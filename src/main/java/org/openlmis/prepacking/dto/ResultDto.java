@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.dto;
+package org.openlmis.prepacking.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

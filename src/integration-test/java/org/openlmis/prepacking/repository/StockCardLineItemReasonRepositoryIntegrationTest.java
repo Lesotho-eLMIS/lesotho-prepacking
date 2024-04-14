@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.repository;
+package org.openlmis.prepacking.repository;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -31,9 +31,9 @@ import java.util.Set;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.pointofdelivery.domain.reason.ReasonCategory;
-import org.openlmis.pointofdelivery.domain.reason.ReasonType;
-import org.openlmis.pointofdelivery.domain.reason.StockCardLineItemReason;
+import org.openlmis.prepacking.domain.reason.ReasonCategory;
+import org.openlmis.prepacking.domain.reason.ReasonType;
+import org.openlmis.prepacking.domain.reason.StockCardLineItemReason;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 

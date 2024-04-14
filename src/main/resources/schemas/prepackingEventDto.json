@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "description": "Prepacking event",
+  "properties": {
+    "dateCreated": {
+      "type": "string",
+      "format": "date",
+      "description": "The date a record is created."
+    },
+    "userId": {
+      "type": "string",
+      "description": "Person who created a record"
+    },
+    "dateAuthorised": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the prepacking is authorised."
+    },
+    "facilityId": {
+      "type": "string",
+      "description": "Indicates where orderables are prepacked."
+    },
+    "programId": {
+      "type": "string",
+      "description": "Program for orderable that is being prepacked."
+    },
+    "comments": {
+      "type": "string",
+      "description": "Comments for prepacking event."
+    },
+    "supervisoryNodeId": {
+      "type": "string",
+      "description": "Node to authorise prepacking event."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the prepacking event."
+    },
+    "remarks": {
+      "type": "string",
+      "description": "Remarks for prepacking event."
+    }
+  }
+}

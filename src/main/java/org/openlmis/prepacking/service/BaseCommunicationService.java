@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
@@ -31,14 +31,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang.StringUtils;
-import org.openlmis.pointofdelivery.dto.referencedata.ResultDto;
-import org.openlmis.pointofdelivery.service.referencedata.DataRetrievalException;
-import org.openlmis.pointofdelivery.util.DynamicPageTypeReference;
-import org.openlmis.pointofdelivery.util.DynamicParametrizedTypeReference;
-import org.openlmis.pointofdelivery.util.Merger;
-import org.openlmis.pointofdelivery.util.PageDto;
-import org.openlmis.pointofdelivery.util.RequestHelper;
-import org.openlmis.pointofdelivery.util.RequestParameters;
+import org.openlmis.prepacking.dto.referencedata.ResultDto;
+import org.openlmis.prepacking.service.referencedata.DataRetrievalException;
+import org.openlmis.prepacking.util.DynamicPageTypeReference;
+import org.openlmis.prepacking.util.DynamicParametrizedTypeReference;
+import org.openlmis.prepacking.util.Merger;
+import org.openlmis.prepacking.util.PageDto;
+import org.openlmis.prepacking.util.RequestHelper;
+import org.openlmis.prepacking.util.RequestParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery;
+package org.openlmis.prepacking;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;

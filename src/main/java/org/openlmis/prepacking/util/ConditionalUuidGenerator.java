@@ -13,12 +13,12 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.util;
+package org.openlmis.prepacking.util;
 
 import java.io.Serializable;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.UUIDGenerator;
-import org.openlmis.pointofdelivery.domain.BaseEntity;
+import org.openlmis.prepacking.domain.BaseEntity;
 
 public class ConditionalUuidGenerator extends UUIDGenerator {
 

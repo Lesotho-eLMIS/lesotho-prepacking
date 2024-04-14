@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery;
+package org.openlmis.prepacking;
 
 import static org.flywaydb.core.api.callback.Event.AFTER_MIGRATE;
 
@@ -52,7 +52,7 @@ public class ExportSchemaFlywayCallback extends BaseCallback {
 
       int exitCode = 0;
       try {
-        schemaName = Optional.ofNullable(schemaName).orElse("pointofdelivery");
+        schemaName = Optional.ofNullable(schemaName).orElse("prepacking");
 
         Process proc = Runtime.getRuntime().exec("/app/export_schema.sh " + schemaName);
 

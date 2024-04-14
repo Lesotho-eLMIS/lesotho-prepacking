@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.domain;
+package org.openlmis.prepacking.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

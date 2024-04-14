@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.domain.event;
+package org.openlmis.prepacking.domain.event;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -29,56 +28,35 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.pointofdelivery.domain.BaseEntity;
-import org.openlmis.pointofdelivery.domain.qualitychecks.Discrepancy;
+import org.openlmis.prepacking.domain.BaseEntity;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "point_of_delivery_event", schema = "pointofdelivery")
-public class PointOfDeliveryEvent extends BaseEntity {
-    
-  private UUID sourceId;
-  private String sourceFreeText;
-
-  private UUID destinationId;
-  private String destinationFreeText;
-
-  private UUID receivedByUserId;
-  private String receivedByUserNames;
+@Table(name = "prepacking_event", schema = "prepacking")
+public class PrepackingEvent extends BaseEntity {
 
   @Column(nullable = false, columnDefinition = "timestamp")
-  private ZonedDateTime receivingDate;
+  private ZonedDateTime dateCreated;
+  @Column(nullable = false)
+  private UUID userId;
+  @Column(nullable = true, columnDefinition = "timestamp")
+  private ZonedDateTime dateAuthorised;
+  @Column(nullable = false)
+  private UUID facilityId;
+  @Column(nullable = false)
+  private UUID programId;
+  private String comments;
+  @Column(nullable = false)
+  private UUID supervisoryNodeId;
+  @Column(nullable = false)
+  private String status;
 
-  private String referenceNumber;
-
-  @Column(nullable = false, columnDefinition = "timestamp")
-  private LocalDate packingDate;
-
-  private String packedBy;
-
-  private Integer cartonsQuantityOnWaybill;
-
-  private Integer cartonsQuantityShipped;
-
-  private Integer cartonsQuantityAccepted;
-
-  private Integer cartonsQuantityRejected;
-
-  private Integer containersQuantityOnWaybill;
-
-  private Integer containersQuantityShipped;
-
-  private Integer containersQuantityAccepted;
-
-  private Integer containersQuantityRejected;
-
-  private String remarks;
-
-  // One-to-many relationship with Discrepancy
+  // One-to-many relationship with PrepackingEventLineItem
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "point_of_delivery_event_id") // foreign key in Discrepancy table
-  private List<Discrepancy> discrepancies;
+  @JoinColumn(name = "prepacking_event_id") // foreign key in PrepackingEventLineItem table
+  private List<PrepackingEventLineItem> lineItems;
 
 }

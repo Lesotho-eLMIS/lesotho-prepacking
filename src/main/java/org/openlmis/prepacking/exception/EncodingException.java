@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.exception;
+package org.openlmis.prepacking.exception;
 
 public class EncodingException extends RuntimeException {
 

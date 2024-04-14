@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web.stockcardrangesummary;
+package org.openlmis.prepacking.web.stockcardrangesummary;
 
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
@@ -34,19 +34,19 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.pointofdelivery.domain.card.StockCard;
-import org.openlmis.pointofdelivery.domain.event.CalculatedStockOnHand;
-import org.openlmis.pointofdelivery.domain.event.StockEvent;
-import org.openlmis.pointofdelivery.exception.PermissionMessageException;
-import org.openlmis.pointofdelivery.service.StockCardAggregate;
-import org.openlmis.pointofdelivery.service.StockCardSummariesService;
-import org.openlmis.pointofdelivery.testutils.CalculatedStockOnHandDataBuilder;
-import org.openlmis.pointofdelivery.testutils.StockCardDataBuilder;
-import org.openlmis.pointofdelivery.testutils.StockCardRangeSummaryDtoDataBuilder;
-import org.openlmis.pointofdelivery.testutils.StockEventDataBuilder;
-import org.openlmis.pointofdelivery.util.Message;
-import org.openlmis.pointofdelivery.util.PageDto;
-import org.openlmis.pointofdelivery.web.BaseWebIntegrationTest;
+import org.openlmis.prepacking.domain.card.StockCard;
+import org.openlmis.prepacking.domain.event.CalculatedStockOnHand;
+import org.openlmis.prepacking.domain.event.StockEvent;
+import org.openlmis.prepacking.exception.PermissionMessageException;
+import org.openlmis.prepacking.service.StockCardAggregate;
+import org.openlmis.prepacking.service.StockCardSummariesService;
+import org.openlmis.prepacking.testutils.CalculatedStockOnHandDataBuilder;
+import org.openlmis.prepacking.testutils.StockCardDataBuilder;
+import org.openlmis.prepacking.testutils.StockCardRangeSummaryDtoDataBuilder;
+import org.openlmis.prepacking.testutils.StockEventDataBuilder;
+import org.openlmis.prepacking.util.Message;
+import org.openlmis.prepacking.util.PageDto;
+import org.openlmis.prepacking.web.BaseWebIntegrationTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

@@ -11,8 +11,8 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<import value="org.openlmis.pointofdelivery.domain.card.*"/>
-	<import value="org.openlmis.pointofdelivery.dto.*"/>
+	<import value="org.openlmis.prepacking.domain.card.*"/>
+	<import value="org.openlmis.prepacking.dto.*"/>
 	<import value="java.time.LocalDate"/>
 	<import value="java.time.format.DateTimeFormatter"/>
 	<import value="java.time.ZonedDateTime"/>
@@ -86,15 +86,15 @@
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
-		<field name="facility" class="org.openlmis.pointofdelivery.dto.referencedata.FacilityDto"/>
-		<field name="program" class="org.openlmis.pointofdelivery.dto.referencedata.ProgramDto"/>
-		<field name="orderable" class="org.openlmis.pointofdelivery.dto.referencedata.OrderableDto"/>
+		<field name="facility" class="org.openlmis.prepacking.dto.referencedata.FacilityDto"/>
+		<field name="program" class="org.openlmis.prepacking.dto.referencedata.ProgramDto"/>
+		<field name="orderable" class="org.openlmis.prepacking.dto.referencedata.OrderableDto"/>
 		<field name="stockOnHand" class="java.lang.Integer"/>
 		<field name="lastUpdate" class="java.time.LocalDate"/>
-		<field name="lot" class="org.openlmis.pointofdelivery.dto.referencedata.LotDto"/>
+		<field name="lot" class="org.openlmis.prepacking.dto.referencedata.LotDto"/>
 	</subDataset>
-	<parameter name="program" class="org.openlmis.pointofdelivery.dto.referencedata.ProgramDto" isForPrompting="false"/>
-	<parameter name="facility" class="org.openlmis.pointofdelivery.dto.referencedata.FacilityDto" isForPrompting="false"/>
+	<parameter name="program" class="org.openlmis.prepacking.dto.referencedata.ProgramDto" isForPrompting="false"/>
+	<parameter name="facility" class="org.openlmis.prepacking.dto.referencedata.FacilityDto" isForPrompting="false"/>
 	<parameter name="stockCardSummaries" class="java.util.List" isForPrompting="false"/>
 	<parameter name="showProgram" class="java.lang.Boolean" isForPrompting="false"/>
 	<parameter name="showFacility" class="java.lang.Boolean" isForPrompting="false"/>

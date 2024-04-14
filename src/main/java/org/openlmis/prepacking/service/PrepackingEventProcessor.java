@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import java.util.UUID;
 
-import org.openlmis.pointofdelivery.domain.event.PointOfDeliveryEvent;
-import org.openlmis.pointofdelivery.dto.PointOfDeliveryEventDto;
-import org.openlmis.pointofdelivery.repository.PointOfDeliveryEventsRepository;
-import org.openlmis.pointofdelivery.util.PointOfDeliveryEventProcessContext;
+import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.prepacking.dto.PrepackingEventDto;
+import org.openlmis.prepacking.repository.PrepackingEventsRepository;
+import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,18 +35,18 @@ import org.springframework.stereotype.Service;
  * pod events.
  */
 @Service
-public class PointOfDeliveryEventProcessor {
+public class PrepackingEventProcessor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(
-          PointOfDeliveryEventProcessor.class);
+          PrepackingEventProcessor.class);
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(
-          PointOfDeliveryEventProcessor.class);
+          PrepackingEventProcessor.class);
 
   @Autowired
-  private PointOfDeliveryEventProcessContextBuilder contextBuilder;
+  private PrepackingEventProcessContextBuilder contextBuilder;
 
   @Autowired
-  private PointOfDeliveryEventsRepository pointOfDeliveryEventsRepository;
+  private PrepackingEventsRepository pointOfDeliveryEventsRepository;
 
   /**
    * Validate and persist pod event.
@@ -54,13 +54,13 @@ public class PointOfDeliveryEventProcessor {
    * @param pointOfDeliveryEventDto point of delivery event dto.
    * @return the persisted event ids.
    */
-  public UUID process(PointOfDeliveryEventDto pointOfDeliveryEventDto) {
+  public UUID process(PrepackingEventDto pointOfDeliveryEventDto) {
     XLOGGER.entry(pointOfDeliveryEventDto);
     Profiler profiler = new Profiler("PROCESS");
     profiler.setLogger(XLOGGER);
 
     profiler.start("BUILD_CONTEXT");
-    PointOfDeliveryEventProcessContext context = contextBuilder.buildContext(
+    PrepackingEventProcessContext context = contextBuilder.buildContext(
             pointOfDeliveryEventDto);
     pointOfDeliveryEventDto.setContext(context);
 
@@ -73,11 +73,11 @@ public class PointOfDeliveryEventProcessor {
     return eventId;
   }
 
-  private UUID saveEventAndGenerateLineItems(PointOfDeliveryEventDto pointOfDeliveryEventDto,
+  private UUID saveEventAndGenerateLineItems(PrepackingEventDto pointOfDeliveryEventDto,
                                              Profiler profiler) {
     profiler.start("CONVERT_TO_EVENT");
-    PointOfDeliveryEvent pointOfDeliveryEvent = pointOfDeliveryEventDto
-            .toPointOfDeliveryEvent();
+    PrepackingEvent pointOfDeliveryEvent = pointOfDeliveryEventDto
+            .toPrepackingEvent();
 
     profiler.start("DB_SAVE");
     UUID savedEventId = pointOfDeliveryEventsRepository.save(

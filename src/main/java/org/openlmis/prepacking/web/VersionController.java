@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import org.openlmis.util.Version;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class VersionController {
    *
    * @return {Version} Returns version read from file.
    */
-  @RequestMapping("/pointofdelivery")
+  @RequestMapping("/prepacking")
   public Version display() {
     LOGGER.debug("Returning version");
     return new Version();

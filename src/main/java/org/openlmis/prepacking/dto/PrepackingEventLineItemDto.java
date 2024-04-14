@@ -15,21 +15,42 @@
 
 package org.openlmis.prepacking.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.UUID;
+
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public abstract class BaseDto {
+@NoArgsConstructor
+@Builder
+public class PrepackingEventLineItemDto {
 
-  @Getter
-  @Setter
   private UUID id;
+  private UUID prepackingEventId;
+  private UUID orderableId;
+  private int numberOfPrepacks;
+  private int prepackSize;
+  private UUID lotId;
+  private String remarks;
+
+  /**
+   * Convert dto to jpa model.
+   *
+   * @return the converted jpa model object.
+   */
+  public PrepackingEventLineItem toPrepackingEventLineItem() {
+    PrepackingEventLineItem lineItem = new PrepackingEventLineItem(
+        prepackingEventId,
+        orderableId,
+        numberOfPrepacks,
+        prepackSize,
+        lotId,
+        remarks);
+
+    return lineItem;
+  }
 }

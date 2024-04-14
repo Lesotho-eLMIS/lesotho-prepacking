@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.security;
+package org.openlmis.prepacking.security;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -85,10 +85,10 @@ public class ResourceServerSecurityConfiguration implements ResourceServerConfig
     http
             .authorizeRequests()
             .antMatchers(
-                    "/pointofdelivery",
+                    "/prepacking",
                     "/webjars/**",
-                    "/pointofdelivery/webjars/**",
-                    "/pointofdelivery/docs/**"
+                    "/prepacking/webjars/**",
+                    "/prepacking/docs/**"
             ).permitAll()
             .antMatchers("/**").fullyAuthenticated();
   }

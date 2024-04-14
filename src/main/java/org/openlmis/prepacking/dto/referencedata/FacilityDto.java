@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.dto.referencedata;
+package org.openlmis.prepacking.dto.referencedata;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.pointofdelivery.domain.sourcedestination.Organization;
+import org.openlmis.prepacking.domain.sourcedestination.Organization;
 
 @Data
 @Builder

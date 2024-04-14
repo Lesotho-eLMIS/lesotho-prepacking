@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
@@ -21,8 +21,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
-import static org.openlmis.pointofdelivery.testutils.ValidDestinationAssignmentDataBuilder.createDestination;
-import static org.openlmis.pointofdelivery.testutils.ValidSourceAssignmentDataBuilder.createSource;
+import static org.openlmis.prepacking.testutils.ValidDestinationAssignmentDataBuilder.createDestination;
+import static org.openlmis.prepacking.testutils.ValidSourceAssignmentDataBuilder.createSource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,12 +31,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.UUID;
 import org.junit.Test;
-import org.openlmis.pointofdelivery.domain.sourcedestination.ValidDestinationAssignment;
-import org.openlmis.pointofdelivery.domain.sourcedestination.ValidSourceAssignment;
-import org.openlmis.pointofdelivery.dto.ValidSourceDestinationDto;
-import org.openlmis.pointofdelivery.service.PermissionService;
-import org.openlmis.pointofdelivery.service.ValidDestinationService;
-import org.openlmis.pointofdelivery.service.ValidSourceService;
+import org.openlmis.prepacking.domain.sourcedestination.ValidDestinationAssignment;
+import org.openlmis.prepacking.domain.sourcedestination.ValidSourceAssignment;
+import org.openlmis.prepacking.dto.ValidSourceDestinationDto;
+import org.openlmis.prepacking.service.PermissionService;
+import org.openlmis.prepacking.service.ValidDestinationService;
+import org.openlmis.prepacking.service.ValidSourceService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

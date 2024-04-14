@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.service;
+package org.openlmis.prepacking.service;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -35,8 +35,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.openlmis.pointofdelivery.domain.JasperTemplate;
-import org.openlmis.pointofdelivery.exception.JasperReportViewException;
+import org.openlmis.prepacking.domain.JasperTemplate;
+import org.openlmis.prepacking.exception.JasperReportViewException;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -51,7 +51,7 @@ public class JasperReportServiceIntegrationTest {
   private static final String FORMAT = "format";
   private static final String PDF = "pdf";
   private static final String ERROR_GENERATE_REPORT_FAILED =
-      "pointofdelivery.error.generateReport.failed";
+      "prepacking.error.generateReport.failed";
 
   @InjectMocks
   private JasperReportService service;

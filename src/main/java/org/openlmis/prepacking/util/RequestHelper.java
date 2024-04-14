@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.util;
+package org.openlmis.prepacking.util;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openlmis.pointofdelivery.service.RequestHeaders;
+import org.openlmis.prepacking.service.RequestHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;

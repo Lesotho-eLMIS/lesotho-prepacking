@@ -5,8 +5,8 @@ set -e
 
 # prepare ERD folder on CI server
 
-sudo mkdir -p /var/www/html/erd-pointofdelivery
-sudo chown -R $USER:$USER /var/www/html/erd-pointofdelivery
+sudo mkdir -p /var/www/html/erd-prepacking
+sudo chown -R $USER:$USER /var/www/html/erd-prepacking
 
 # General steps:
 # - Copy env file and remove demo data profiles (errors happen during startup when they are enabled)
@@ -21,22 +21,22 @@ sudo chown -R $USER:$USER /var/www/html/erd-pointofdelivery
 # - Clean up files and folders
 wget https://raw.githubusercontent.com/OpenLMIS/openlmis-ref-distro/master/settings-sample.env -O .env \
 && sed -i -e "s/^spring_profiles_active=demo-data,refresh-db/spring_profiles_active=/" .env \
-&& wget https://raw.githubusercontent.com/OpenLMIS/openlmis-pointofdelivery/master/docker-compose.erd-generation.yml -O docker-compose.yml \
+&& wget https://raw.githubusercontent.com/OpenLMIS/openlmis-prepacking/master/docker-compose.erd-generation.yml -O docker-compose.yml \
 && (/usr/local/bin/docker-compose up &) \
 && sleep 90 \
-&& sudo rm /var/www/html/erd-pointofdelivery/* -rf \
+&& sudo rm /var/www/html/erd-prepacking/* -rf \
 && sudo rm -rf output \
 && mkdir output \
 && chmod 777 output \
 && export COMPOSE_PROJECT_NAME_LOWER_CASE=`echo "$COMPOSE_PROJECT_NAME" | tr '[:upper:]' '[:lower:]'` \
-&& (docker run --rm --network ${COMPOSE_PROJECT_NAME_LOWER_CASE//.}_default -v $WORKSPACE/erd/output:/output schemaspy/schemaspy:6.1.0 -t pgsql -host db -port 5432 -db open_lmis -s pointofdelivery -u postgres -p p@ssw0rd -I "(data_loaded)|(schema_version)|(jv_.*)" -norows -hq &) \
+&& (docker run --rm --network ${COMPOSE_PROJECT_NAME_LOWER_CASE//.}_default -v $WORKSPACE/erd/output:/output schemaspy/schemaspy:6.1.0 -t pgsql -host db -port 5432 -db open_lmis -s prepacking -u postgres -p p@ssw0rd -I "(data_loaded)|(schema_version)|(jv_.*)" -norows -hq &) \
 && sleep 90 \
 && /usr/local/bin/docker-compose down --volumes \
 && sudo chown -R $USER:$USER output \
-&& mv output/* /var/www/html/erd-pointofdelivery \
-&& rm erd-pointofdelivery.zip -f \
-&& pushd /var/www/html/erd-pointofdelivery \
-&& zip -r $WORKSPACE/erd/erd-pointofdelivery.zip . \
+&& mv output/* /var/www/html/erd-prepacking \
+&& rm erd-prepacking.zip -f \
+&& pushd /var/www/html/erd-prepacking \
+&& zip -r $WORKSPACE/erd/erd-prepacking.zip . \
 && popd \
 && rmdir output \
 && rm .env \

@@ -13,13 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.web;
+package org.openlmis.prepacking.web;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static org.openlmis.pointofdelivery.web.utils.WireMockResponses.MOCK_TOKEN_REQUEST_RESPONSE;
+import static org.openlmis.prepacking.web.utils.WireMockResponses.MOCK_TOKEN_REQUEST_RESPONSE;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,8 +39,8 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.openlmis.pointofdelivery.BaseIntegrationTest;
-import org.openlmis.pointofdelivery.domain.BaseEntity;
+import org.openlmis.prepacking.BaseIntegrationTest;
+import org.openlmis.prepacking.domain.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -61,7 +61,7 @@ public abstract class BaseWebTest extends BaseIntegrationTest {
   private static final String APPLICATION_JSON = "application/json";
   private static final String MOCK_CHECK_RESULT = "{"
           + "  \"aud\": [\n"
-          + "    \"pointofdelivery\"\n"
+          + "    \"prepacking\"\n"
           + "  ],\n"
           + "  \"user_name\": \"admin\",\n"
           + "  \"referenceDataUserId\": \"35316636-6264-6331-2d34-3933322d3462\",\n"

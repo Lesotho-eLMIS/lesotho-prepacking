@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.exception;
+package org.openlmis.prepacking.exception;
 
 import static java.lang.String.format;
 
-import org.openlmis.pointofdelivery.util.Message;
+import org.openlmis.prepacking.util.Message;
 
 public class JasperReportViewException extends BaseMessageException {
 

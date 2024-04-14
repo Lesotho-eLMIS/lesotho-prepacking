@@ -113,7 +113,7 @@ flyway {
     url = "$System.env.DATABASE_URL"
     user = "$System.env.POSTGRES_USER"
     password = "$System.env.POSTGRES_PASSWORD"
-    schemas = ['pointofdelivery']
+    schemas = ['prepacking']
     sqlMigrationPrefix = ''
     placeholderPrefix = '#['
     placeholderSuffix = ']'
@@ -279,9 +279,9 @@ uploadArchives {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/OpenLMIS/openlmis-pointofdelivery.git'
-                    developerConnection = 'scm:git:ssh://github.com/OpenLMIS/openlmis-pointofdelivery.git'
-                    url = 'http://github.com/OpenLMIS/openlmis-pointofdelivery/'
+                    connection = 'scm:git:git://github.com/OpenLMIS/openlmis-prepacking.git'
+                    developerConnection = 'scm:git:ssh://github.com/OpenLMIS/openlmis-prepacking.git'
+                    url = 'http://github.com/OpenLMIS/openlmis-prepacking/'
                 }
             }
         }

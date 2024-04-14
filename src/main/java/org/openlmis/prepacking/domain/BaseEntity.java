@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.pointofdelivery.domain;
+package org.openlmis.prepacking.domain;
 
 import java.util.UUID;
 import javax.persistence.GeneratedValue;
@@ -32,7 +32,7 @@ public abstract class BaseEntity {
   @Id
   @GeneratedValue(generator = "uuid-gen")
   @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.pointofdelivery.util.ConditionalUuidGenerator")
+      strategy = "org.openlmis.prepacking.util.ConditionalUuidGenerator")
   @Type(type = PG_UUID)
   @Getter
   @Setter

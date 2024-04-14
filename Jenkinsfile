@@ -22,7 +22,7 @@ pipeline {
         skipStagesAfterUnstable()
     }
     environment {
-        COMPOSE_PROJECT_NAME = "pointofdelivery${BRANCH_NAME}"
+        COMPOSE_PROJECT_NAME = "prepacking${BRANCH_NAME}"
     }
     parameters {
         string(name: 'contractTestsBranch', defaultValue: 'master', description: 'The branch of contract tests to checkout')
@@ -138,7 +138,7 @@ pipeline {
                 }
             }
             steps {
-                build job: 'OpenLMIS-pointofdelivery-deploy-to-test', wait: false
+                build job: 'OpenLMIS-prepacking-deploy-to-test', wait: false
             }
             post {
                 failure {
@@ -213,7 +213,7 @@ pipeline {
             steps {
                 dir('erd') {
                     sh(script: "../ci-erdGeneration.sh")
-                    archiveArtifacts artifacts: 'erd-pointofdelivery.zip'
+                    archiveArtifacts artifacts: 'erd-prepacking.zip'
                 }
             }
             post {
@@ -232,9 +232,9 @@ pipeline {
                 }
             }
             steps {
-                sh "docker pull openlmis/pointofdelivery:${STAGING_VERSION}"
-                sh "docker tag openlmis/pointofdelivery:${STAGING_VERSION} openlmis/pointofdelivery:${VERSION}"
-                sh "docker push openlmis/pointofdelivery:${VERSION}"
+                sh "docker pull openlmis/prepacking:${STAGING_VERSION}"
+                sh "docker tag openlmis/prepacking:${STAGING_VERSION} openlmis/prepacking:${VERSION}"
+                sh "docker push openlmis/prepacking:${VERSION}"
             }
             post {
                 success {
