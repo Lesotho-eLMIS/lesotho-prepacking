@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.web;
+package org.openlmis.pointofdelivery.web;
 
 import static java.lang.String.format;
 import static org.mockito.Mockito.doThrow;
@@ -25,10 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.UUID;
 import org.junit.Test;
-import org.openlmis.prepacking.exception.PermissionMessageException;
-import org.openlmis.prepacking.service.JasperReportService;
-import org.openlmis.prepacking.service.PermissionService;
-import org.openlmis.prepacking.util.Message;
+import org.openlmis.pointofdelivery.exception.PermissionMessageException;
+import org.openlmis.pointofdelivery.service.JasperReportService;
+import org.openlmis.pointofdelivery.service.PermissionService;
+import org.openlmis.pointofdelivery.util.Message;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 

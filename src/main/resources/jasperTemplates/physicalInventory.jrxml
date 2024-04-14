@@ -15,12 +15,12 @@
 	<parameter name="decimalFormat" class="java.text.DecimalFormat" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[select f.name as facility, p.name as program, u.username as username, sel.occurreddate, se.processeddate, se.id as event_id
-			from prepacking.physical_inventories pi
-			INNER JOIN prepacking.stock_events se on se.id = pi.stockeventid
+			from pointofdelivery.physical_inventories pi
+			INNER JOIN pointofdelivery.stock_events se on se.id = pi.stockeventid
 			INNER JOIN referencedata.users u on u.id = se.userId
 			INNER JOIN referencedata.facilities f on f.id = se.facilityid
 			INNER JOIN referencedata.programs p on p.id = se.programid
-			INNER JOIN prepacking.stock_event_line_items sel on se.id = sel.stockeventid
+			INNER JOIN pointofdelivery.stock_event_line_items sel on se.id = sel.stockeventid
 			WHERE pi.id = $P!{pi_id}
 			ORDER BY sel.occurreddate DESC
 			FETCH FIRST 1 ROWS ONLY

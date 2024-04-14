@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.web;
+package org.openlmis.pointofdelivery.web;
 
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;

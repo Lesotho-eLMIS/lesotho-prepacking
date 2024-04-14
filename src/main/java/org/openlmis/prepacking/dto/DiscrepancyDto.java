@@ -13,33 +13,42 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.domain.event;
+
+package org.openlmis.pointofdelivery.dto;
 
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.prepacking.domain.BaseEntity;
+import org.openlmis.pointofdelivery.domain.qualitychecks.Discrepancy;
+import org.openlmis.pointofdelivery.dto.requisition.RejectionReasonDto;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "prepacking_event_line_item", schema = "prepacking")
-public class PrepackingEventLineItem extends BaseEntity {
+@NoArgsConstructor
+@Builder
+public class DiscrepancyDto {
 
-  private UUID prepackingEventId;
-  @Column(nullable = false)
-  private UUID orderableId;
-  @Column(nullable = false)
-  private int numberOfPrepacks;
-  @Column(nullable = false)
-  private int prepackSize;
-  @Column(nullable = false)
-  private UUID lotId;
-  private String remarks;
+  private UUID id;
+  private RejectionReasonDto rejectionReason;
+  private String shipmentType;
+  private Integer quantityAffected;
+  private String comments;
 
+  /**
+   * Convert dto to jpa model.
+   *
+   * @return the converted jpa model object.
+   */
+  public Discrepancy toDiscrepancy() {
+    Discrepancy discrepancy = new Discrepancy(
+        rejectionReason.getId(),
+        shipmentType,
+        quantityAffected,
+        comments);
+
+    return discrepancy;
+  }
 }

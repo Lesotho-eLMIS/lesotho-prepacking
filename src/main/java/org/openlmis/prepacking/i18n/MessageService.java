@@ -13,9 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.i18n;
+package org.openlmis.pointofdelivery.i18n;
 
-import org.openlmis.prepacking.util.Message;
+import org.openlmis.pointofdelivery.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;

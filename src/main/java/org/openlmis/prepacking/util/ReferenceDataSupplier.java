@@ -13,12 +13,12 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.util;
+package org.openlmis.pointofdelivery.util;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
-import org.openlmis.prepacking.service.referencedata.BaseReferenceDataService;
+import org.openlmis.pointofdelivery.service.referencedata.BaseReferenceDataService;
 
 @AllArgsConstructor
 public class ReferenceDataSupplier<T> implements Supplier<T> {

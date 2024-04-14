@@ -13,12 +13,12 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.util;
+package org.openlmis.pointofdelivery.util;
 
 import java.util.UUID;
 import lombok.Setter;
 
-import org.openlmis.prepacking.dto.referencedata.FacilityDto;
+import org.openlmis.pointofdelivery.dto.referencedata.FacilityDto;
 
 
 /**
@@ -28,7 +28,7 @@ import org.openlmis.prepacking.dto.referencedata.FacilityDto;
  * only when there is a need.
  */
 @Setter
-public class PrepackingEventProcessContext {
+public class PointOfDeliveryEventProcessContext {
 
   private LazyResource<UUID> currentUserId;
   private LazyResource<String> currentUserNames;

@@ -13,17 +13,17 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.extension;
+package org.openlmis.pointofdelivery.extension;
 
 import java.util.HashMap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlmis.prepacking.extension.point.AdjustmentReasonValidator;
-import org.openlmis.prepacking.extension.point.ExtensionPointId;
-import org.openlmis.prepacking.validators.DefaultAdjustmentReasonValidator;
-import org.openlmis.prepacking.validators.StockEventValidator;
+import org.openlmis.pointofdelivery.extension.point.AdjustmentReasonValidator;
+import org.openlmis.pointofdelivery.extension.point.ExtensionPointId;
+import org.openlmis.pointofdelivery.validators.DefaultAdjustmentReasonValidator;
+import org.openlmis.pointofdelivery.validators.StockEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;

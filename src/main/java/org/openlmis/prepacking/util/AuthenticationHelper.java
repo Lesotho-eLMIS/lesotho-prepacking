@@ -13,16 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.util;
+package org.openlmis.pointofdelivery.util;
 
-import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_USER_NOT_FOUND;
+import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_USER_NOT_FOUND;
 
 import java.util.UUID;
-import org.openlmis.prepacking.dto.referencedata.RightDto;
-import org.openlmis.prepacking.dto.referencedata.UserDto;
-import org.openlmis.prepacking.exception.AuthenticationException;
-import org.openlmis.prepacking.service.referencedata.RightReferenceDataService;
-import org.openlmis.prepacking.service.referencedata.UserReferenceDataService;
+import org.openlmis.pointofdelivery.dto.referencedata.RightDto;
+import org.openlmis.pointofdelivery.dto.referencedata.UserDto;
+import org.openlmis.pointofdelivery.exception.AuthenticationException;
+import org.openlmis.pointofdelivery.service.referencedata.RightReferenceDataService;
+import org.openlmis.pointofdelivery.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

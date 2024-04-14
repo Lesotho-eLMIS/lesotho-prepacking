@@ -242,5 +242,5 @@ Bug fixes, security and performance improvements, also backwards-compatible:
 1.0.0 / 2017-09-01
 ==================
 
-* Released openlmis-prepacking 1.0.0 as part of openlmis-ref-distro 3.2.0.
- * This was the first stable release of openlmis-prepacking.
+* Released openlmis-pointofdelivery 1.0.0 as part of openlmis-ref-distro 3.2.0.
+ * This was the first stable release of openlmis-pointofdelivery.

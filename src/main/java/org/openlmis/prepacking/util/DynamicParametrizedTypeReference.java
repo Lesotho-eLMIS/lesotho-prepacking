@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.util;
+package org.openlmis.pointofdelivery.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import org.openlmis.prepacking.dto.referencedata.ResultDto;
+import org.openlmis.pointofdelivery.dto.referencedata.ResultDto;
 import org.springframework.core.ParameterizedTypeReference;
 
 /**

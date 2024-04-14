@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.repository;
+package org.openlmis.pointofdelivery.repository;
 
 import java.util.List;
 import java.util.UUID;
-import org.openlmis.prepacking.domain.sourcedestination.Organization;
+import org.openlmis.pointofdelivery.domain.sourcedestination.Organization;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 

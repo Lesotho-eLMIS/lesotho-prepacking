@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.interceptor;
+package org.openlmis.pointofdelivery.interceptor;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.openlmis.prepacking.exception.ValidationMessageException;
-import org.openlmis.prepacking.i18n.MessageKeys;
-import org.openlmis.prepacking.util.Message;
+import org.openlmis.pointofdelivery.exception.ValidationMessageException;
+import org.openlmis.pointofdelivery.i18n.MessageKeys;
+import org.openlmis.pointofdelivery.util.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;

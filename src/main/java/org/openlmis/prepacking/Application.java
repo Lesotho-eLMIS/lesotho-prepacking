@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking;
+package org.openlmis.pointofdelivery;
 
 import java.time.Clock;
 import java.time.ZoneId;
 import java.util.Locale;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.callback.Callback;
-import org.openlmis.prepacking.i18n.ExposedMessageSourceImpl;
+import org.openlmis.pointofdelivery.i18n.ExposedMessageSourceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

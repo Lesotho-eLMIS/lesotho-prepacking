@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.requisition;
+package org.openlmis.pointofdelivery.dto.requisition;
 
 import java.util.UUID;
 

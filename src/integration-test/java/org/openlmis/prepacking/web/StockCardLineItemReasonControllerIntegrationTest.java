@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.web;
+package org.openlmis.pointofdelivery.web;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_LINE_ITEM_REASON_TAGS_INVALID;
+import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_LINE_ITEM_REASON_TAGS_INVALID;
 
 import com.google.common.collect.Lists;
 import guru.nidi.ramltester.junit.RamlMatchers;
@@ -33,13 +33,13 @@ import javax.persistence.PersistenceException;
 import org.apache.commons.lang.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.openlmis.prepacking.domain.reason.StockCardLineItemReason;
-import org.openlmis.prepacking.dto.StockCardLineItemReasonDto;
-import org.openlmis.prepacking.exception.PermissionMessageException;
-import org.openlmis.prepacking.i18n.MessageKeys;
-import org.openlmis.prepacking.i18n.MessageService;
-import org.openlmis.prepacking.testutils.StockCardLineItemReasonDataBuilder;
-import org.openlmis.prepacking.util.Message;
+import org.openlmis.pointofdelivery.domain.reason.StockCardLineItemReason;
+import org.openlmis.pointofdelivery.dto.StockCardLineItemReasonDto;
+import org.openlmis.pointofdelivery.exception.PermissionMessageException;
+import org.openlmis.pointofdelivery.i18n.MessageKeys;
+import org.openlmis.pointofdelivery.i18n.MessageService;
+import org.openlmis.pointofdelivery.testutils.StockCardLineItemReasonDataBuilder;
+import org.openlmis.pointofdelivery.util.Message;
 import org.postgresql.util.PSQLException;
 import org.postgresql.util.ServerErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;

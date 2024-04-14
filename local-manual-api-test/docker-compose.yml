@@ -22,7 +22,7 @@ services:
     env_file: .manual-api-test-env
     depends_on: [consul]
 
-  prepacking:
+  pointofdelivery:
     image: openlmis/dev:7
     ports:
       - "5005:5005"

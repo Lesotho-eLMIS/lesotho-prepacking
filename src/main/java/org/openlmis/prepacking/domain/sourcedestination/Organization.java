@@ -13,17 +13,17 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.domain.sourcedestination;
+package org.openlmis.pointofdelivery.domain.sourcedestination;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Data;
-import org.openlmis.prepacking.domain.BaseEntity;
+import org.openlmis.pointofdelivery.domain.BaseEntity;
 
 @Entity
 @Data
-@Table(name = "organizations", schema = "prepacking")
+@Table(name = "organizations", schema = "pointofdelivery")
 public class Organization extends BaseEntity {
   @Column(nullable = false, columnDefinition = TEXT_COLUMN_DEFINITION)
   String name;

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.referencedata;
+package org.openlmis.pointofdelivery.dto.referencedata;
 
 import java.time.LocalDate;
 import java.util.UUID;

@@ -10,9 +10,9 @@
 	<queryString language="plsql">
 		<![CDATA[with temp as (
 				select row_number() over () as rownum
-				from prepacking.physical_inventory_line_items pil
-				INNER JOIN prepacking.physical_inventories pi on pi.id = pil.physicalinventoryid
-				LEFT JOIN prepacking.physical_inventory_line_item_adjustments adj on adj.physicalinventorylineitemid = pil.id
+				from pointofdelivery.physical_inventory_line_items pil
+				INNER JOIN pointofdelivery.physical_inventories pi on pi.id = pil.physicalinventoryid
+				LEFT JOIN pointofdelivery.physical_inventory_line_item_adjustments adj on adj.physicalinventorylineitemid = pil.id
 				WHERE pi.id = $P!{pi_id} AND pil.quantity IS NOT NULL
 			)
 			select max(rownum) as max_row_num,
@@ -26,15 +26,15 @@
 					adj.quantity as reasonquantity,
 					r.name as reasonname,
 					odc.displayname
-				from temp, prepacking.physical_inventory_line_items pil
-				INNER JOIN prepacking.physical_inventories pi on pi.id = pil.physicalinventoryid
+				from temp, pointofdelivery.physical_inventory_line_items pil
+				INNER JOIN pointofdelivery.physical_inventories pi on pi.id = pil.physicalinventoryid
 				INNER JOIN referencedata.orderables o on o.id = pil.orderableid
 				INNER JOIN (select id, max(versionnumber) as max_version from referencedata.orderables GROUP BY id) vrs ON o.id = vrs.id AND o.versionnumber = vrs.max_version
 				INNER JOIN referencedata.program_orderables po ON po.orderableid = o.id 
 				INNER JOIN referencedata.orderable_display_categories odc ON po.orderabledisplaycategoryid = odc.id				
 				LEFT JOIN referencedata.lots l on l.id = pil.lotId
-				LEFT JOIN prepacking.physical_inventory_line_item_adjustments adj on adj.physicalinventorylineitemid = pil.id
-				LEFT JOIN prepacking.stock_card_line_item_reasons r on r.id = adj.reasonid
+				LEFT JOIN pointofdelivery.physical_inventory_line_item_adjustments adj on adj.physicalinventorylineitemid = pil.id
+				LEFT JOIN pointofdelivery.stock_card_line_item_reasons r on r.id = adj.reasonid
 				WHERE pi.id = $P!{pi_id} AND pil.quantity IS NOT NULL
 				GROUP BY o.code, o.fullproductname, l.lotcode, l.expirationdate, pil.quantity, pil.previousstockonhandwhensubmitted, pil.extradata, adj.quantity, adj.id, r.name, odc.displayname, odc.displayorder
 				ORDER BY odc.displayorder, o.code, l.lotcode NULLS FIRST]]>

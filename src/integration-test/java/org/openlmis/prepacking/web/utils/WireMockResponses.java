@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.web.utils;
+package org.openlmis.pointofdelivery.web.utils;
 
 public abstract class WireMockResponses {
 
@@ -23,7 +23,7 @@ public abstract class WireMockResponses {
       + "    \"example\",\n"
       + "    \"requisition\",\n"
       + "    \"notification\",\n"
-      + "    \"prepacking\",\n"
+      + "    \"pointofdelivery\",\n"
       + "    \"referencedata\"\n"
       + "  ],\n"
       + "  \"user_name\": \"admin\",\n"

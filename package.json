@@ -1,5 +1,5 @@
 {
-  "name": "openlmis-prepacking",
+  "name": "openlmis-pointofdelivery",
   "version": "0.0.1",
   "devDependencies": {
     "raml2html": "~3.0.0"

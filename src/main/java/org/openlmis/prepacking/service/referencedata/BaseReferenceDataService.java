@@ -13,9 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.service.referencedata;
+package org.openlmis.pointofdelivery.service.referencedata;
 
-import org.openlmis.prepacking.service.BaseCommunicationService;
+import org.openlmis.pointofdelivery.service.BaseCommunicationService;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class BaseReferenceDataService<T> extends BaseCommunicationService<T> {

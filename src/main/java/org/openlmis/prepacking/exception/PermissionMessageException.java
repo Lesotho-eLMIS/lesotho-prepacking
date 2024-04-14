@@ -13,9 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.exception;
+package org.openlmis.pointofdelivery.exception;
 
-import org.openlmis.prepacking.util.Message;
+import org.openlmis.pointofdelivery.util.Message;
 
 public class PermissionMessageException extends BaseMessageException {
 

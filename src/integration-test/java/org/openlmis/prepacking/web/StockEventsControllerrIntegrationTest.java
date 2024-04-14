@@ -13,16 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.web;
+package org.openlmis.pointofdelivery.web;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_EVENT_QUANTITIES_INVALID;
-import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.prepacking.i18n.MessageKeys.ERROR_PROGRAM_NOT_SUPPORTED;
-import static org.openlmis.prepacking.service.PermissionService.STOCK_ADJUST;
-import static org.openlmis.prepacking.testutils.StockEventDtoDataBuilder.createNoSourceDestinationStockEventDto;
-import static org.openlmis.prepacking.testutils.StockEventDtoDataBuilder.createStockEventDto;
+import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_EVENT_QUANTITIES_INVALID;
+import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.pointofdelivery.i18n.MessageKeys.ERROR_PROGRAM_NOT_SUPPORTED;
+import static org.openlmis.pointofdelivery.service.PermissionService.STOCK_ADJUST;
+import static org.openlmis.pointofdelivery.testutils.StockEventDtoDataBuilder.createNoSourceDestinationStockEventDto;
+import static org.openlmis.pointofdelivery.testutils.StockEventDtoDataBuilder.createStockEventDto;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,13 +30,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.UUID;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openlmis.prepacking.dto.StockEventDto;
-import org.openlmis.prepacking.exception.PermissionMessageException;
-import org.openlmis.prepacking.exception.ValidationMessageException;
-import org.openlmis.prepacking.service.HomeFacilityPermissionService;
-import org.openlmis.prepacking.service.PermissionService;
-import org.openlmis.prepacking.service.StockEventProcessor;
-import org.openlmis.prepacking.util.Message;
+import org.openlmis.pointofdelivery.dto.StockEventDto;
+import org.openlmis.pointofdelivery.exception.PermissionMessageException;
+import org.openlmis.pointofdelivery.exception.ValidationMessageException;
+import org.openlmis.pointofdelivery.service.HomeFacilityPermissionService;
+import org.openlmis.pointofdelivery.service.PermissionService;
+import org.openlmis.pointofdelivery.service.StockEventProcessor;
+import org.openlmis.pointofdelivery.util.Message;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;

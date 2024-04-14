@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.interceptor;
+package org.openlmis.pointofdelivery.interceptor;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
@@ -29,8 +29,8 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.openlmis.prepacking.exception.ValidationMessageException;
-import org.openlmis.prepacking.i18n.MessageKeys;
+import org.openlmis.pointofdelivery.exception.ValidationMessageException;
+import org.openlmis.pointofdelivery.i18n.MessageKeys;
 
 public class MvcInterceptorTest {
 

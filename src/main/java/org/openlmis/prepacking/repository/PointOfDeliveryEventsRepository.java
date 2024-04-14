@@ -13,23 +13,15 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.repository;
+package org.openlmis.pointofdelivery.repository;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
-import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.pointofdelivery.domain.event.PointOfDeliveryEvent;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface PrepackingEventsRepository extends
-    PagingAndSortingRepository<PrepackingEvent, UUID> {
-  List<PrepackingEvent> findByProgramId(@Param("programId") UUID programId);
-
-  List<PrepackingEvent> findByStatus(@Param("status") String status);
-
-  List<PrepackingEvent> findByDateAuthorised(@Param("dateAuthorised") ZonedDateTime dateAuthorised);
-
-  List<PrepackingEvent> findByUserId(@Param("userId") UUID userId);
-
+public interface PointOfDeliveryEventsRepository extends
+        PagingAndSortingRepository<PointOfDeliveryEvent, UUID> {
+  List<PointOfDeliveryEvent> findByDestinationId(@Param("destinationId") UUID destinationId);
 }

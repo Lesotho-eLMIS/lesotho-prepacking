@@ -11,7 +11,7 @@ All other dependencies, such as Java, are delivered automatically via the Docker
 ## Quick Start
 1. Fork/clone this repository from GitHub.
  ```shell
- git clone https://github.com/OpenLMIS/openlmis-prepacking.git
+ git clone https://github.com/OpenLMIS/openlmis-pointofdelivery.git
  ```
 2. Add an environment file called `.env` to the root folder of the project, with the required 
 project settings and credentials. For a starter environment file, you can use [this 
@@ -19,13 +19,13 @@ one](https://raw.githubusercontent.com/OpenLMIS/openlmis-ref-distro/master/setti
  ```shell
  curl -o .env -L https://raw.githubusercontent.com/OpenLMIS/openlmis-ref-distro/master/settings-sample.env
  ```
-3. Develop w/ Docker by running `docker-compose run --service-ports prepacking`.
+3. Develop w/ Docker by running `docker-compose run --service-ports pointofdelivery`.
 See [Developing w/ Docker](#devdocker).
 4. You should now be in an interactive shell inside the newly created development 
 environment, start the Service with: `gradle bootRun`
 5. Go to `http://<yourDockerIPAddress>:8080/` to see the service name 
 and version. Note that you can determine yourDockerIPAddress by running `docker-machine ip`.
-6. Go to `http://<yourDockerIPAddress>:8080/prepacking/docs` to see the APIs.
+6. Go to `http://<yourDockerIPAddress>:8080/pointofdelivery/docs` to see the APIs.
 
 ## <a name="building">Building & Testing</a>
 Gradle is our usual build tool.  This template includes common tasks 
@@ -80,7 +80,7 @@ Before starting the development environment, make sure you have a `.env` file as
 Quick Start instructions.
 
 ```shell
-> docker-compose run --service-ports prepacking
+> docker-compose run --service-ports pointofdelivery
 $ gradle clean build
 $ gradle bootRun
 ```
@@ -151,7 +151,7 @@ compose instructions have been provided to demonstrate this.
 4. Run the command below.
 
 ```shell
-> docker-compose -f docker-compose.builder.yml run --service-ports prepacking
+> docker-compose -f docker-compose.builder.yml run --service-ports pointofdelivery
 ```
 
 ### <a name="internationalization">Internationalization (i18n)</a>
@@ -256,8 +256,8 @@ $do$
 BEGIN
 FOR j IN 1..100 LOOP
 FOR i IN 1..99 LOOP
-INSERT INTO prepacking.stock_card_line_items(id, documentnumber, occurreddate, processeddate, quantity, userid, origineventid, stockcardid)
-VALUES(gen_random_uuid(), 'Testit' || i, '2017-05-17 06:39:50.717','2017-05-17 06:40:14.155', 10, 'c994d1ea-47f7-435d-9d4d-42fb54197698', (select distinct origineventid from prepacking.stock_cards where facilityid='176c4276-1fb1-4507-8ad2-cdfba0f47445'), (select id from prepacking.stock_cards where orderableid in (select id from referencedata.orderables where fullproductname = 'test' || j)));
+INSERT INTO pointofdelivery.stock_card_line_items(id, documentnumber, occurreddate, processeddate, quantity, userid, origineventid, stockcardid)
+VALUES(gen_random_uuid(), 'Testit' || i, '2017-05-17 06:39:50.717','2017-05-17 06:40:14.155', 10, 'c994d1ea-47f7-435d-9d4d-42fb54197698', (select distinct origineventid from pointofdelivery.stock_cards where facilityid='176c4276-1fb1-4507-8ad2-cdfba0f47445'), (select id from pointofdelivery.stock_cards where orderableid in (select id from referencedata.orderables where fullproductname = 'test' || j)));
 END LOOP;
 END LOOP;
 END

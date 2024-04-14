@@ -13,13 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.service.referencedata;
+package org.openlmis.pointofdelivery.service.referencedata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openlmis.prepacking.dto.referencedata.RightDto;
+import org.openlmis.pointofdelivery.dto.referencedata.RightDto;
 import org.springframework.stereotype.Service;
 
 @Service

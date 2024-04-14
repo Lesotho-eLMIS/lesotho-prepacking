@@ -1,6 +1,6 @@
 version: "2"
 services:
-  prepacking:
+  pointofdelivery:
     image: openlmis/dev:7
     ports:
       - "5005:5005"

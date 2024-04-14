@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.repository;
+package org.openlmis.pointofdelivery.repository;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
@@ -29,12 +29,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import org.junit.Test;
-import org.openlmis.prepacking.domain.card.StockCard;
-import org.openlmis.prepacking.domain.card.StockCardLineItem;
-import org.openlmis.prepacking.domain.event.StockEvent;
-import org.openlmis.prepacking.testutils.StockCardDataBuilder;
-import org.openlmis.prepacking.testutils.StockCardLineItemDataBuilder;
-import org.openlmis.prepacking.testutils.StockEventDataBuilder;
+import org.openlmis.pointofdelivery.domain.card.StockCard;
+import org.openlmis.pointofdelivery.domain.card.StockCardLineItem;
+import org.openlmis.pointofdelivery.domain.event.StockEvent;
+import org.openlmis.pointofdelivery.testutils.StockCardDataBuilder;
+import org.openlmis.pointofdelivery.testutils.StockCardLineItemDataBuilder;
+import org.openlmis.pointofdelivery.testutils.StockEventDataBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

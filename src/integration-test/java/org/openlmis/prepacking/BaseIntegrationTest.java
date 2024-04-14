@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking;
+package org.openlmis.pointofdelivery;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.openlmis.prepacking.dto.StockEventDto;
-import org.openlmis.prepacking.service.StockEventProcessContextBuilder;
-import org.openlmis.prepacking.util.StockEventProcessContext;
+import org.openlmis.pointofdelivery.dto.StockEventDto;
+import org.openlmis.pointofdelivery.service.StockEventProcessContextBuilder;
+import org.openlmis.pointofdelivery.util.StockEventProcessContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

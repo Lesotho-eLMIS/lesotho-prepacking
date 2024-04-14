@@ -13,13 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.service;
+package org.openlmis.pointofdelivery.service;
 
-import static org.openlmis.prepacking.util.RequestHelper.createUri;
+import static org.openlmis.pointofdelivery.util.RequestHelper.createUri;
 
 import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
-import org.openlmis.prepacking.util.RequestParameters;
+import org.openlmis.pointofdelivery.util.RequestParameters;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

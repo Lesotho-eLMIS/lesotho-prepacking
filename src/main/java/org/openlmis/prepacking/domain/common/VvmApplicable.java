@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.domain.common;
+package org.openlmis.pointofdelivery.domain.common;
 
 import java.util.Map;
 import java.util.UUID;

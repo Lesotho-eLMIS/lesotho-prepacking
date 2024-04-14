@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.security;
+package org.openlmis.pointofdelivery.security;
 
 import java.util.Collection;
 import java.util.Map;
