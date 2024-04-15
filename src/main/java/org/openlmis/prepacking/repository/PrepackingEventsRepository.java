@@ -35,10 +35,14 @@ public interface PrepackingEventsRepository extends
 
   List<PrepackingEvent> findByUserId(@Param("userId") UUID userId);
 
-  Page<PrepackingEvent> findByFacilityIdAndProgramId(
-      @Param("facilityId") UUID facilityId,
-      @Param("programId") UUID programId,
-      Pageable pageable);
+  /*
+   * Page<PrepackingEvent> findByFacilityIdAndProgramId(
+   * 
+   * @Param("facilityId") UUID facilityId,
+   * 
+   * @Param("programId") UUID programId,
+   * Pageable pageable);
+   */
 
   List<PrepackingEvent> findByFacilityIdAndProgramId(
       @Param("facilityId") UUID facilityId,
