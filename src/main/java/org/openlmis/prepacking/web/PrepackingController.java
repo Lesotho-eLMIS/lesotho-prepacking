@@ -103,7 +103,9 @@ public class PrepackingController extends BaseController {
     LOGGER.debug("Try to load prepacking events");
 
     List<PrepackingEventDto> prepacksToReturn;
-    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityIdAndProgramId(facilityId, programId);
+    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityIdAndProgramId(
+        facilityId,
+        programId);
 
     return new ResponseEntity<>(prepacksToReturn, OK);
 
