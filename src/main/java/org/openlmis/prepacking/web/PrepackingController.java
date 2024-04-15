@@ -122,6 +122,7 @@ public class PrepackingController extends BaseController {
   @PutMapping(ID_PATH_VARIABLE)
   @ResponseStatus(OK)
   @ResponseBody
+  @RequestMapping(method = PUT)
   public ResponseEntity<PrepackingEventDto> updatePrepackingEvent(@PathVariable UUID id,
       @RequestBody PrepackingEventDto dto) {
     PrepackingEventDto updatedPodEvent = prepackingService
