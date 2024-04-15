@@ -88,7 +88,7 @@ public class PrepackingService {
       UUID facilityId,
       UUID programId) {
     List<PrepackingEvent> prepackingEvents = prepackingEventsRepository
-        .findByFacilityAndProgramId(facilityId, programId);
+        .findByFacilityIdAndProgramId(facilityId, programId);
 
     if (prepackingEvents == null) {
       return Collections.emptyList();
