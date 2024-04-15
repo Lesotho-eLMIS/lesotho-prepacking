@@ -78,6 +78,25 @@ public class PrepackingService {
   }
 
   /**
+   * Get a list of Prepacking events.
+   *
+   * @param facilityId facility id.
+   * @param programId  program id.
+   * @return a list of prepacking events.
+   */
+  public List<PrepackingEventDto> getPrepackingEventsByFacilityIdAndProgramId(
+      UUID facilityId,
+      UUID programId) {
+    List<PrepackingEvent> prepackingEvents = prepackingEventsRepository
+        .findByFacilityAndProgramId(facilityId, programId);
+
+    if (prepackingEvents == null) {
+      return Collections.emptyList();
+    }
+    return prepackingToDto(prepackingEvents);
+  }
+
+  /**
    * Get a Prepacking event by id.
    *
    * @param id prepacking event id.
