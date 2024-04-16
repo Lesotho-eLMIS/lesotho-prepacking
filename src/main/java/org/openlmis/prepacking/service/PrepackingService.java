@@ -78,6 +78,25 @@ public class PrepackingService {
   }
 
   /**
+   * Get a list of Prepacking events.
+   *
+   * @param facilityId facility id.
+   * @param programId  program id.
+   * @return a list of prepacking events.
+   */
+  public List<PrepackingEventDto> getPrepackingEventsByFacilityIdAndProgramId(
+      UUID facilityId,
+      UUID programId) {
+    List<PrepackingEvent> prepackingEvents = prepackingEventsRepository
+        .findByFacilityIdAndProgramId(facilityId, programId);
+
+    if (prepackingEvents == null) {
+      return Collections.emptyList();
+    }
+    return prepackingToDto(prepackingEvents);
+  }
+
+  /**
    * Get a Prepacking event by id.
    *
    * @param id prepacking event id.
@@ -124,11 +143,6 @@ public class PrepackingService {
    * @return the saved prepacking event.
    */
   public PrepackingEventDto updatePrepackingEvent(PrepackingEventDto dto, UUID id) {
-    // LOGGER.info("update POS event");
-    // physicalInventoryValidator.validateDraft(dto, id);
-    // checkPermission(dto.getProgramId(), dto.getFacilityId());
-
-    // checkIfDraftExists(dto, id);
 
     LOGGER.info("Attempting to fetch prepacking event with id = " + id);
     Optional<PrepackingEvent> existingPrepackingEventOpt = prepackingEventsRepository.findById(id);
@@ -175,6 +189,9 @@ public class PrepackingService {
     }
     if (incomingPrepackingEvent.getStatus() != null) {
       existingPrepackingEvent.setStatus(incomingPrepackingEvent.getStatus());
+    }
+    if (incomingPrepackingEvent.getLineItems() != null) {
+      existingPrepackingEvent.setLineItems(incomingPrepackingEvent.getLineItems());
     }
     return existingPrepackingEvent;
   }

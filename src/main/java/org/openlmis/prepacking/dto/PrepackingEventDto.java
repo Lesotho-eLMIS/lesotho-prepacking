@@ -49,7 +49,6 @@ public class PrepackingEventDto {
   private String comments;
   private UUID supervisoryNodeId;
   private String status;
-  private String remarks;
   private List<PrepackingEventLineItemDto> lineItems;
 
   private PrepackingEventProcessContext context;

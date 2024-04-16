@@ -79,9 +79,6 @@ public class PrepackingController extends BaseController {
 
     Profiler profiler = getProfiler("CREATE_PREPACKING_EVENT", prepackingEventDto);
 
-    // checkPermission(prepackingEventDto,
-    // profiler.startNested("CHECK_PERMISSION"));
-
     profiler.start("PROCESS");
     UUID createdPodId = prepackingEventProcessor.process(prepackingEventDto);
 
@@ -92,35 +89,26 @@ public class PrepackingController extends BaseController {
   }
 
   /**
-   * List prepacking event.
+   * Get prepacking events by facility id and program id.
    *
-   * @param facilityId a destination facility id.
+   * @param facilityId a prepacking facility id.
+   * @param programId  a prepacking program id.
    * @return List of prepacking events.
    */
   @RequestMapping(method = GET)
   public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
-      @RequestParam() UUID facilityId) {
+      @RequestParam() UUID facilityId,
+      @RequestParam() UUID programId) {
 
     LOGGER.debug("Try to load prepacking events");
 
     List<PrepackingEventDto> prepacksToReturn;
-    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityId(facilityId);
+    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityIdAndProgramId(
+        facilityId,
+        programId);
 
     return new ResponseEntity<>(prepacksToReturn, OK);
-    // Profiler profiler = getProfiler("LIST_PREPACKING_EVENTS",
-    // prepackingEventDto);
 
-    // checkPermission(prepackingEventDto,
-    // profiler.startNested("CHECK_PERMISSION"));
-
-    // profiler.start("PROCESS");
-    // UUID createdPodId =
-    // prepackingEventProcessor.process(prepackingEventDto);
-
-    // profiler.start("CREATE_RESPONSE");
-    // ResponseEntity<UUID> response = new ResponseEntity<>(createdPodId, CREATED);
-
-    // return stopProfiler(profiler, response);
   }
 
   /**
