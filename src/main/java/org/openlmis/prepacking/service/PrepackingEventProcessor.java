@@ -46,42 +46,50 @@ public class PrepackingEventProcessor {
   private PrepackingEventProcessContextBuilder contextBuilder;
 
   @Autowired
-  private PrepackingEventsRepository pointOfDeliveryEventsRepository;
+  private PrepackingEventsRepository prepackingEventsRepository;
+
+  @Autowired
+  private OrderableReferenceDataService orderableReferenceDataService;
 
   /**
    * Validate and persist pod event.
    *
-   * @param pointOfDeliveryEventDto point of delivery event dto.
+   * @param prepackingEventDto point of delivery event dto.
    * @return the persisted event ids.
    */
-  public UUID process(PrepackingEventDto pointOfDeliveryEventDto) {
-    XLOGGER.entry(pointOfDeliveryEventDto);
+  public UUID process(PrepackingEventDto prepackingEventDto) {
+    XLOGGER.entry(prepackingEventDto);
     Profiler profiler = new Profiler("PROCESS");
     profiler.setLogger(XLOGGER);
 
     profiler.start("BUILD_CONTEXT");
     PrepackingEventProcessContext context = contextBuilder.buildContext(
-            pointOfDeliveryEventDto);
-    pointOfDeliveryEventDto.setContext(context);
+            prepackingEventDto);
+    prepackingEventDto.setContext(context);
 
     //to do validations
 
     UUID eventId = saveEventAndGenerateLineItems(
-        pointOfDeliveryEventDto, profiler.startNested("SAVE_AND_GENERATE_LINE_ITEMS")
+        prepackingEventDto, profiler.startNested("SAVE_AND_GENERATE_LINE_ITEMS")
     );
 
+    OrderableDto orderableDto = orderableReferenceDataService.findOne(prepackingEventDto.getLineItems().get(0));
+    OrderableDto newOrderableDto = orderableDto;
+    newOrderableDto.setProductCode(orderableDto.getProductCode()+(prepackingEventDto.getLineItems().get(0).getPrepackSize()).ToString());
+    newOrderableDto.setNetContent(prepackingEventDto.getLineItems().get(0).getPrepackSize());
+    // write to db
     return eventId;
   }
 
-  private UUID saveEventAndGenerateLineItems(PrepackingEventDto pointOfDeliveryEventDto,
+  private UUID saveEventAndGenerateLineItems(PrepackingEventDto prepackingEventDto,
                                              Profiler profiler) {
     profiler.start("CONVERT_TO_EVENT");
-    PrepackingEvent pointOfDeliveryEvent = pointOfDeliveryEventDto
+    PrepackingEvent prepackingEvent = prepackingEventDto
             .toPrepackingEvent();
 
     profiler.start("DB_SAVE");
-    UUID savedEventId = pointOfDeliveryEventsRepository.save(
-            pointOfDeliveryEvent).getId();
+    UUID savedEventId = prepackingEventsRepository.save(
+            prepackingEvent).getId();
     LOGGER.debug("Saved point of delivery event with id " + savedEventId);
 
     return savedEventId;
