@@ -85,11 +85,11 @@ public class PrepackingEventProcessContextBuilder {
 
     Supplier<UUID> userIdPrepacker;
 
-    if (authentication.isClientOnly()) {
-      userIdPrepacker = prepackingEventDto::getUserId;
-    } else {
-      userIdPrepacker = () -> authenticationHelper.getCurrentUser().getId();
-    }
+    // if (authentication.isClientOnly()) {
+    // userIdPrepacker = prepackingEventDto::getUserId;
+    // } else {
+    userIdPrepacker = () -> authenticationHelper.getCurrentUser().getId();
+    // }
 
     LazyResource<UUID> userId = new LazyResource<>(userIdPrepacker);
     context.setCurrentUserId(userId);
