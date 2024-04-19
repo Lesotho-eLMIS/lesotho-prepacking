@@ -67,6 +67,7 @@ dependencies {
     compile "net.sf.jasperreports:jasperreports:6.5.1"
     compile "org.slf4j:slf4j-ext"
     compile "com.github.tomakehurst:wiremock:1.58"
+    compile 'org.javers:javers-spring-boot-starter-sql:3.11.6'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     compile group: 'javax.interceptor', name: 'javax.interceptor-api', version: '1.2'
@@ -85,8 +86,6 @@ dependencies {
     testCompile "org.raml:raml-parser:0.8.37"
     testCompile "nl.jqno.equalsverifier:equalsverifier:2.4"
     testCompile "be.joengenduvel.java.verifiers:to-string:1.0.2"
-
-    implementation 'org.javers:javers-core:6.7.2' // Use the latest version available
 
     runtime fileTree(dir: '/extensions/', include: '*.jar')
 }
