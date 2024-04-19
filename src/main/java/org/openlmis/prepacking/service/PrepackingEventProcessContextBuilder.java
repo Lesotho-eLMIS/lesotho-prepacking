@@ -79,9 +79,10 @@ public class PrepackingEventProcessContextBuilder {
     PrepackingEventProcessContext context = new PrepackingEventProcessContext();
 
     profiler.start("CREATE_LAZY_USER");
-    OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder
-        .getContext()
-        .getAuthentication();
+    // OAuth2Authentication authentication = (OAuth2Authentication)
+    // SecurityContextHolder
+    // .getContext()
+    // .getAuthentication();
 
     Supplier<UUID> userIdPrepacker;
 
