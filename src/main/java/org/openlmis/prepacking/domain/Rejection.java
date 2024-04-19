@@ -15,6 +15,8 @@
 
 package org.openlmis.prepacking.domain;
 
+import org.openlmis.requisition.domain.RejectionReason;
+
 import java.time.ZonedDateTime;
 
 import java.util.UUID;
@@ -27,7 +29,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.openlmis.requisition.domain.requisition.StatusChange;
+import org.openlmis.prepacking.domain.status.StatusChange;
 
 @Entity
 @Table(name = "rejections")
