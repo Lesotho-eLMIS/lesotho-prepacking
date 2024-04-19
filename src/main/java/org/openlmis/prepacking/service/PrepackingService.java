@@ -220,6 +220,8 @@ public class PrepackingService {
         .prepackSize(prepackingEventLineItem.getPrepackSize())
         .lotId(prepackingEventLineItem.getLotId())
         .remarks(prepackingEventLineItem.getRemarks())
+        .stockOnHand(prepackingEventLineItem.getStockOnHand())
+        .status(prepackingEventLineItem.getStatus())
         .build();
   }
 
