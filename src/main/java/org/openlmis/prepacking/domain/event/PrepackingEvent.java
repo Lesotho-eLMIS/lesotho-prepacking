@@ -40,9 +40,7 @@ public class PrepackingEvent extends BaseEntity {
 
   @Column(nullable = false, columnDefinition = "timestamp")
   private ZonedDateTime dateCreated;
-  private UUID userId;
   @Column(nullable = true, columnDefinition = "timestamp")
-  private ZonedDateTime dateAuthorised;
   private UUID facilityId;
   private UUID programId;
   private String comments;

@@ -42,12 +42,9 @@ public class PrepackingEventDto {
   private UUID id;
 
   private ZonedDateTime dateCreated;
-  private UUID userId;
-  private ZonedDateTime dateAuthorised;
   private UUID facilityId;
   private UUID programId;
   private String comments;
-  private UUID supervisoryNodeId;
   private String status;
   private String remarks;
   private List<PrepackingEventLineItemDto> lineItems;
@@ -60,8 +57,7 @@ public class PrepackingEventDto {
    * @return the converted jpa model object.
    */
   public PrepackingEvent toPrepackingEvent() {
-    PrepackingEvent prepackingEvent = new PrepackingEvent(now(), context.getCurrentUserId(),
-        dateAuthorised, facilityId, programId, comments, supervisoryNodeId, status, lineItems());
+    PrepackingEvent prepackingEvent = new PrepackingEvent(now(), facilityId, programId, comments, status, lineItems());
     return prepackingEvent;
   }
 

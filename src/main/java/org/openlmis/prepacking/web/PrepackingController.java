@@ -77,7 +77,7 @@ public class PrepackingController extends BaseController {
 
     LOGGER.debug("Try to create a prepacking event");
 
-    Profiler profiler = getProfiler("CREATE_POD_EVENT", prepackingEventDto);
+    Profiler profiler = getProfiler("CREATE_PREPACKING_EVENT", prepackingEventDto);
 
     // checkPermission(prepackingEventDto,
     // profiler.startNested("CHECK_PERMISSION"));
@@ -107,27 +107,14 @@ public class PrepackingController extends BaseController {
     prepacksToReturn = prepackingService.getPrepackingEventsByProgramId(destinationId);
 
     return new ResponseEntity<>(prepacksToReturn, OK);
-    // Profiler profiler = getProfiler("LIST_POD_EVENTS", prepackingEventDto);
-
-    // checkPermission(prepackingEventDto,
-    // profiler.startNested("CHECK_PERMISSION"));
-
-    // profiler.start("PROCESS");
-    // UUID createdPodId =
-    // prepackingEventProcessor.process(prepackingEventDto);
-
-    // profiler.start("CREATE_RESPONSE");
-    // ResponseEntity<UUID> response = new ResponseEntity<>(createdPodId, CREATED);
-
-    // return stopProfiler(profiler, response);
   }
 
   /**
-   * Update a POD event.
+   * Update a Prepacking event.
    *
-   * @param id  POD event id.
-   * @param dto POD dto.
-   * @return created POD dto.
+   * @param id  Prepacking event id.
+   * @param dto Prepacking dto.
+   * @return created Prepacking dto.
    */
   @Transactional
   @PutMapping(ID_PATH_VARIABLE)
@@ -141,9 +128,9 @@ public class PrepackingController extends BaseController {
   }
 
   /**
-   * Delete a POD event.
+   * Delete a Prepacking event.
    *
-   * @param id POD event id.
+   * @param id Prepacking event id.
    */
   @DeleteMapping(ID_PATH_VARIABLE)
   @ResponseStatus(NO_CONTENT)

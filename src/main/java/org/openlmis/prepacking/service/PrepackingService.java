@@ -82,26 +82,6 @@ public class PrepackingService {
   }
 
   /**
-   * Get a Prepacking event by user id.
-   *
-   * @param dateAuthorised prepacking event dateAuthorised.
-   * @return a prepacking event.
-   */
-  public List<PrepackingEvent> getPrepackingEventsByDateAuthorised(ZonedDateTime dateAuthorised) {
-    return prepackingEventsRepository.findByDateAuthorised(dateAuthorised);
-  }
-
-  /**
-   * Get a Prepacking event by user id.
-   *
-   * @param userId prepacking event id.
-   * @return a prepacking event.
-   */
-  public List<PrepackingEvent> getPrepackingEventsByUserId(UUID userId) {
-    return prepackingEventsRepository.findByUserId(userId);
-  }
-
-  /**
    * Save or update prepacking.
    *
    * @param dto prepacking event dto.
@@ -139,12 +119,6 @@ public class PrepackingService {
     if (incomingPrepackingEvent.getDateCreated() != null) {
       existingPrepackingEvent.setDateCreated(incomingPrepackingEvent.getDateCreated());
     }
-    if (incomingPrepackingEvent.getUserId() != null) {
-      existingPrepackingEvent.setUserId(incomingPrepackingEvent.getUserId());
-    }
-    if (incomingPrepackingEvent.getDateAuthorised() != null) {
-      existingPrepackingEvent.setDateAuthorised(incomingPrepackingEvent.getDateAuthorised());
-    }
     if (incomingPrepackingEvent.getFacilityId() != null) {
       existingPrepackingEvent.setFacilityId(incomingPrepackingEvent.getFacilityId());
     }
@@ -153,9 +127,6 @@ public class PrepackingService {
     }
     if (incomingPrepackingEvent.getComments() != null) {
       existingPrepackingEvent.setComments(incomingPrepackingEvent.getComments());
-    }
-    if (incomingPrepackingEvent.getSupervisoryNodeId() != null) {
-      existingPrepackingEvent.setSupervisoryNodeId(incomingPrepackingEvent.getSupervisoryNodeId());
     }
     if (incomingPrepackingEvent.getStatus() != null) {
       existingPrepackingEvent.setStatus(incomingPrepackingEvent.getStatus());
@@ -210,12 +181,9 @@ public class PrepackingService {
     return PrepackingEventDto.builder()
         .id(prepackingEvent.getId())
         .dateCreated(prepackingEvent.getDateCreated())
-        .userId(prepackingEvent.getUserId())
-        .dateAuthorised(prepackingEvent.getDateAuthorised())
         .facilityId(prepackingEvent.getFacilityId())
         .programId(prepackingEvent.getProgramId())
         .comments(prepackingEvent.getComments())
-        .supervisoryNodeId(prepackingEvent.getSupervisoryNodeId())
         .status(prepackingEvent.getStatus())
         .lineItems(prepackingEventLineItemsToDtos(prepackingEvent.getLineItems()))
         .build();
@@ -230,8 +198,7 @@ public class PrepackingService {
   private List<PrepackingEventLineItemDto> prepackingEventLineItemsToDtos(
       Collection<PrepackingEventLineItem> prepackingEventLineItems) {
 
-    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos 
-          = new ArrayList<>(prepackingEventLineItems.size());
+    List<PrepackingEventLineItemDto> prepackingEventLineItemDtos = new ArrayList<>(prepackingEventLineItems.size());
     prepackingEventLineItems.forEach(i -> prepackingEventLineItemDtos
         .add(prepackingEventLineItemDto(i)));
     return prepackingEventLineItemDtos;
