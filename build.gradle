@@ -86,6 +86,8 @@ dependencies {
     testCompile "nl.jqno.equalsverifier:equalsverifier:2.4"
     testCompile "be.joengenduvel.java.verifiers:to-string:1.0.2"
 
+    implementation 'org.javers:javers-core:6.7.2' // Use the latest version available
+
     runtime fileTree(dir: '/extensions/', include: '*.jar')
 }
 
