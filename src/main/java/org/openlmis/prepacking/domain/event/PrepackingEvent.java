@@ -44,7 +44,6 @@ public class PrepackingEvent extends BaseEntity {
   private UUID facilityId;
   private UUID programId;
   private String comments;
-  private UUID supervisoryNodeId;
   private String status;
 
   // One-to-many relationship with PrepackingEventLineItem
