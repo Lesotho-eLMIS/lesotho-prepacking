@@ -15,8 +15,6 @@
 
 package org.openlmis.prepacking.domain;
 
-import org.openlmis.requisition.domain.RejectionReason;
-
 import java.time.ZonedDateTime;
 
 import java.util.UUID;

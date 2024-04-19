@@ -37,6 +37,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.openlmis.prepacking.domain.BaseTimestampedEntity;
 import org.openlmis.prepacking.domain.Rejection;
+import org.openlmis.prepacking.domain.event.PrepackingEvent;
 
 @Entity
 @Table(name = "status_changes")
