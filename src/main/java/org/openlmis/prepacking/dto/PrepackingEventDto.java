@@ -57,7 +57,8 @@ public class PrepackingEventDto {
    * @return the converted jpa model object.
    */
   public PrepackingEvent toPrepackingEvent() {
-    PrepackingEvent prepackingEvent = new PrepackingEvent(now(), facilityId, programId, comments, status, lineItems());
+    PrepackingEvent prepackingEvent = new PrepackingEvent(
+        now(), facilityId, programId, comments, status, lineItems());
     return prepackingEvent;
   }
 
