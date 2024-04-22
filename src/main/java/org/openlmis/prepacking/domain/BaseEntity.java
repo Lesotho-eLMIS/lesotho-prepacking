@@ -33,8 +33,10 @@ public abstract class BaseEntity {
   @Id
   @GeneratedValue(generator = "uuid-gen")
   @GenericGenerator(name = "uuid-gen", strategy = "org.openlmis.prepacking.util.ConditionalUuidGenerator")
+  @JsonView(View.BasicInformation.class)
   @Type(type = PG_UUID)
+  @Type(type = UUID_TYPE)
   @Getter
   @Setter
-  private UUID id;
+  protected UUID id;
 }
