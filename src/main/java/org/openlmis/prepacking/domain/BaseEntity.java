@@ -28,11 +28,11 @@ import org.hibernate.annotations.Type;
 public abstract class BaseEntity {
   protected static final String TEXT_COLUMN_DEFINITION = "text";
   protected static final String PG_UUID = "pg-uuid";
+  protected static final String UUID_TYPE = "pg-uuid";
 
   @Id
   @GeneratedValue(generator = "uuid-gen")
-  @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.prepacking.util.ConditionalUuidGenerator")
+  @GenericGenerator(name = "uuid-gen", strategy = "org.openlmis.prepacking.util.ConditionalUuidGenerator")
   @Type(type = PG_UUID)
   @Getter
   @Setter
