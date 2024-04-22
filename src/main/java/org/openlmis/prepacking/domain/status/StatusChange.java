@@ -104,7 +104,7 @@ public class StatusChange extends BaseTimestampedEntity {
 
     void setCreatedDate(ZonedDateTime createdDate);
 
-    void setStatus(PrepackingEventStatus status);
+    void setStatus(String status);
 
     void setStatusMessage(StatusMessage statusMessage);
 
