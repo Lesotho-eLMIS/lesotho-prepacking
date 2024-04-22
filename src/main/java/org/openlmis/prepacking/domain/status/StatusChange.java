@@ -79,7 +79,7 @@ public class StatusChange extends BaseTimestampedEntity {
   private StatusChange(PrepackingEvent prepackingEvent, UUID authorId) {
     this.prepackingEvent = Objects.requireNonNull(prepackingEvent);
     this.authorId = authorId;
-    this.supervisoryNodeId = prepackingEvent.getSupervisoryNodeId();
+    // this.supervisoryNodeId = prepackingEvent.getSupervisoryNodeId();
     this.status = Objects.requireNonNull(prepackingEvent.getStatus());
   }
 
