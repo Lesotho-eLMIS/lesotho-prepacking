@@ -102,8 +102,14 @@ public class PrepackingService {
    * @param id prepacking event id.
    * @return a prepacking event.
    */
-  public Optional<PrepackingEvent> getPrepackingEventById(UUID id) {
-    return prepackingEventsRepository.findById(id);
+  public PrepackingEventDto getPrepackingEventById(UUID id) {
+    Optional<PrepackingEvent> existingPrepackingEventOpt = prepackingEventsRepository.findById(id);
+
+    if (existingPrepackingEventOpt.isPresent()) {
+      PrepackingEvent existingPrepackingEvent = existingPrepackingEventOpt.get();
+      return prepackingToDto(existingPrepackingEvent);
+    }
+    return null;
   }
 
   /**

@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -124,9 +125,9 @@ public class PrepackingController extends BaseController {
   @ResponseBody
   public ResponseEntity<PrepackingEventDto> updatePrepackingEvent(@PathVariable UUID id,
       @RequestBody PrepackingEventDto dto) {
-    PrepackingEventDto updatedPodEvent = prepackingService
+    PrepackingEventDto updatedPrepackingEvent = prepackingService
         .updatePrepackingEvent(dto, id);
-    return new ResponseEntity<>(updatedPodEvent, OK);
+    return new ResponseEntity<>(updatedPrepackingEvent, OK);
   }
 
   /**
@@ -138,6 +139,22 @@ public class PrepackingController extends BaseController {
   @ResponseStatus(NO_CONTENT)
   public void deletePrepackingEvent(@PathVariable UUID id) {
     prepackingService.deletePrepackingEvent(id);
+  }
+
+  /**
+   * Get a prepacking event.
+   *
+   * @param id  prepacking event id.
+   * @return created prepacking dto.
+   */
+  @Transactional
+  @GetMapping(ID_PATH_VARIABLE)
+  @ResponseStatus(OK)
+  @ResponseBody
+  public ResponseEntity<PrepackingEventDto> getPrepackingEvent(@PathVariable UUID id) {
+    PrepackingEventDto prepackingEvent = prepackingService
+        .getPrepackingEventById(id);
+    return new ResponseEntity<>(prepackingEvent, OK);
   }
 
 }
