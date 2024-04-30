@@ -40,7 +40,7 @@ import org.openlmis.prepacking.domain.Rejection;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
 
 @Entity
-@Table(name = "status_changes")
+@Table(name = "status_changes", schema = "prepacking")
 @NoArgsConstructor
 public class StatusChange extends BaseTimestampedEntity {
 

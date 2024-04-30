@@ -35,7 +35,7 @@ import org.openlmis.prepacking.domain.BaseTimestampedEntity;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
 
 @Entity
-@Table(name = "status_messages")
+@Table(name = "status_messages", schema = "prepacking")
 @NoArgsConstructor
 public class StatusMessage extends BaseTimestampedEntity {
 
