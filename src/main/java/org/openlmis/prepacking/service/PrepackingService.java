@@ -295,4 +295,32 @@ public class PrepackingService {
         .build();
   }
 
+  /**
+   * Authorize a Prepacking event.
+   *
+   * @param id prepacking event id.
+   * @return a prepacking event dto.
+   */
+  public PrepackingEventDto authorizePrepack(UUID prepackingEventId){
+    //Fetch prepacking event 
+    PrepackingEvent prepackingEvent = prepackingEventsRepository.findById(prepackingEventId);
+    if( prepackingEvent == null){
+      return null;
+    }
+    //For each prepacking event line item
+    for (PrepackingEventLineItem prepackingEventLineItem : prepackingEvent.getLineItems()){
+      // Get SOH - call
+      //prepackingEventLineItem.getOrderableId()
+
+    }
+    
+
+    /* if SOH >= prepacksize * numberofPrepacks, continue on
+          fetch orderable
+          duplicate orderable and update netcontent = prepacksize, 
+          append prepacksixe to the name
+    */
+    // otherwise status = unsuccessful
+  }
+
 }
