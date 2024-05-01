@@ -96,21 +96,21 @@ public class PrepackingController extends BaseController {
    * @param programId  a prepacking program id.
    * @return List of prepacking events.
    */
-  @RequestMapping(method = GET)
-  public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
-      @RequestParam() UUID facilityId,
-      @RequestParam() UUID programId) {
+  // @RequestMapping(method = GET)
+  // public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
+  //     @RequestParam() UUID facilityId,
+  //     @RequestParam() UUID programId) {
 
-    LOGGER.debug("Try to load prepacking events");
+  //   LOGGER.debug("Try to load prepacking events");
 
-    List<PrepackingEventDto> prepacksToReturn;
-    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityIdAndProgramId(
-        facilityId,
-        programId);
+  //   List<PrepackingEventDto> prepacksToReturn;
+  //   prepacksToReturn = prepackingService.getPrepackingEventsByFacilityIdAndProgramId(
+  //       facilityId,
+  //       programId);
 
-    return new ResponseEntity<>(prepacksToReturn, OK);
+  //   return new ResponseEntity<>(prepacksToReturn, OK);
 
-  }
+  // }
 
   /**
    * Get prepacking events by facility id.
