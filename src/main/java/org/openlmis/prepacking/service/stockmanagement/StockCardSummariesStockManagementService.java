@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.openlmis.prepacking.dto.stockmanagement.StockCardSummaryDto;
-import org.openlmis.prepacking.service.RequestParameters;
+import org.openlmis.prepacking.util.RequestParameters;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,13 +35,15 @@ public class StockCardSummariesStockManagementService
    */
   public List<StockCardSummaryDto> search(UUID programId, UUID facilityId,
                                           Set<UUID> orderableIds,
-                                          LocalDate asOfDate) {
+                                          LocalDate asOfDate,
+                                          String lotCode) {
     RequestParameters params = RequestParameters.init()
         .set("size", Integer.MAX_VALUE)
         .set("programId", programId)
         .set("facilityId", facilityId)
         .set("orderableId", orderableIds)
-        .set("asOfDate", asOfDate);
+        .set("asOfDate", asOfDate)
+        .set("lotCode", lotCode);
 
     return getPage(params).getContent();
   }
