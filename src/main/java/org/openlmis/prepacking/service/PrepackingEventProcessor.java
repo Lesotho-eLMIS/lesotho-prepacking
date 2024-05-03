@@ -37,54 +37,53 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrepackingEventProcessor {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(
-          PrepackingEventProcessor.class);
-  private static final XLogger XLOGGER = XLoggerFactory.getXLogger(
-          PrepackingEventProcessor.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(
+                        PrepackingEventProcessor.class);
+        private static final XLogger XLOGGER = XLoggerFactory.getXLogger(
+                        PrepackingEventProcessor.class);
 
-  @Autowired
-  private PrepackingEventProcessContextBuilder contextBuilder;
+        @Autowired
+        private PrepackingEventProcessContextBuilder contextBuilder;
 
-  @Autowired
-  private PrepackingEventsRepository pointOfDeliveryEventsRepository;
+        @Autowired
+        private PrepackingEventsRepository prepackingEventsRepository;
 
-  /**
-   * Validate and persist pod event.
-   *
-   * @param pointOfDeliveryEventDto point of delivery event dto.
-   * @return the persisted event ids.
-   */
-  public UUID process(PrepackingEventDto pointOfDeliveryEventDto) {
-    XLOGGER.entry(pointOfDeliveryEventDto);
-    Profiler profiler = new Profiler("PROCESS");
-    profiler.setLogger(XLOGGER);
+        /**
+         * Validate and persist pod event.
+         *
+         * @param prepackingEventDto point of delivery event dto.
+         * @return the persisted event ids.
+         */
+        public UUID process(PrepackingEventDto prepackingEventDto) {
+                XLOGGER.entry(prepackingEventDto);
+                Profiler profiler = new Profiler("PROCESS");
+                profiler.setLogger(XLOGGER);
 
-    profiler.start("BUILD_CONTEXT");
-    PrepackingEventProcessContext context = contextBuilder.buildContext(
-            pointOfDeliveryEventDto);
-    pointOfDeliveryEventDto.setContext(context);
+                profiler.start("BUILD_CONTEXT");
+                PrepackingEventProcessContext context = contextBuilder.buildContext(
+                                prepackingEventDto);
+                prepackingEventDto.setContext(context);
 
-    //to do validations
+                // to do validations
 
-    UUID eventId = saveEventAndGenerateLineItems(
-        pointOfDeliveryEventDto, profiler.startNested("SAVE_AND_GENERATE_LINE_ITEMS")
-    );
+                UUID eventId = saveEventAndGenerateLineItems(
+                                prepackingEventDto, profiler.startNested("SAVE_AND_GENERATE_LINE_ITEMS"));
 
-    return eventId;
-  }
+                return eventId;
+        }
 
-  private UUID saveEventAndGenerateLineItems(PrepackingEventDto pointOfDeliveryEventDto,
-                                             Profiler profiler) {
-    profiler.start("CONVERT_TO_EVENT");
-    PrepackingEvent pointOfDeliveryEvent = pointOfDeliveryEventDto
-            .toPrepackingEvent();
+        private UUID saveEventAndGenerateLineItems(PrepackingEventDto prepackingEventDto,
+                        Profiler profiler) {
+                profiler.start("CONVERT_TO_EVENT");
+                PrepackingEvent pointOfDeliveryEvent = prepackingEventDto
+                                .toPrepackingEvent();
 
-    profiler.start("DB_SAVE");
-    UUID savedEventId = pointOfDeliveryEventsRepository.save(
-            pointOfDeliveryEvent).getId();
-    LOGGER.debug("Saved point of delivery event with id " + savedEventId);
+                profiler.start("DB_SAVE");
+                UUID savedEventId = prepackingEventsRepository.save(
+                                pointOfDeliveryEvent).getId();
+                LOGGER.debug("Saved point of delivery event with id " + savedEventId);
 
-    return savedEventId;
-  }
+                return savedEventId;
+        }
 
 }

@@ -30,7 +30,7 @@ import org.javers.core.metamodel.annotation.TypeName;
 @Table(name = "rejection_reason_categories")
 @NoArgsConstructor
 @TypeName("RejectionReasonCategory")
-@SuppressWarnings({"PMD.UnusedPrivateField"})
+@SuppressWarnings({ "PMD.UnusedPrivateField" })
 public class RejectionReasonCategory extends BaseEntity {
 
   private static final String TEXT = "text";
@@ -48,13 +48,13 @@ public class RejectionReasonCategory extends BaseEntity {
   @Setter
   private Boolean active;
 
-
   /**
-   * Static factory method for constructing a new rejection reason category with a name and code.
+   * Static factory method for constructing a new rejection reason category with a
+   * name and code.
    *
-   * @param name rejection reason category name
-   * @param code rejection reason category  code
-   * @param active rejection reason category  active
+   * @param name   rejection reason category name
+   * @param code   rejection reason category code
+   * @param active rejection reason category active
    */
   public RejectionReasonCategory(String name, String code, Boolean active) {
     this.name = name;
@@ -74,27 +74,28 @@ public class RejectionReasonCategory extends BaseEntity {
   }
 
   /**
-   * Static factory method for constructing a new rejection reason category with a name and code.
+   * Static factory method for constructing a new rejection reason category with a
+   * name and code.
    *
-   * @param name rejection reason category name
-   * @param code rejection reason category  code
-   * @param active rejection reason category  active
+   * @param name   rejection reason category name
+   * @param code   rejection reason category code
+   * @param active rejection reason category active
    */
   public static RejectionReasonCategory newRejectionReasonCategory(
-          String name, String code, Boolean active) {
+      String name, String code, Boolean active) {
     return new RejectionReasonCategory(name, code, active);
   }
 
   /**
-   * Static factory method for constructing a new rejection reason category using an importer (DTO).
+   * Static factory method for constructing a new rejection reason category using
+   * an importer (DTO).
    *
    * @param importer the rejection reason category importer (DTO)
    */
   public static RejectionReasonCategory newRejectionReasonCategory(
-          RejectionReasonCategory.Importer importer) {
-    RejectionReasonCategory newRejectionReasonCategory =
-            new RejectionReasonCategory(importer.getName(),
-                    importer.getCode(), importer.getActive());
+      RejectionReasonCategory.Importer importer) {
+    RejectionReasonCategory newRejectionReasonCategory = new RejectionReasonCategory(importer.getName(),
+        importer.getCode(), importer.getActive());
     newRejectionReasonCategory.id = importer.getId();
     newRejectionReasonCategory.code = importer.getCode();
     newRejectionReasonCategory.active = importer.getActive();

@@ -23,8 +23,6 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-//import javax.persistence.EnumType;
-//import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -66,7 +64,6 @@ public class StatusChange extends BaseTimestampedEntity {
   private UUID supervisoryNodeId;
 
   @Column(nullable = false)
-  // @Enumerated(EnumType.STRING)
   @Getter
   @Setter
   private String status;
