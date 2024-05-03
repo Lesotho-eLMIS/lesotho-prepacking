@@ -184,13 +184,10 @@ public class PrepackingController extends BaseController {
   @PostMapping("/{id}/authorize")
   @ResponseStatus(OK)
   @ResponseBody
-  public PrepackingEventDto authorizePrepacking(
+  public ResponseEntity<PrepackingEventDto> authorizePrepacking(
       @PathVariable("id") UUID prepackingEventId) {
-    
-    
-    PrepackingEventDto dto = new PrepackingEventDto();
-    dto.setId(prepackingEventId);
-    return dto;  
+    PrepackingEventDto prepackingEvent = prepackingService.authorizePrepack(prepackingEventId);
+    return new ResponseEntity<>(prepackingEvent, OK); 
   }
 
 

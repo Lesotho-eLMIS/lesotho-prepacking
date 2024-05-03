@@ -15,24 +15,33 @@
 
 package org.openlmis.prepacking.service;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
 import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
 import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
+import org.openlmis.prepacking.dto.referencedata.OrderableDto;
+import org.openlmis.prepacking.dto.stockmanagement.StockCardSummaryDto;
 import org.openlmis.prepacking.exception.ResourceNotFoundException;
 import org.openlmis.prepacking.repository.PrepackingEventsRepository;
+import org.openlmis.prepacking.service.referencedata.OrderableReferenceDataService;
+import org.openlmis.prepacking.service.stockmanagement.StockCardSummariesStockManagementService;
 import org.openlmis.prepacking.util.Message;
 import org.openlmis.prepacking.util.PrepackingEventProcessContext;
+import org.openlmis.prepacking.util.RequestParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,6 +53,12 @@ public class PrepackingService {
 
   @Autowired
   private PrepackingEventProcessContextBuilder contextBuilder;
+
+  @Autowired
+  private StockCardSummariesStockManagementService stockCardSummariesStockManagementService;
+
+  @Autowired
+  private OrderableReferenceDataService orderableReferenceDataService;
 
   /**
    * Get a list of Prepacking events.
@@ -290,7 +305,7 @@ public class PrepackingService {
         .orderableId(prepackingEventLineItem.getOrderableId())
         .numberOfPrepacks(prepackingEventLineItem.getNumberOfPrepacks())
         .prepackSize(prepackingEventLineItem.getPrepackSize())
-        .lotId(prepackingEventLineItem.getLotId())
+        .lotCode(prepackingEventLineItem.getLotCode())
         .remarks(prepackingEventLineItem.getRemarks())
         .build();
   }
@@ -312,7 +327,38 @@ public class PrepackingService {
       //For each prepacking event line item
       for (PrepackingEventLineItem prepackingEventLineItem : prepackingEvent.getLineItems()) {
         // Get SOH - call
-        prepackingEventLineItem.getOrderableId();
+       
+        List<StockCardSummaryDto> stockCardSummaries = stockCardSummariesStockManagementService
+            .search(
+              prepackingEvent.getProgramId(), 
+              prepackingEvent.getFacilityId(), 
+              Collections.singleton(prepackingEventLineItem.getOrderableId()), 
+              LocalDate.now(), 
+              prepackingEventLineItem.getLotCode());
+        
+        if ((!stockCardSummaries.isEmpty()) && (stockCardSummaries.get(0).getStockOnHand() 
+            >= prepackingEventLineItem.getPrepackSize() 
+            * prepackingEventLineItem.getNumberOfPrepacks())) {
+          //fetch orderable and duplicate it
+          OrderableDto orderable = orderableReferenceDataService
+              .findOne(prepackingEventLineItem.getOrderableId());
+          orderable.setNetContent((long)prepackingEventLineItem.getPrepackSize());
+          orderable.setFullProductName(orderable
+              .getFullProductName() + "-" + prepackingEventLineItem.getPrepackSize());
+          orderable.setProductCode(orderable
+              .getProductCode() + "-" + prepackingEventLineItem.getPrepackSize());
+          orderable.setId(UUID.randomUUID());
+          Map<String, Object> map = new HashMap<>();
+          //find orderable
+          RequestParameters parameters = RequestParameters.init()
+              .set("code", orderable.getProductCode());
+          if (orderableReferenceDataService.findOne(parameters) == null) {
+            //create new orderable
+            orderableReferenceDataService.getPage("", map, 
+              orderable, HttpMethod.PUT, OrderableDto.class).getContent();
+          }
+        }
+      
 
       }
       return null;

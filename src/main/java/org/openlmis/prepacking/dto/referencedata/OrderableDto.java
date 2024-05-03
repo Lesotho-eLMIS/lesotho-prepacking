@@ -13,33 +13,36 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.domain.event;
+package org.openlmis.prepacking.dto.referencedata;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.openlmis.prepacking.domain.BaseEntity;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Data
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "prepacking_event_line_item", schema = "prepacking")
-public class PrepackingEventLineItem extends BaseEntity {
-
-  private UUID prepackingEventId;
-  @Column(nullable = false)
-  private UUID orderableId;
-  @Column(nullable = false)
-  private int numberOfPrepacks;
-  @Column(nullable = false)
-  private int prepackSize;
-  @Column(nullable = false)
-  private String lotCode;
-  private String remarks;
-
+@EqualsAndHashCode
+@ToString
+public class OrderableDto {
+  private UUID id;
+  private String productCode;
+  private String fullProductName;
+  private Long netContent;
+  private Integer packRoundingThreshold;
+  private Boolean roundToZero;
+  private DispensableDto dispensable;
+  private Set<OrderableChildDto> children;
+  private Map<String, String> identifiers;
+  private Map<String, String> extraData;
+  private MetaDataDto meta = new MetaDataDto();
 }

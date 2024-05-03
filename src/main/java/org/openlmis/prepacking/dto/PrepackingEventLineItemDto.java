@@ -34,7 +34,7 @@ public class PrepackingEventLineItemDto {
   private UUID orderableId;
   private int numberOfPrepacks;
   private int prepackSize;
-  private UUID lotId;
+  private String lotCode;
   private String remarks;
 
   /**
@@ -48,7 +48,7 @@ public class PrepackingEventLineItemDto {
         orderableId,
         numberOfPrepacks,
         prepackSize,
-        lotId,
+        lotCode,
         remarks);
 
     return lineItem;
