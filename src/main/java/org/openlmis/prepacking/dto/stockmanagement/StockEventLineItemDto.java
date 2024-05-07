@@ -16,7 +16,7 @@
 package org.openlmis.prepacking.dto.stockmanagement;
 
 import java.time.LocalDate;
-import java.util.List;
+//import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +31,9 @@ import lombok.ToString;
 @ToString
 public class StockEventLineItemDto {
   private UUID orderableId;
+  private UUID lotId;
   private Integer quantity;
   private LocalDate occurredDate;
-  private List<StockEventAdjustmentDto> stockAdjustments;
+  private UUID reasonId;
+  //private List<StockEventAdjustmentDto> stockAdjustments;
 }

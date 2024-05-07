@@ -31,7 +31,7 @@ import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.dto.referencedata.OrderableDto;
 import org.openlmis.prepacking.dto.stockmanagement.StockCardSummaryDto;
-import org.openlmis.prepacking.dto.stockmanagement.StockEventAdjustmentDto;
+//import org.openlmis.prepacking.dto.stockmanagement.StockEventAdjustmentDto;
 import org.openlmis.prepacking.dto.stockmanagement.StockEventDto;
 import org.openlmis.prepacking.dto.stockmanagement.StockEventLineItemDto;
 import org.openlmis.prepacking.exception.ResourceNotFoundException;
@@ -360,21 +360,28 @@ public class PrepackingService {
               + prepackingEventLineItem.getOrderableId());
           OrderableDto orderable = orderableReferenceDataService
               .findOne(prepackingEventLineItem.getOrderableId());
+          LOGGER.error("Original (Bulk) orderable: " + orderable.toString());
           orderable.setNetContent((long)prepackingEventLineItem.getPrepackSize());
           orderable.setFullProductName(orderable
               .getFullProductName() + "-" + prepackingEventLineItem.getPrepackSize());
           orderable.setProductCode(orderable
               .getProductCode() + "-" + prepackingEventLineItem.getPrepackSize());
-          orderable.setId(UUID.randomUUID());
           Map<String, Object> map = new HashMap<>();
           //find orderable
           RequestParameters parameters = RequestParameters.init()
               .set("code", orderable.getProductCode())
               .set("name", orderable.getFullProductName());
-          if (orderableReferenceDataService.getPage(parameters).getContent().isEmpty()) {
+          List<OrderableDto> orderables = orderableReferenceDataService
+              .getPage(parameters).getContent();
+          if (orderables.isEmpty()) {
             //create new orderable
             LOGGER.error("Creating new product " 
                 + orderable.toString());
+            orderable.setId(UUID.randomUUID());
+            Map<String, String> identifiers = new HashMap<>();
+            identifiers.put("tradeItem", UUID.randomUUID().toString());
+            orderable.setIdentifiers(identifiers);
+            LOGGER.error("Prepacked Orderable: " + orderable.toString());
             orderableReferenceDataService.getPage("", map, 
               orderable, HttpMethod.PUT, OrderableDto.class).getContent();
           } else {
@@ -384,6 +391,7 @@ public class PrepackingService {
           // orderableReferenceDataService.getPage("", map, 
           //     orderable, HttpMethod.PUT, OrderableDto.class).getContent();
           
+          String lotId = "73d14820-1759-4cd4-a4a2-cb84410b402d";
           //debit bulk orderable
           StockEventDto stockEventDebit = new StockEventDto();
           stockEventDebit.setFacilityId(prepackingEvent.getFacilityId());
@@ -391,16 +399,14 @@ public class PrepackingService {
           stockEventDebit.setUserId(prepackingEvent.getUserId());
           StockEventLineItemDto lineItemDebit = new StockEventLineItemDto(
               prepackingEventLineItem.getOrderableId(), 
+              UUID.fromString(lotId),
               quantityToPrepack, 
               LocalDate.now(), 
-              Collections.singletonList(
-                new StockEventAdjustmentDto(
-                  UUID.fromString(prepackingDebitReasonId),
-                  quantityToPrepack)
-              )
+              UUID.fromString(prepackingDebitReasonId)
           );
           stockEventDebit.setLineItems(Collections.singletonList(lineItemDebit));
           //submit stock event to stockmanagement service
+          LOGGER.error("Submitting stockevent DR : " + stockEventDebit.toString());
           stockEventStockManagementService.submit(stockEventDebit);
           
           //credit prepackaged orderable
@@ -409,17 +415,15 @@ public class PrepackingService {
           stockEventCredit.setProgramId(prepackingEvent.getProgramId());
           stockEventCredit.setUserId(prepackingEvent.getUserId());
           StockEventLineItemDto lineItemCredit = new StockEventLineItemDto(
-              orderable.getId(), 
+              orderables.isEmpty() ? orderable.getId() : orderables.get(0).getId(), 
+              null,
               quantityToPrepack, 
-              LocalDate.now(), 
-              Collections.singletonList(
-                new StockEventAdjustmentDto(
-                  UUID.fromString(prepackingCreditReasonId),
-                  quantityToPrepack)
-              )
+              LocalDate.now(),
+              UUID.fromString(prepackingCreditReasonId) 
           );
           stockEventCredit.setLineItems(Collections.singletonList(lineItemCredit));
           //submit stock event to stockmanagement service
+          LOGGER.error("Submitting stockevent CR : " + stockEventCredit.toString());
           stockEventStockManagementService.submit(stockEventCredit);
           // stockEventStockManagementService.getPage("", map, 
           //     stockEventCredit, HttpMethod.POST, StockEventDto.class).getContent();
