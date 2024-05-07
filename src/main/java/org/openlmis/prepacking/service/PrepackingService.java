@@ -31,16 +31,21 @@ import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.dto.referencedata.OrderableDto;
 import org.openlmis.prepacking.dto.stockmanagement.StockCardSummaryDto;
+import org.openlmis.prepacking.dto.stockmanagement.StockEventAdjustmentDto;
+import org.openlmis.prepacking.dto.stockmanagement.StockEventDto;
+import org.openlmis.prepacking.dto.stockmanagement.StockEventLineItemDto;
 import org.openlmis.prepacking.exception.ResourceNotFoundException;
 import org.openlmis.prepacking.repository.PrepackingEventsRepository;
 import org.openlmis.prepacking.service.referencedata.OrderableReferenceDataService;
 import org.openlmis.prepacking.service.stockmanagement.StockCardSummariesStockManagementService;
+import org.openlmis.prepacking.service.stockmanagement.StockEventStockManagementService;
 import org.openlmis.prepacking.util.Message;
 import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 import org.openlmis.prepacking.util.RequestParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +64,15 @@ public class PrepackingService {
 
   @Autowired
   private OrderableReferenceDataService orderableReferenceDataService;
+
+  @Autowired
+  private StockEventStockManagementService stockEventStockManagementService;
+
+  @Value("${prepacking.prepackingdebit.reasonId}")
+  private String prepackingDebitReasonId;
+
+  @Value("${prepacking.prepackingcredit.reasonId}")
+  private String prepackingCreditReasonId;
 
   /**
    * Get a list of Prepacking events.
@@ -336,10 +350,14 @@ public class PrepackingService {
               LocalDate.now(), 
               prepackingEventLineItem.getLotCode());
         
+        Integer quantityToPrepack = 
+            prepackingEventLineItem.getPrepackSize() 
+            * prepackingEventLineItem.getNumberOfPrepacks();      
         if ((!stockCardSummaries.isEmpty()) && (stockCardSummaries.get(0).getStockOnHand() 
-            >= prepackingEventLineItem.getPrepackSize() 
-            * prepackingEventLineItem.getNumberOfPrepacks())) {
+            >= quantityToPrepack)) {
           //fetch orderable and duplicate it
+          LOGGER.error("We have enough stock for product " 
+              + prepackingEventLineItem.getOrderableId());
           OrderableDto orderable = orderableReferenceDataService
               .findOne(prepackingEventLineItem.getOrderableId());
           orderable.setNetContent((long)prepackingEventLineItem.getPrepackSize());
@@ -351,12 +369,61 @@ public class PrepackingService {
           Map<String, Object> map = new HashMap<>();
           //find orderable
           RequestParameters parameters = RequestParameters.init()
-              .set("code", orderable.getProductCode());
-          if (orderableReferenceDataService.findOne(parameters) == null) {
+              .set("code", orderable.getProductCode())
+              .set("name", orderable.getFullProductName());
+          if (orderableReferenceDataService.getPage(parameters).getContent().isEmpty()) {
             //create new orderable
+            LOGGER.error("Creating new product " 
+                + orderable.toString());
             orderableReferenceDataService.getPage("", map, 
               orderable, HttpMethod.PUT, OrderableDto.class).getContent();
+          } else {
+            LOGGER.error("Product " + orderable.toString()
+                + "already exists");
           }
+          // orderableReferenceDataService.getPage("", map, 
+          //     orderable, HttpMethod.PUT, OrderableDto.class).getContent();
+          
+          //debit bulk orderable
+          StockEventDto stockEventDebit = new StockEventDto();
+          stockEventDebit.setFacilityId(prepackingEvent.getFacilityId());
+          stockEventDebit.setProgramId(prepackingEvent.getProgramId());
+          stockEventDebit.setUserId(prepackingEvent.getUserId());
+          StockEventLineItemDto lineItemDebit = new StockEventLineItemDto(
+              prepackingEventLineItem.getOrderableId(), 
+              quantityToPrepack, 
+              LocalDate.now(), 
+              Collections.singletonList(
+                new StockEventAdjustmentDto(
+                  UUID.fromString(prepackingDebitReasonId),
+                  quantityToPrepack)
+              )
+          );
+          stockEventDebit.setLineItems(Collections.singletonList(lineItemDebit));
+          //submit stock event to stockmanagement service
+          stockEventStockManagementService.submit(stockEventDebit);
+          
+          //credit prepackaged orderable
+          StockEventDto stockEventCredit = new StockEventDto();
+          stockEventCredit.setFacilityId(prepackingEvent.getFacilityId());
+          stockEventCredit.setProgramId(prepackingEvent.getProgramId());
+          stockEventCredit.setUserId(prepackingEvent.getUserId());
+          StockEventLineItemDto lineItemCredit = new StockEventLineItemDto(
+              orderable.getId(), 
+              quantityToPrepack, 
+              LocalDate.now(), 
+              Collections.singletonList(
+                new StockEventAdjustmentDto(
+                  UUID.fromString(prepackingCreditReasonId),
+                  quantityToPrepack)
+              )
+          );
+          stockEventCredit.setLineItems(Collections.singletonList(lineItemCredit));
+          //submit stock event to stockmanagement service
+          stockEventStockManagementService.submit(stockEventCredit);
+          // stockEventStockManagementService.getPage("", map, 
+          //     stockEventCredit, HttpMethod.POST, StockEventDto.class).getContent();
+
         }
       
 

@@ -13,37 +13,23 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.referencedata;
+package org.openlmis.prepacking.dto.stockmanagement;
 
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode
 @ToString
-public class OrderableDto {
-  private UUID id;
-  private String productCode;
-  private String fullProductName;
-  private Long netContent;
-  private Integer packRoundingThreshold;
-  private Boolean roundToZero;
-  private Set<ProgramOrderableDto> programs;
-  private DispensableDto dispensable;
-  private Set<OrderableChildDto> children;
-  private Map<String, String> identifiers;
-  private Map<String, String> extraData;
-  private MetaDataDto meta = new MetaDataDto();
+public class StockEventAdjustmentDto {
+  private UUID reasonId;
+  private Integer quantity;
 }

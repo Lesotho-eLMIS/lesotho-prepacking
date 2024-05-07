@@ -15,35 +15,31 @@
 
 package org.openlmis.prepacking.dto.referencedata;
 
-import java.util.Map;
-import java.util.Set;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+import org.joda.money.Money;
+import org.openlmis.prepacking.util.MoneyDeserializer;
+import org.openlmis.prepacking.util.MoneySerializer;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
-public class OrderableDto {
-  private UUID id;
-  private String productCode;
-  private String fullProductName;
-  private Long netContent;
-  private Integer packRoundingThreshold;
-  private Boolean roundToZero;
-  private Set<ProgramOrderableDto> programs;
-  private DispensableDto dispensable;
-  private Set<OrderableChildDto> children;
-  private Map<String, String> identifiers;
-  private Map<String, String> extraData;
-  private MetaDataDto meta = new MetaDataDto();
+public final class ProgramOrderableDto {
+  private UUID programId;
+  private UUID orderableDisplayCategoryId;
+  private String orderableCategoryDisplayName;
+  private Integer orderableCategoryDisplayOrder;
+  private Boolean fullSupply;
+  private Integer displayOrder;
+  @JsonSerialize(using = MoneySerializer.class)
+  @JsonDeserialize(using = MoneyDeserializer.class)
+  private Money pricePerPack;
 }
