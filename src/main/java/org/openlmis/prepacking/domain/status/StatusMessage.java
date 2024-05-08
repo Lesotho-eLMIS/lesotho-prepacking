@@ -31,6 +31,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.openlmis.prepacking.domain.BaseTimestampedEntity;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.prepacking.domain.status.PrepackingEventStatus;
 
 @Entity
 @Table(name = "status_messages", schema = "prepacking")
@@ -67,7 +68,7 @@ public class StatusMessage extends BaseTimestampedEntity {
   @Column(nullable = false)
   @Getter
   @Setter
-  private String status;
+  private PrepackingEventStatus  status;
 
   @Column(nullable = false)
   @Getter
@@ -125,7 +126,7 @@ public class StatusMessage extends BaseTimestampedEntity {
 
     void setBody(String body);
 
-    void setStatus(String status);
+    void setStatus(PrepackingEventStatus status);
 
     void setCreatedDate(ZonedDateTime createdDate);
   }

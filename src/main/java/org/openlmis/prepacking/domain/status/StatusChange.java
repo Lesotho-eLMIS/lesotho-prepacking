@@ -36,6 +36,7 @@ import org.hibernate.annotations.Type;
 import org.openlmis.prepacking.domain.BaseTimestampedEntity;
 import org.openlmis.prepacking.domain.Rejection;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.prepacking.domain.status.PrepackingEventStatus;
 
 @Entity
 @Table(name = "status_changes", schema = "prepacking")
@@ -66,7 +67,7 @@ public class StatusChange extends BaseTimestampedEntity {
   @Column(nullable = false)
   @Getter
   @Setter
-  private String status;
+  private PrepackingEventStatus status;
 
   @OneToMany(mappedBy = "statusChange")
   @Getter
@@ -101,7 +102,7 @@ public class StatusChange extends BaseTimestampedEntity {
 
     void setCreatedDate(ZonedDateTime createdDate);
 
-    void setStatus(String status);
+    void setStatus(PrepackingEventStatus status);
 
     void setStatusMessage(StatusMessage statusMessage);
 

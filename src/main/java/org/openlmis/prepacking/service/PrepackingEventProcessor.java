@@ -17,6 +17,7 @@ package org.openlmis.prepacking.service;
 
 import java.util.UUID;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
+import org.openlmis.prepacking.domain.status.PrepackingEventStatus;
 import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.repository.PrepackingEventsRepository;
 import org.openlmis.prepacking.util.PrepackingEventProcessContext;
@@ -60,6 +61,11 @@ public class PrepackingEventProcessor {
     PrepackingEventProcessContext context = contextBuilder.buildContext(
         prepackingEventDto);
     prepackingEventDto.setContext(context);
+
+    PrepackingEvent prepackingEvent = prepackingEventDto.toPrepackingEvent();
+    prepackingEvent.setStatus(PrepackingEventStatus.INITIATED);
+    prepackingEventDto.setStatus(prepackingEvent.getStatus());
+
 
     // to do validations
 

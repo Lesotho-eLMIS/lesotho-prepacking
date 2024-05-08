@@ -26,10 +26,14 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import org.openlmis.prepacking.domain.ExtraDataEntity;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
 import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
+import org.openlmis.prepacking.domain.status.PrepackingEventStatus;
 import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 
@@ -37,6 +41,8 @@ import org.openlmis.prepacking.util.PrepackingEventProcessContext;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class PrepackingEventDto {
 
   private UUID id;
@@ -45,9 +51,11 @@ public class PrepackingEventDto {
   private UUID facilityId;
   private UUID programId;
   private String comments;
-  private String status;
+  private PrepackingEventStatus status;
+  private String draftStatusMessage;
   private String remarks;
   private List<PrepackingEventLineItemDto> lineItems;
+  private ExtraDataEntity extraData = new ExtraDataEntity();
 
   private PrepackingEventProcessContext context;
 
@@ -58,7 +66,7 @@ public class PrepackingEventDto {
    */
   public PrepackingEvent toPrepackingEvent() {
     PrepackingEvent prepackingEvent = new PrepackingEvent(
-        now(), facilityId, programId, comments, status, lineItems());
+        now(), facilityId, programId, comments, status,draftStatusMessage,lineItems(),extraData);
     return prepackingEvent;
   }
 

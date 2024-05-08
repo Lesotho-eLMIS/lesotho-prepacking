@@ -26,11 +26,4 @@ public interface PrepackingEventsRepository extends
     PagingAndSortingRepository<PrepackingEvent, UUID> {
   List<PrepackingEvent> findByProgramId(@Param("programId") UUID programId);
 
-  List<PrepackingEvent> findByStatus(@Param("status") String status);
-
-  // List<PrepackingEvent> findByDateAuthorised(@Param("dateAuthorised")
-  // ZonedDateTime dateAuthorised);
-
-  List<PrepackingEvent> findByUserId(@Param("userId") UUID userId);
-
 }

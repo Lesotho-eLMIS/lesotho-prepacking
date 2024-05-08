@@ -71,16 +71,6 @@ public class PrepackingService {
   }
 
   /**
-   * Get a Prepacking event by status.
-   *
-   * @param status prepacking event status.
-   * @return a prepacking event.
-   */
-  public List<PrepackingEvent> getPrepackingEventsByStatus(String status) {
-    return prepackingEventsRepository.findByStatus(status);
-  }
-
-  /**
    * Save or update prepacking.
    *
    * @param dto prepacking event dto.
