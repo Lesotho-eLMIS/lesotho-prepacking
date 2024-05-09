@@ -15,7 +15,6 @@
 
 package org.openlmis.prepacking.service;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -102,44 +101,8 @@ public class PrepackingService {
    * @param id prepacking event id.
    * @return a prepacking event.
    */
-  public PrepackingEventDto getPrepackingEventById(UUID id) {
-    Optional<PrepackingEvent> existingPrepackingEventOpt = prepackingEventsRepository.findById(id);
-
-    if (existingPrepackingEventOpt.isPresent()) {
-      PrepackingEvent existingPrepackingEvent = existingPrepackingEventOpt.get();
-      return prepackingToDto(existingPrepackingEvent);
-    }
-    return null;
-  }
-
-  /**
-   * Get a Prepacking event by status.
-   *
-   * @param status prepacking event status.
-   * @return a prepacking event.
-   */
-  public List<PrepackingEvent> getPrepackingEventsByStatus(String status) {
-    return prepackingEventsRepository.findByStatus(status);
-  }
-
-  /**
-   * Get a Prepacking event by user id.
-   *
-   * @param dateAuthorised prepacking event dateAuthorised.
-   * @return a prepacking event.
-   */
-  public List<PrepackingEvent> getPrepackingEventsByDateAuthorised(ZonedDateTime dateAuthorised) {
-    return prepackingEventsRepository.findByDateAuthorised(dateAuthorised);
-  }
-
-  /**
-   * Get a Prepacking event by user id.
-   *
-   * @param userId prepacking event id.
-   * @return a prepacking event.
-   */
-  public List<PrepackingEvent> getPrepackingEventsByUserId(UUID userId) {
-    return prepackingEventsRepository.findByUserId(userId);
+  public Optional<PrepackingEvent> getPrepackingEventById(UUID id) {
+    return prepackingEventsRepository.findById(id);
   }
 
   /**
@@ -175,12 +138,6 @@ public class PrepackingService {
     if (incomingPrepackingEvent.getDateCreated() != null) {
       existingPrepackingEvent.setDateCreated(incomingPrepackingEvent.getDateCreated());
     }
-    if (incomingPrepackingEvent.getUserId() != null) {
-      existingPrepackingEvent.setUserId(incomingPrepackingEvent.getUserId());
-    }
-    if (incomingPrepackingEvent.getDateAuthorised() != null) {
-      existingPrepackingEvent.setDateAuthorised(incomingPrepackingEvent.getDateAuthorised());
-    }
     if (incomingPrepackingEvent.getFacilityId() != null) {
       existingPrepackingEvent.setFacilityId(incomingPrepackingEvent.getFacilityId());
     }
@@ -189,9 +146,6 @@ public class PrepackingService {
     }
     if (incomingPrepackingEvent.getComments() != null) {
       existingPrepackingEvent.setComments(incomingPrepackingEvent.getComments());
-    }
-    if (incomingPrepackingEvent.getSupervisoryNodeId() != null) {
-      existingPrepackingEvent.setSupervisoryNodeId(incomingPrepackingEvent.getSupervisoryNodeId());
     }
     if (incomingPrepackingEvent.getStatus() != null) {
       existingPrepackingEvent.setStatus(incomingPrepackingEvent.getStatus());
@@ -249,12 +203,9 @@ public class PrepackingService {
     return PrepackingEventDto.builder()
         .id(prepackingEvent.getId())
         .dateCreated(prepackingEvent.getDateCreated())
-        .userId(prepackingEvent.getUserId())
-        .dateAuthorised(prepackingEvent.getDateAuthorised())
         .facilityId(prepackingEvent.getFacilityId())
         .programId(prepackingEvent.getProgramId())
         .comments(prepackingEvent.getComments())
-        .supervisoryNodeId(prepackingEvent.getSupervisoryNodeId())
         .status(prepackingEvent.getStatus())
         .lineItems(prepackingEventLineItemsToDtos(prepackingEvent.getLineItems()))
         .build();
@@ -292,6 +243,8 @@ public class PrepackingService {
         .prepackSize(prepackingEventLineItem.getPrepackSize())
         .lotId(prepackingEventLineItem.getLotId())
         .remarks(prepackingEventLineItem.getRemarks())
+        .stockOnHand(prepackingEventLineItem.getStockOnHand())
+        .status(prepackingEventLineItem.getStatus())
         .build();
   }
 

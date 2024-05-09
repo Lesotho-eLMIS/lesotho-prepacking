@@ -15,7 +15,7 @@
 
 package org.openlmis.prepacking.repository;
 
-import java.time.ZonedDateTime;
+//import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
@@ -24,28 +24,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface PrepackingEventsRepository extends
     PagingAndSortingRepository<PrepackingEvent, UUID> {
-
-  List<PrepackingEvent> findByFacilityId(@Param("facilityId") UUID facilityId);
-
   List<PrepackingEvent> findByProgramId(@Param("programId") UUID programId);
-
-  List<PrepackingEvent> findByStatus(@Param("status") String status);
-
-  List<PrepackingEvent> findByDateAuthorised(@Param("dateAuthorised") ZonedDateTime dateAuthorised);
-
-  List<PrepackingEvent> findByUserId(@Param("userId") UUID userId);
-
-  /*
-   * Page<PrepackingEvent> findByFacilityIdAndProgramId(
-   * 
-   * @Param("facilityId") UUID facilityId,
-   * 
-   * @Param("programId") UUID programId,
-   * Pageable pageable);
-   */
-
-  List<PrepackingEvent> findByFacilityIdAndProgramId(
-      @Param("facilityId") UUID facilityId,
-      @Param("programId") UUID programId);
 
 }

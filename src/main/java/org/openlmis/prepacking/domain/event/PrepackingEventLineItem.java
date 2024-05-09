@@ -41,5 +41,7 @@ public class PrepackingEventLineItem extends BaseEntity {
   @Column(nullable = false)
   private UUID lotId;
   private String remarks;
+  private int stockOnHand;
+  private String status;
 
 }

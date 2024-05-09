@@ -67,6 +67,9 @@ dependencies {
     compile "net.sf.jasperreports:jasperreports:6.5.1"
     compile "org.slf4j:slf4j-ext"
     compile "com.github.tomakehurst:wiremock:1.58"
+    compile 'org.javers:javers-spring-boot-starter-sql:3.11.6'
+
+    implementation 'org.javers:javers-spring-boot-starter-sql:6.2.0'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     compile group: 'javax.interceptor', name: 'javax.interceptor-api', version: '1.2'

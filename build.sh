@@ -8,4 +8,5 @@
 
 # Run Gradle build
 #gradle clean build demoDataTest
+#gradle --refresh-dependencies
 gradle clean build
