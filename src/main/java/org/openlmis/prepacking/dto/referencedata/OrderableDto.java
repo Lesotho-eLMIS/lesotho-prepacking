@@ -37,6 +37,7 @@ public class OrderableDto {
   private UUID id;
   private String productCode;
   private String fullProductName;
+  private String description;
   private Long netContent;
   private Integer packRoundingThreshold;
   private Boolean roundToZero;

@@ -13,32 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.referencedata;
+package org.openlmis.prepacking.domain;
 
-import java.time.ZonedDateTime;
+import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+public interface Versionable {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public final class MetaDataDto {
-  private Long versionNumber;
-  private ZonedDateTime lastUpdated;
+  UUID getId();
 
-  /**
-   * A copy constructor.
-   */
-  public MetaDataDto(MetaDataDto original) {
-    this.versionNumber = original.versionNumber;
-    this.lastUpdated = original.lastUpdated;
-  }
+  Long getVersionNumber();
+
 }

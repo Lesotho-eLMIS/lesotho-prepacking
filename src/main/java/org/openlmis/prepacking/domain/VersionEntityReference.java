@@ -13,35 +13,41 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.referencedata;
+package org.openlmis.prepacking.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.UUID;
+import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.money.Money;
-import org.openlmis.prepacking.util.MoneyDeserializer;
-import org.openlmis.prepacking.util.MoneySerializer;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public final class ProgramOrderableDto {
-  private UUID programId;
-  private UUID orderableDisplayCategoryId;
-  private String orderableCategoryDisplayName;
-  private Integer orderableCategoryDisplayOrder;
-  private boolean active;
-  private Integer dosesPerPatient;
-  private Boolean fullSupply;
-  private Integer displayOrder;
-  @JsonSerialize(using = MoneySerializer.class)
-  @JsonDeserialize(using = MoneyDeserializer.class)
-  private Money pricePerPack;
+@ToString
+@Embeddable
+public class VersionEntityReference implements Versionable {
+
+  @Type(type = "pg-uuid")
+  private UUID id;
+
+  private Long versionNumber;
+
+  /**
+   * Copy constructor.
+   *
+   * @param original an original version entity reference with data that will be placed in
+   *                 a new version entity reference.
+   */
+  public VersionEntityReference(VersionEntityReference original) {
+    this.id = original.id;
+    this.versionNumber = original.versionNumber;
+  }
+
 }

@@ -31,5 +31,5 @@ public abstract class BaseDto {
 
   @Getter
   @Setter
-  private UUID id;
+  protected UUID id;
 }

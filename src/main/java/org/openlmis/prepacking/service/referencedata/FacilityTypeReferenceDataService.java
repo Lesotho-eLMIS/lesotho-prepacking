@@ -13,32 +13,26 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.referencedata;
+package org.openlmis.prepacking.service.referencedata;
 
-import java.time.ZonedDateTime;
+import org.openlmis.prepacking.dto.referencedata.FacilityTypeDto;
+import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+@Service
+public class FacilityTypeReferenceDataService extends BaseReferenceDataService<FacilityTypeDto> {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public final class MetaDataDto {
-  private Long versionNumber;
-  private ZonedDateTime lastUpdated;
+  @Override
+  protected String getUrl() {
+    return "/api/facilityTypes/";
+  }
 
-  /**
-   * A copy constructor.
-   */
-  public MetaDataDto(MetaDataDto original) {
-    this.versionNumber = original.versionNumber;
-    this.lastUpdated = original.lastUpdated;
+  @Override
+  protected Class<FacilityTypeDto> getResultClass() {
+    return FacilityTypeDto.class;
+  }
+
+  @Override
+  protected Class<FacilityTypeDto[]> getArrayResultClass() {
+    return FacilityTypeDto[].class;
   }
 }

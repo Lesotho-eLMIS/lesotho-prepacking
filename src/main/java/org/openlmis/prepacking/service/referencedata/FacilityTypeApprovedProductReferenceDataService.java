@@ -13,32 +13,27 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto.referencedata;
+package org.openlmis.prepacking.service.referencedata;
 
-import java.time.ZonedDateTime;
+import org.openlmis.prepacking.dto.referencedata.ApprovedProductDto;
+import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+@Service
+public class FacilityTypeApprovedProductReferenceDataService extends
+    BaseReferenceDataService<ApprovedProductDto> {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public final class MetaDataDto {
-  private Long versionNumber;
-  private ZonedDateTime lastUpdated;
+  @Override
+  protected String getUrl() {
+    return "/api/facilityTypeApprovedProducts";
+  }
 
-  /**
-   * A copy constructor.
-   */
-  public MetaDataDto(MetaDataDto original) {
-    this.versionNumber = original.versionNumber;
-    this.lastUpdated = original.lastUpdated;
+  @Override
+  protected Class<ApprovedProductDto> getResultClass() {
+    return ApprovedProductDto.class;
+  }
+
+  @Override
+  protected Class<ApprovedProductDto[]> getArrayResultClass() {
+    return ApprovedProductDto[].class;
   }
 }

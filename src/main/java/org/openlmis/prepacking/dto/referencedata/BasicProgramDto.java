@@ -15,33 +15,21 @@
 
 package org.openlmis.prepacking.dto.referencedata;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.money.Money;
-import org.openlmis.prepacking.util.MoneyDeserializer;
-import org.openlmis.prepacking.util.MoneySerializer;
+
+import org.openlmis.prepacking.dto.BaseDto;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-public final class ProgramOrderableDto {
-  private UUID programId;
-  private UUID orderableDisplayCategoryId;
-  private String orderableCategoryDisplayName;
-  private Integer orderableCategoryDisplayOrder;
-  private boolean active;
-  private Integer dosesPerPatient;
-  private Boolean fullSupply;
-  private Integer displayOrder;
-  @JsonSerialize(using = MoneySerializer.class)
-  @JsonDeserialize(using = MoneyDeserializer.class)
-  private Money pricePerPack;
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class BasicProgramDto extends BaseDto {
+  private String code;
+  private String name;
+
 }

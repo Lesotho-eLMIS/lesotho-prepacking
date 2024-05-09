@@ -15,33 +15,32 @@
 
 package org.openlmis.prepacking.dto.referencedata;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.money.Money;
-import org.openlmis.prepacking.util.MoneyDeserializer;
-import org.openlmis.prepacking.util.MoneySerializer;
+import lombok.ToString;
+import org.openlmis.prepacking.domain.VersionEntityReference;
+import org.openlmis.prepacking.domain.Versionable;
+import org.openlmis.prepacking.dto.BaseDto;
 
 @Getter
 @Setter
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-public final class ProgramOrderableDto {
-  private UUID programId;
-  private UUID orderableDisplayCategoryId;
-  private String orderableCategoryDisplayName;
-  private Integer orderableCategoryDisplayOrder;
-  private boolean active;
-  private Integer dosesPerPatient;
-  private Boolean fullSupply;
-  private Integer displayOrder;
-  @JsonSerialize(using = MoneySerializer.class)
-  @JsonDeserialize(using = MoneyDeserializer.class)
-  private Money pricePerPack;
+@EqualsAndHashCode(callSuper = true)
+public final class VersionIdentityDto extends BaseDto implements Versionable {
+  private Long versionNumber;
+
+  public VersionIdentityDto(UUID id, Long versionNumber) {
+    this.id = id;
+    this.versionNumber = versionNumber;
+  }
+
+  public VersionIdentityDto(VersionEntityReference reference) {
+    this(reference.getId(), reference.getVersionNumber());
+  }
 }
