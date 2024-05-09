@@ -91,17 +91,17 @@ public class PrepackingController extends BaseController {
   /**
    * List prepacking event.
    *
-   * @param destinationId a destination facility id.
+   * @param facilityId a destination facility id.
    * @return List of prepacking events.
    */
   @RequestMapping(method = GET)
   public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
-      @RequestParam() UUID destinationId) {
+      @RequestParam() UUID facilityId) {
 
     LOGGER.debug("Try to load prepacking events");
 
     List<PrepackingEventDto> prepacksToReturn;
-    prepacksToReturn = prepackingService.getPrepackingEventsByProgramId(destinationId);
+    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityId(facilityId);
 
     return new ResponseEntity<>(prepacksToReturn, OK);
   }
