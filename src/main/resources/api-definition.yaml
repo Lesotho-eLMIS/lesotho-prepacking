@@ -1,6 +1,6 @@
 #%RAML 0.8
 ---
-title: OpenLMIS Point of Delivery
+title: OpenLMIS Prepacking
 version: '@version@'
 baseUri: '@baseUrl@'
 protocols: [HTTP, HTTPS]
@@ -8,13 +8,13 @@ protocols: [HTTP, HTTPS]
 documentation:
   - title: Getting Started
     content: |
-      OpenLMIS Point of Delivery (POD). POD implements CRUD operations for OpenLMIS POD events.
+      OpenLMIS Prepacking. Prepacking implements CRUD operations for OpenLMIS Prepacking events.
 
       This service provides the following functionality:
-      * Create Point of Delivery event - receive
-      * Get a list of Point of Delivery events for a given facility (destination)
-      * Edit/update a Point of Delivery event
-      * Delete a Point of Delivery event
+      * Create Prepacking event - receive
+      * Get a list of Prepacking events for a given facility (destination)
+      * Edit/update a Prepacking event
+      * Delete a Prepacking event
 
 schemas:
   - program: !include schemas/program.json
@@ -253,18 +253,18 @@ traits:
                 schema: localizedMessage
       delete:
         is: [secured]
-        description: Delete a Point of Delivery event.
+        description: Delete a Prepacking event.
 
         responses:
           204:
-            description: Point of Delivery event deleted.
+            description: Prepacking event deleted.
           400:
-            description: Point of Delivery event is not found.
+            description: Prepacking event is not found.
             body:
               application/json:
                 schema: localizedMessage
           403:
-            description: User does not have permission to delete a Point of Delivery event.
+            description: User does not have permission to delete a Prepacking event.
             body:
               application/json:
                 schema: localizedMessage
