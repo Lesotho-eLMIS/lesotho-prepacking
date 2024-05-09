@@ -26,4 +26,8 @@ public interface PrepackingEventsRepository extends
     PagingAndSortingRepository<PrepackingEvent, UUID> {
   List<PrepackingEvent> findByProgramId(@Param("programId") UUID programId);
 
+  List<PrepackingEvent> findByFacilityId(@Param("facilityId") UUID facilityId);
+  
+  List<PrepackingEvent> findByFacilityIdAndProgramId(@Param("facilityId") UUID facilityId,@Param("programId") UUID programId);
+
 }
