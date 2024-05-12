@@ -147,6 +147,12 @@ public class PrepackingService {
     if (incomingPrepackingEvent.getComments() != null) {
       existingPrepackingEvent.setComments(incomingPrepackingEvent.getComments());
     }
+    if (incomingPrepackingEvent.getPrepackerUserId() != null) {
+      existingPrepackingEvent.setPrepackerUserId(incomingPrepackingEvent.getPrepackerUserId());
+    }
+    if (incomingPrepackingEvent.getPrepackerUserNames() != null) {
+      existingPrepackingEvent.setPrepackerUserNames(incomingPrepackingEvent.getPrepackerUserNames());
+    }
     if (incomingPrepackingEvent.getStatus() != null) {
       existingPrepackingEvent.setStatus(incomingPrepackingEvent.getStatus());
     }
@@ -206,6 +212,8 @@ public class PrepackingService {
         .facilityId(prepackingEvent.getFacilityId())
         .programId(prepackingEvent.getProgramId())
         .comments(prepackingEvent.getComments())
+        .prepackerUserId(prepackingEvent.getPrepackerUserId())
+        .prepackerUserNames(prepackingEvent.getPrepackerUserNames())
         .status(prepackingEvent.getStatus())
         .lineItems(prepackingEventLineItemsToDtos(prepackingEvent.getLineItems()))
         .build();

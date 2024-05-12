@@ -35,6 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.ext.XLogger;
 import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 
 /**
@@ -77,21 +79,27 @@ public class PrepackingEventProcessContextBuilder {
     PrepackingEventProcessContext context = new PrepackingEventProcessContext();
 
     profiler.start("CREATE_LAZY_USER");
-    // OAuth2Authentication authentication = (OAuth2Authentication)
-    // SecurityContextHolder
-    // .getContext()
-    // .getAuthentication();
+    OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder
+        .getContext()
+        .getAuthentication();
 
-    Supplier<UUID> userIdPrepacker;
+    Supplier<UUID> prepackerUserId;
+    Supplier<String> prepackerUserNames;
 
-    // if (authentication.isClientOnly()) {
-    // userIdPrepacker = prepackingEventDto::getUserId;
-    // } else {
-    userIdPrepacker = () -> authenticationHelper.getCurrentUser().getId();
-    // }
+    if (authentication.isClientOnly()) {
+      prepackerUserId = prepackingEventDto::getPrepackerUserId;
+      prepackerUserNames = prepackingEventDto::getPrepackerUserNames;
+    } else {
+      prepackerUserId = () -> authenticationHelper.getCurrentUser().getId();
+      prepackerUserNames = () -> authenticationHelper.getCurrentUser().getFirstName() 
+          + ", " + authenticationHelper.getCurrentUser().getLastName();
+    }
 
-    LazyResource<UUID> userId = new LazyResource<>(userIdPrepacker);
+    LazyResource<UUID> userId = new LazyResource<>(prepackerUserId);
     context.setCurrentUserId(userId);
+
+    LazyResource<String> userNames = new LazyResource<>(prepackerUserNames);
+    context.setCurrentUserNames(userNames);
 
     profiler.start("CREATE_LAZY_FACILITY");
     UUID facilityId = prepackingEventDto.getFacilityId();
