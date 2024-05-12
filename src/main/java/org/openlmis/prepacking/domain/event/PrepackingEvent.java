@@ -55,7 +55,8 @@ public class PrepackingEvent extends BaseEntity {
   private UUID facilityId;
   private UUID programId;
   private String comments;
-
+  private UUID prepackerUserId;
+  private String prepackerUserNames;
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   @Getter

@@ -51,12 +51,12 @@ public class PrepackingEventDto {
   private UUID facilityId;
   private UUID programId;
   private String comments;
+  private UUID prepackerUserId;
+  private String prepackerUserNames;
   private PrepackingEventStatus status;
   private String draftStatusMessage;
-  private String remarks;
   private List<PrepackingEventLineItemDto> lineItems;
   private ExtraDataEntity extraData = new ExtraDataEntity();
-
   private PrepackingEventProcessContext context;
 
   /**
@@ -66,7 +66,7 @@ public class PrepackingEventDto {
    */
   public PrepackingEvent toPrepackingEvent() {
     PrepackingEvent prepackingEvent = new PrepackingEvent(
-        now(), facilityId, programId, comments, status,draftStatusMessage,lineItems(),extraData);
+        now(),facilityId,programId,comments,context.getCurrentUserId(),context.getCurrentUserNames(),status,draftStatusMessage,lineItems(),extraData);
     return prepackingEvent;
   }
 
