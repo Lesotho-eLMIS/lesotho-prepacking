@@ -31,9 +31,11 @@ import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.dto.referencedata.ApprovedProductDto;
 import org.openlmis.prepacking.dto.referencedata.FacilityTypeDto;
+import org.openlmis.prepacking.dto.referencedata.LotDto;
 import org.openlmis.prepacking.dto.referencedata.MetaDataDto;
 import org.openlmis.prepacking.dto.referencedata.OrderableDto;
 import org.openlmis.prepacking.dto.referencedata.ProgramDto;
+import org.openlmis.prepacking.dto.referencedata.TradeItemDto;
 import org.openlmis.prepacking.dto.stockmanagement.StockCardSummaryDto;
 //import org.openlmis.prepacking.dto.stockmanagement.StockEventAdjustmentDto;
 import org.openlmis.prepacking.dto.stockmanagement.StockEventDto;
@@ -42,8 +44,10 @@ import org.openlmis.prepacking.exception.ResourceNotFoundException;
 import org.openlmis.prepacking.repository.PrepackingEventsRepository;
 import org.openlmis.prepacking.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.prepacking.service.referencedata.FacilityTypeApprovedProductReferenceDataService;
+import org.openlmis.prepacking.service.referencedata.LotReferenceDataService;
 import org.openlmis.prepacking.service.referencedata.OrderableReferenceDataService;
 import org.openlmis.prepacking.service.referencedata.ProgramReferenceDataService;
+import org.openlmis.prepacking.service.referencedata.TradeItemReferenceDataService;
 import org.openlmis.prepacking.service.stockmanagement.StockCardSummariesStockManagementService;
 import org.openlmis.prepacking.service.stockmanagement.StockEventStockManagementService;
 import org.openlmis.prepacking.util.Message;
@@ -83,6 +87,12 @@ public class PrepackingService {
 
   @Autowired
   FacilityReferenceDataService facilityReferenceDataService;
+
+  @Autowired
+  LotReferenceDataService lotReferenceDataService;
+
+  @Autowired
+  TradeItemReferenceDataService tradeItemReferenceDataService;
 
   @Value("${prepacking.prepackingdebit.reasonId}")
   private String prepackingDebitReasonId;
@@ -335,7 +345,7 @@ public class PrepackingService {
         .orderableId(prepackingEventLineItem.getOrderableId())
         .numberOfPrepacks(prepackingEventLineItem.getNumberOfPrepacks())
         .prepackSize(prepackingEventLineItem.getPrepackSize())
-        .lotCode(prepackingEventLineItem.getLotCode())
+        .lotId(prepackingEventLineItem.getLotId())
         .remarks(prepackingEventLineItem.getRemarks())
         .build();
   }
@@ -355,13 +365,15 @@ public class PrepackingService {
       // For each prepacking event line item
       for (PrepackingEventLineItem prepackingEventLineItem : prepackingEvent.getLineItems()) {
         // Get SOH - call
+        LotDto bulkLot = lotReferenceDataService
+            .findOne(prepackingEventLineItem.getLotId());
         List<StockCardSummaryDto> stockCardSummaries = stockCardSummariesStockManagementService
             .search(
                 prepackingEvent.getProgramId(),
                 prepackingEvent.getFacilityId(),
                 Collections.singleton(prepackingEventLineItem.getOrderableId()),
                 LocalDate.now(),
-                prepackingEventLineItem.getLotCode());
+                bulkLot.getLotCode());
         Integer quantityToPrepack = prepackingEventLineItem.getPrepackSize()
             * prepackingEventLineItem.getNumberOfPrepacks();
 
@@ -384,8 +396,9 @@ public class PrepackingService {
             List<OrderableDto> orderables = orderableReferenceDataService
                 .getPage(orderableParameters).getContent();
             OrderableDto prepackOrderable = null;
+            LotDto childLot = null;
             if (orderables.isEmpty()) {
-              // product does not exist, so create it
+              // product does not exist, so create it             
               prepackOrderable = new OrderableDto();
               prepackOrderable.setId(UUID.randomUUID());
               prepackOrderable.setFullProductName(prepackOrderableName);
@@ -397,7 +410,13 @@ public class PrepackingService {
               prepackOrderable
                   .setPackRoundingThreshold(prepackingEventLineItem.getPrepackSize() / 2);
               Map<String, String> orderableIdentifiers = new HashMap<>();
-              orderableIdentifiers.put("tradeItem", UUID.randomUUID().toString());
+
+              //first create tradeItem for this orderable since it is a tradeitem's orderable
+              TradeItemDto tradeItem = new TradeItemDto();
+              tradeItem.setManufacturerOfTradeItem("Local Manufacturer");
+              UUID createdTradeItemUuid = tradeItemReferenceDataService.submit(tradeItem).getId();
+              
+              orderableIdentifiers.put("tradeItem", createdTradeItemUuid.toString());
               prepackOrderable.setIdentifiers(orderableIdentifiers);
               MetaDataDto meta = new MetaDataDto();
               meta.setLastUpdated(ZonedDateTime.now());
@@ -408,11 +427,49 @@ public class PrepackingService {
 
               orderableReferenceDataService.getPage("", new HashMap<>(),
                   prepackOrderable, HttpMethod.PUT, OrderableDto.class);
+              // OrderableDto createdOrderable = null;
+              // if (!createdOrderableList.isEmpty()) {
+              //   createdOrderable = createdOrderableList.get(0);
+              // }
               // To-do handle product creation failure
+              
+              //Create child lot
+              childLot = new LotDto();
+              childLot.setTradeItemId(createdTradeItemUuid);
+              childLot.setLotCode(bulkLot.getLotCode() + "-" 
+                  + prepackingEventLineItem.getPrepackSize());
+              childLot.setExpirationDate(bulkLot.getExpirationDate());
+              childLot.setManufactureDate(bulkLot.getManufactureDate());
+              childLot.setActive(bulkLot.isActive());
+              
+              LotDto existingLot = lotReferenceDataService.getLotMatching(childLot);
+              if (null == existingLot) {
+                //create lot
+                childLot = lotReferenceDataService.submit(childLot);
+              } else {
+                childLot = existingLot;
+              }
 
             } else {
               // product exists
               prepackOrderable = orderables.get(0);
+              //Create child lot
+              childLot = new LotDto();
+              childLot.setLotCode(bulkLot.getLotCode() + "-" 
+                  + prepackingEventLineItem.getPrepackSize());
+              childLot.setTradeItemId(
+                  UUID.fromString(prepackOrderable.getIdentifiers().get("tradeItem")));
+              childLot.setExpirationDate(bulkLot.getExpirationDate());
+              childLot.setManufactureDate(bulkLot.getManufactureDate());
+              childLot.setActive(bulkLot.isActive());
+
+              LotDto existingLot = lotReferenceDataService.getLotMatching(childLot);
+              if (null == existingLot) {
+                //create lot
+                childLot = lotReferenceDataService.submit(childLot);
+              } else {
+                childLot = existingLot;
+              }
             }
 
             // Check
@@ -444,8 +501,6 @@ public class PrepackingService {
                   new HashMap<>(),
                   approvedProduct);
             }
-
-            String lotId = "73d14820-1759-4cd4-a4a2-cb84410b402d";
             // debit bulk orderable
             StockEventDto stockEventDebit = new StockEventDto();
             stockEventDebit.setFacilityId(prepackingEvent.getFacilityId());
@@ -453,7 +508,7 @@ public class PrepackingService {
             stockEventDebit.setUserId(prepackingEvent.getUserId());
             StockEventLineItemDto lineItemDebit = new StockEventLineItemDto(
                 bulkOrderable.getId(),
-                UUID.fromString(lotId),
+                prepackingEventLineItem.getLotId(),
                 quantityToPrepack,
                 LocalDate.now(),
                 UUID.fromString(prepackingDebitReasonId));
@@ -469,12 +524,13 @@ public class PrepackingService {
             stockEventCredit.setUserId(prepackingEvent.getUserId());
             StockEventLineItemDto lineItemCredit = new StockEventLineItemDto(
                 prepackOrderable.getId(),
-                null,
+                childLot.getId(),
                 quantityToPrepack,
                 LocalDate.now(),
                 UUID.fromString(prepackingCreditReasonId));
             stockEventCredit.setLineItems(Collections.singletonList(lineItemCredit));
             // submit stock event to stockmanagement service
+            LOGGER.error("Child lot : " + childLot.toString());
             LOGGER.error("Submitting stockevent CR : " + stockEventCredit.toString());
             stockEventStockManagementService.submit(stockEventCredit);
             prepackingEventLineItem.setRemarks("Successful");
@@ -482,7 +538,7 @@ public class PrepackingService {
             // inadequate stock
             LOGGER.info("Inadequate stock for product "
                 + prepackingEventLineItem.getOrderableId()
-                + " lot: " + prepackingEventLineItem.getLotCode());
+                + " lot: " + prepackingEventLineItem.getLotId());
             prepackingEventLineItem.setRemarks("Unsuccessful - inadequate stock");
           }
         } else {
