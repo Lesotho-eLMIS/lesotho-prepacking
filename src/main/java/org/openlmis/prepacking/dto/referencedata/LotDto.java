@@ -13,33 +13,41 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.domain.event;
+package org.openlmis.prepacking.dto.referencedata;
 
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDate;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.openlmis.prepacking.domain.BaseEntity;
+import lombok.Setter;
 
-@Entity
-@Data
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "prepacking_event_line_item", schema = "prepacking")
-public class PrepackingEventLineItem extends BaseEntity {
+@EqualsAndHashCode
+public class LotDto {
+  private UUID id;
+  private String lotCode;
+  private boolean active;
+  private UUID tradeItemId;
+  @JsonFormat(shape = STRING)
+  private LocalDate expirationDate;
+  @JsonFormat(shape = STRING)
+  private LocalDate manufactureDate;
 
-  private UUID prepackingEventId;
-  @Column(nullable = false)
-  private UUID orderableId;
-  @Column(nullable = false)
-  private int numberOfPrepacks;
-  @Column(nullable = false)
-  private int prepackSize;
-  @Column(nullable = false)
-  private UUID lotId;
-  private String remarks;
-
+  @Override
+  public String toString() {
+    return "{" + " id='" + getId() + "'" + ", lotCode='" + getLotCode() + "'"
+      + ", active='" + isActive() + "'" + ", tradeItemId='" + getTradeItemId() + "'"
+      + ", expirationDate='" + getExpirationDate() + "'" + ", manufactureDate='" 
+      + getManufactureDate() + "'" + "}";
+  }
 }
