@@ -15,11 +15,8 @@
 
 package org.openlmis.prepacking.service;
 
-<<<<<<< HEAD
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-=======
->>>>>>> dev-environment
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,6 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.openlmis.prepacking.domain.event.PrepackingEvent;
 import org.openlmis.prepacking.domain.event.PrepackingEventLineItem;
+import org.openlmis.prepacking.domain.status.PrepackingEventStatus;
 import org.openlmis.prepacking.dto.PrepackingEventDto;
 import org.openlmis.prepacking.dto.PrepackingEventLineItemDto;
 import org.openlmis.prepacking.dto.referencedata.ApprovedProductDto;
@@ -160,8 +158,14 @@ public class PrepackingService {
    * @param id prepacking event id.
    * @return a prepacking event.
    */
-  public Optional<PrepackingEvent> getPrepackingEventById(UUID id) {
-    return prepackingEventsRepository.findById(id);
+  public PrepackingEventDto getPrepackingEventById(UUID id) {
+    Optional<PrepackingEvent> existingPrepackingEventOpt = prepackingEventsRepository.findById(id);
+
+    if (existingPrepackingEventOpt.isPresent()) {
+      PrepackingEvent existingPrepackingEvent = existingPrepackingEventOpt.get();
+      return prepackingToDto(existingPrepackingEvent);
+    }
+    return null;
   }
 
   /**
@@ -470,7 +474,7 @@ public class PrepackingService {
             StockEventDto stockEventDebit = new StockEventDto();
             stockEventDebit.setFacilityId(prepackingEvent.getFacilityId());
             stockEventDebit.setProgramId(prepackingEvent.getProgramId());
-            stockEventDebit.setUserId(prepackingEvent.getUserId());
+            stockEventDebit.setUserId(prepackingEvent.getPrepackerUserId());
             StockEventLineItemDto lineItemDebit = new StockEventLineItemDto(
                 bulkOrderable.getId(),
                 prepackingEventLineItem.getLotId(),
@@ -486,7 +490,7 @@ public class PrepackingService {
             StockEventDto stockEventCredit = new StockEventDto();
             stockEventCredit.setFacilityId(prepackingEvent.getFacilityId());
             stockEventCredit.setProgramId(prepackingEvent.getProgramId());
-            stockEventCredit.setUserId(prepackingEvent.getUserId());
+            stockEventCredit.setUserId(prepackingEvent.getPrepackerUserId());
             StockEventLineItemDto lineItemCredit = new StockEventLineItemDto(
                 prepackOrderable.getId(),
                 childLot.getId(),
@@ -513,7 +517,7 @@ public class PrepackingService {
         }
       }
       // update prepackingevent status here
-      prepackingEvent.setStatus("Processed");
+      prepackingEvent.setStatus(PrepackingEventStatus.AUTHORIZED);
       return prepackingToDto(prepackingEvent);
 
     } else {
