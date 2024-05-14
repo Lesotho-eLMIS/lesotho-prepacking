@@ -13,23 +13,34 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.dto.referencedata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.openlmis.prepacking.domain.VersionEntityReference;
+import org.openlmis.prepacking.domain.Versionable;
+import org.openlmis.prepacking.dto.BaseDto;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
+@Getter
+@Setter
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto {
+@EqualsAndHashCode(callSuper = true)
+public final class VersionIdentityDto extends BaseDto implements Versionable {
+  private Long versionNumber;
 
-  @Getter
-  @Setter
-  protected UUID id;
+  public VersionIdentityDto(UUID id, Long versionNumber) {
+    this.id = id;
+    this.versionNumber = versionNumber;
+  }
+
+  public VersionIdentityDto(VersionEntityReference reference) {
+    this(reference.getId(), reference.getVersionNumber());
+  }
 }

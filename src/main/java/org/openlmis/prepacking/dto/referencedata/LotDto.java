@@ -13,23 +13,41 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.dto.referencedata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto {
+@EqualsAndHashCode
+public class LotDto {
+  private UUID id;
+  private String lotCode;
+  private boolean active;
+  private UUID tradeItemId;
+  @JsonFormat(shape = STRING)
+  private LocalDate expirationDate;
+  @JsonFormat(shape = STRING)
+  private LocalDate manufactureDate;
 
-  @Getter
-  @Setter
-  protected UUID id;
+  @Override
+  public String toString() {
+    return "{" + " id='" + getId() + "'" + ", lotCode='" + getLotCode() + "'"
+      + ", active='" + isActive() + "'" + ", tradeItemId='" + getTradeItemId() + "'"
+      + ", expirationDate='" + getExpirationDate() + "'" + ", manufactureDate='" 
+      + getManufactureDate() + "'" + "}";
+  }
 }

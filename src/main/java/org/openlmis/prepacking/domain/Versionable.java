@@ -13,23 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+public interface Versionable {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  UUID getId();
+
+  Long getVersionNumber();
+
 }

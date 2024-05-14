@@ -13,23 +13,17 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.exception;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.openlmis.prepacking.util.Message;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+/**
+ * Exception for indicating that an internal server exception occured. This should result
+ * in a Internal Error api response
+ */
+public class ServerException extends BaseMessageException {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  public ServerException(Throwable cause, String messageKey, Object... messageParameters) {
+    super(cause, new Message(messageKey, messageParameters));
+  }
 }

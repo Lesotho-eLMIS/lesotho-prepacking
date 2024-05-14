@@ -13,23 +13,27 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.exception;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.openlmis.prepacking.dto.LocalizedMessageDto;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+public class ExternalApiException extends RuntimeException {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  private final LocalizedMessageDto localizedMessage;
+
+  public ExternalApiException(Throwable cause,
+                              LocalizedMessageDto localizedMessage) {
+    super(cause);
+    this.localizedMessage = localizedMessage;
+  }
+
+  @Override
+  public String getMessage() {
+    return localizedMessage.toString();
+  }
+
+  public LocalizedMessageDto getMessageLocalized() {
+    return localizedMessage;
+  }
+
 }

@@ -13,23 +13,25 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.dto.referencedata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto {
-
-  @Getter
-  @Setter
-  protected UUID id;
+@EqualsAndHashCode
+public final class ApprovedProductDto {
+  private OrderableDto orderable;
+  private FacilityTypeDto facilityType;
+  private ProgramDto program;
+  private Double maxPeriodsOfStock;
+  private Double minPeriodsOfStock;
+  private Double emergencyOrderPoint;
+  private MetaDataDto meta = new MetaDataDto();
 }

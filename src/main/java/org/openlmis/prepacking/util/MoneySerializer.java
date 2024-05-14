@@ -13,23 +13,23 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+import org.joda.money.Money;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+/**
+ * MoneySerializer class represents the serializer for Joda-Money.
+ */
+public class MoneySerializer extends JsonSerializer<Money> {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  @Override
+  public void serialize(Money value, JsonGenerator generator, SerializerProvider provider)
+      throws IOException {
+    generator.writeNumber(value.getAmount());
+  }
 }
+

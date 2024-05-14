@@ -13,23 +13,41 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.UUID;
+import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto {
+@EqualsAndHashCode
+@ToString
+@Embeddable
+public class VersionEntityReference implements Versionable {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  @Type(type = "pg-uuid")
+  private UUID id;
+
+  private Long versionNumber;
+
+  /**
+   * Copy constructor.
+   *
+   * @param original an original version entity reference with data that will be placed in
+   *                 a new version entity reference.
+   */
+  public VersionEntityReference(VersionEntityReference original) {
+    this.id = original.id;
+    this.versionNumber = original.versionNumber;
+  }
+
 }

@@ -13,23 +13,28 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import static org.openlmis.prepacking.CurrencyConfig.currencyCode;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import java.io.IOException;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
-  @Getter
-  @Setter
-  protected UUID id;
+/**
+ * MoneyDeserializer class represents the deserializer for Joda-Money.
+ */
+public class MoneyDeserializer extends JsonDeserializer<Money> {
+
+  @Override
+  public Money deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+      throws IOException {
+
+    String currencyString = currencyCode;
+    return Money.parse(
+        CurrencyUnit.of(currencyString).getCode() + " " + jsonParser.getText());
+  }
 }

@@ -58,7 +58,7 @@ public abstract class BaseCommunicationService<T> {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
-  private AuthService authService;
+  protected AuthService authService;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -66,7 +66,7 @@ public abstract class BaseCommunicationService<T> {
   @Value("${request.maxUrlLength}")
   private int maxUrlLength;
 
-  private RestOperations restTemplate = new RestTemplate();
+  protected RestOperations restTemplate = new RestTemplate();
 
   protected abstract String getServiceUrl();
 
@@ -326,7 +326,7 @@ public abstract class BaseCommunicationService<T> {
     return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  private DataRetrievalException buildDataRetrievalException(HttpStatusCodeException ex) {
+  protected DataRetrievalException buildDataRetrievalException(HttpStatusCodeException ex) {
     return new DataRetrievalException(getResultClass().getSimpleName(), ex);
   }
 
@@ -359,6 +359,33 @@ public abstract class BaseCommunicationService<T> {
       if (HttpStatus.UNAUTHORIZED == ex.getStatusCode()) {
         // the token has (most likely) expired - clear the cache and retry once
         authService.clearTokenCache();
+        return task.run();
+      }
+      throw ex;
+    }
+  }
+
+  protected <P> ResponseEntity<P> runWithRetryAndTokenRetry(HttpTask<P> task) {
+    try {
+      return task.run();
+    } catch (HttpStatusCodeException ex) {
+      if (HttpStatus.UNAUTHORIZED == ex.getStatusCode()) {
+        // the token has (most likely) expired - clear the cache and retry once
+        authService.clearTokenCache();
+        return runWithRetry(task);
+      }
+      if (ex.getStatusCode().is4xxClientError() || ex.getStatusCode().is5xxServerError()) {
+        return runWithTokenRetry(task);
+      }
+      throw ex;
+    }
+  }
+
+  private <P> ResponseEntity<P> runWithRetry(HttpTask<P> task) {
+    try {
+      return task.run();
+    } catch (HttpStatusCodeException ex) {
+      if (ex.getStatusCode().is4xxClientError() || ex.getStatusCode().is5xxServerError()) {
         return task.run();
       }
       throw ex;

@@ -15,21 +15,18 @@
 
 package org.openlmis.prepacking.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto {
-
-  @Getter
-  @Setter
-  protected UUID id;
+@ToString
+public class LocalizedMessageDto {
+  private String messageKey;
+  private String message;
 }

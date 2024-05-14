@@ -35,7 +35,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,9 +78,6 @@ public class PrepackingController extends BaseController {
 
     Profiler profiler = getProfiler("CREATE_PREPACKING_EVENT", prepackingEventDto);
 
-    // checkPermission(prepackingEventDto,
-    // profiler.startNested("CHECK_PERMISSION"));
-
     profiler.start("PROCESS");
     UUID createdPodId = prepackingEventProcessor.process(prepackingEventDto);
 
@@ -89,29 +88,54 @@ public class PrepackingController extends BaseController {
   }
 
   /**
-   * List prepacking event.
+   * Get prepacking events by facility id and program id.
    *
-   * @param facilityId a destination facility id.
+   * @param facilityId a prepacking facility id.
+   * @param programId  a prepacking program id.
+   * @return List of prepacking events.
+   */
+  // @RequestMapping(method = GET)
+  // public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
+  //     @RequestParam() UUID facilityId,
+  //     @RequestParam() UUID programId) {
+
+  //   LOGGER.debug("Try to load prepacking events");
+
+  //   List<PrepackingEventDto> prepacksToReturn;
+  //   prepacksToReturn = prepackingService.getPrepackingEventsByFacilityIdAndProgramId(
+  //       facilityId,
+  //       programId);
+
+  //   return new ResponseEntity<>(prepacksToReturn, OK);
+
+  // }
+
+  /**
+   * Get prepacking events by facility id.
+   *
+   * @param facilityId a prepacking facility id.
    * @return List of prepacking events.
    */
   @RequestMapping(method = GET)
-  public ResponseEntity<List<PrepackingEventDto>> getPrepackingEvents(
+  public ResponseEntity<List<PrepackingEventDto>> getPrepackingEventsByFacilityId(
       @RequestParam() UUID facilityId) {
 
     LOGGER.debug("Try to load prepacking events");
 
     List<PrepackingEventDto> prepacksToReturn;
-    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityId(facilityId);
+    prepacksToReturn = prepackingService.getPrepackingEventsByFacilityId(
+        facilityId);
 
     return new ResponseEntity<>(prepacksToReturn, OK);
+
   }
 
   /**
-   * Update a Prepacking event.
+   * Update a prepacking event.
    *
-   * @param id  Prepacking event id.
-   * @param dto Prepacking dto.
-   * @return created Prepacking dto.
+   * @param id  prepacking event id.
+   * @param dto prepacking dto.
+   * @return created prepacking dto.
    */
   @Transactional
   @PutMapping(ID_PATH_VARIABLE)
@@ -119,20 +143,49 @@ public class PrepackingController extends BaseController {
   @ResponseBody
   public ResponseEntity<PrepackingEventDto> updatePrepackingEvent(@PathVariable UUID id,
       @RequestBody PrepackingEventDto dto) {
-    PrepackingEventDto updatedPodEvent = prepackingService
+    PrepackingEventDto updatedPrepackingEvent = prepackingService
         .updatePrepackingEvent(dto, id);
-    return new ResponseEntity<>(updatedPodEvent, OK);
+    return new ResponseEntity<>(updatedPrepackingEvent, OK);
   }
 
   /**
-   * Delete a Prepacking event.
+   * Delete a prepacking event.
    *
-   * @param id Prepacking event id.
+   * @param id prepacking event id.
    */
   @DeleteMapping(ID_PATH_VARIABLE)
   @ResponseStatus(NO_CONTENT)
   public void deletePrepackingEvent(@PathVariable UUID id) {
     prepackingService.deletePrepackingEvent(id);
   }
+
+  /**
+   * Get a prepacking event.
+   *
+   * @param id  prepacking event id.
+   * @return created prepacking dto.
+   */
+  @Transactional
+  @GetMapping(ID_PATH_VARIABLE)
+  @ResponseStatus(OK)
+  @ResponseBody
+  public ResponseEntity<PrepackingEventDto> getPrepackingEvent(@PathVariable UUID id) {
+    PrepackingEventDto prepackingEvent = prepackingService
+        .getPrepackingEventById(id);
+    return new ResponseEntity<>(prepackingEvent, OK);
+  }
+
+  /**
+   * Authorises and Splits.
+   */
+  @PostMapping("/{id}/authorize")
+  @ResponseStatus(OK)
+  @ResponseBody
+  public ResponseEntity<PrepackingEventDto> authorizePrepacking(
+      @PathVariable("id") UUID prepackingEventId) {
+    PrepackingEventDto prepackingEvent = prepackingService.authorizePrepack(prepackingEventId);
+    return new ResponseEntity<>(prepackingEvent, OK); 
+  }
+
 
 }

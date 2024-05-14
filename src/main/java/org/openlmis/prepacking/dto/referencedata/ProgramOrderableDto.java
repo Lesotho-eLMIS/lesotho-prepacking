@@ -13,23 +13,35 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.dto.referencedata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.joda.money.Money;
+import org.openlmis.prepacking.util.MoneyDeserializer;
+import org.openlmis.prepacking.util.MoneySerializer;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto {
-
-  @Getter
-  @Setter
-  protected UUID id;
+@EqualsAndHashCode
+public final class ProgramOrderableDto {
+  private UUID programId;
+  private UUID orderableDisplayCategoryId;
+  private String orderableCategoryDisplayName;
+  private Integer orderableCategoryDisplayOrder;
+  private boolean active;
+  private Integer dosesPerPatient;
+  private Boolean fullSupply;
+  private Integer displayOrder;
+  @JsonSerialize(using = MoneySerializer.class)
+  @JsonDeserialize(using = MoneyDeserializer.class)
+  private Money pricePerPack;
 }

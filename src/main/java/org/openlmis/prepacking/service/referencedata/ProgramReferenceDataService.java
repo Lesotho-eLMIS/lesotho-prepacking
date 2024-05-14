@@ -13,23 +13,26 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.service.referencedata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.openlmis.prepacking.dto.referencedata.ProgramDto;
+import org.springframework.stereotype.Service;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+@Service
+public class ProgramReferenceDataService extends BaseReferenceDataService<ProgramDto> {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  @Override
+  protected String getUrl() {
+    return "/api/programs/";
+  }
+
+  @Override
+  protected Class<ProgramDto> getResultClass() {
+    return ProgramDto.class;
+  }
+
+  @Override
+  protected Class<ProgramDto[]> getArrayResultClass() {
+    return ProgramDto[].class;
+  }
 }

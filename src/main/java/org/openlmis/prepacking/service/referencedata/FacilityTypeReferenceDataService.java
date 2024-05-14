@@ -13,23 +13,26 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.service.referencedata;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.openlmis.prepacking.dto.referencedata.FacilityTypeDto;
+import org.springframework.stereotype.Service;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+@Service
+public class FacilityTypeReferenceDataService extends BaseReferenceDataService<FacilityTypeDto> {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  @Override
+  protected String getUrl() {
+    return "/api/facilityTypes/";
+  }
+
+  @Override
+  protected Class<FacilityTypeDto> getResultClass() {
+    return FacilityTypeDto.class;
+  }
+
+  @Override
+  protected Class<FacilityTypeDto[]> getArrayResultClass() {
+    return FacilityTypeDto[].class;
+  }
 }

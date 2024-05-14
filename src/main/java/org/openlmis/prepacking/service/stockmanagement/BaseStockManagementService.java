@@ -13,23 +13,23 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.prepacking.dto;
+package org.openlmis.prepacking.service.stockmanagement;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.openlmis.prepacking.service.BaseCommunicationService;
+import org.springframework.beans.factory.annotation.Value;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class BaseDto {
+public abstract class BaseStockManagementService<T> extends BaseCommunicationService<T> {
 
-  @Getter
-  @Setter
-  protected UUID id;
+  @Value("${stockmanagement.url}")
+  private String stockmanagementUrl;
+
+  protected String getServiceName() {
+    return "Stock Management";
+  }
+
+  @Override
+  protected String getServiceUrl() {
+    return stockmanagementUrl;
+  }
+
 }
