@@ -185,7 +185,7 @@ public class PrepackingService {
       dto.setContext(context);
       PrepackingEvent incomingPrepackingEvent = dto.toPrepackingEvent();
 
-      // Update the Existing PodEvent object with values incoming DTO data
+      // Update the Existing PrepackingEvent object with values incoming DTO data
       existingPrepackingEvent = copyAttributes(existingPrepackingEvent, incomingPrepackingEvent);
 
       // save updated prepacking event
