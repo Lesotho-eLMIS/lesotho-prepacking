@@ -526,4 +526,25 @@ public class PrepackingService {
     }
   }
 
+  /**
+   * Reject prepacking event.
+   *
+   * @param prepackingEventId prepacking event id.
+   * @return rejected dto.
+   */
+  public PrepackingEventDto rejectPrepack(UUID prepackingEventId) {
+    //fetch prepacking event
+    Optional<PrepackingEvent> prepackingEventOpt = prepackingEventsRepository
+        .findById(prepackingEventId);
+    
+    if (prepackingEventOpt.isPresent()) {
+      //update status and save
+      PrepackingEvent prepackingEvent = prepackingEventOpt.get();
+      prepackingEvent.setStatus(PrepackingEventStatus.REJECTED);
+      prepackingEventsRepository.save(prepackingEvent);
+      return prepackingToDto(prepackingEvent);
+    }
+    return null;
+  }
+
 }
