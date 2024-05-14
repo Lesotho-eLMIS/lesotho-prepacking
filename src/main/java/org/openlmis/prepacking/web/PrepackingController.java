@@ -187,5 +187,17 @@ public class PrepackingController extends BaseController {
     return new ResponseEntity<>(prepackingEvent, OK); 
   }
 
+  /**
+   * Rejects a prepacking event.
+   */
+  @PostMapping("/{id}/reject")
+  @ResponseStatus(OK)
+  @ResponseBody
+  public ResponseEntity<PrepackingEventDto> rejectPrepacking(
+      @PathVariable("id") UUID prepackingEventId) {
+    PrepackingEventDto prepackingEvent = prepackingService.rejectPrepack(prepackingEventId);
+    return new ResponseEntity<>(prepackingEvent, OK); 
+  }
+
 
 }
