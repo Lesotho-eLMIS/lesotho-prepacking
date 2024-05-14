@@ -83,16 +83,23 @@ public class PrepackingEventProcessContextBuilder {
         .getContext()
         .getAuthentication();
 
-    Supplier<UUID> userIdPrepacker;
+    Supplier<UUID> prepackerUserId;
+    Supplier<String> prepackerUserNames;
 
     if (authentication.isClientOnly()) {
-      userIdPrepacker = prepackingEventDto::getUserId;
+      prepackerUserId = prepackingEventDto::getPrepackerUserId;
+      prepackerUserNames = prepackingEventDto::getPrepackerUserNames;
     } else {
-      userIdPrepacker = () -> authenticationHelper.getCurrentUser().getId();
+      prepackerUserId = () -> authenticationHelper.getCurrentUser().getId();
+      prepackerUserNames = () -> authenticationHelper.getCurrentUser().getFirstName() 
+          + ", " + authenticationHelper.getCurrentUser().getLastName();
     }
 
-    LazyResource<UUID> userId = new LazyResource<>(userIdPrepacker);
+    LazyResource<UUID> userId = new LazyResource<>(prepackerUserId);
     context.setCurrentUserId(userId);
+
+    LazyResource<String> userNames = new LazyResource<>(prepackerUserNames);
+    context.setCurrentUserNames(userNames);
 
     profiler.start("CREATE_LAZY_FACILITY");
     UUID facilityId = prepackingEventDto.getFacilityId();

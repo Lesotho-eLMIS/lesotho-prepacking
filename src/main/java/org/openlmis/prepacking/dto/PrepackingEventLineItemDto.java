@@ -36,6 +36,8 @@ public class PrepackingEventLineItemDto {
   private int prepackSize;
   private UUID lotId;
   private String remarks;
+  private int stockOnHand;
+  private String status;
 
   /**
    * Convert dto to jpa model.
@@ -49,7 +51,9 @@ public class PrepackingEventLineItemDto {
         numberOfPrepacks,
         prepackSize,
         lotId,
-        remarks);
+        remarks,
+        stockOnHand,
+        status);
 
     return lineItem;
   }
