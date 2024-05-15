@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * A service that is in charge of saving point of delivery events
- * pod events.
+ * prepacking events.
  */
 @Service
 public class PrepackingEventProcessor {
@@ -47,7 +47,7 @@ public class PrepackingEventProcessor {
   private PrepackingEventsRepository prepackingEventsRepository;
 
   /**
-   * Validate and persist pod event.
+   * Validate and persist prepacking event.
    *
    * @param prepackingEventDto point of delivery event dto.
    * @return the persisted event ids.

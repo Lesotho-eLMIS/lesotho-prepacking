@@ -79,10 +79,10 @@ public class PrepackingController extends BaseController {
     Profiler profiler = getProfiler("CREATE_PREPACKING_EVENT", prepackingEventDto);
 
     profiler.start("PROCESS");
-    UUID createdPodId = prepackingEventProcessor.process(prepackingEventDto);
+    UUID createdPrepackingId = prepackingEventProcessor.process(prepackingEventDto);
 
     profiler.start("CREATE_RESPONSE");
-    ResponseEntity<UUID> response = new ResponseEntity<>(createdPodId, CREATED);
+    ResponseEntity<UUID> response = new ResponseEntity<>(createdPrepackingId, CREATED);
 
     return stopProfiler(profiler, response);
   }
@@ -184,6 +184,18 @@ public class PrepackingController extends BaseController {
   public ResponseEntity<PrepackingEventDto> authorizePrepacking(
       @PathVariable("id") UUID prepackingEventId) {
     PrepackingEventDto prepackingEvent = prepackingService.authorizePrepack(prepackingEventId);
+    return new ResponseEntity<>(prepackingEvent, OK); 
+  }
+
+  /**
+   * Rejects a prepacking event.
+   */
+  @PostMapping("/{id}/reject")
+  @ResponseStatus(OK)
+  @ResponseBody
+  public ResponseEntity<PrepackingEventDto> rejectPrepacking(
+      @PathVariable("id") UUID prepackingEventId) {
+    PrepackingEventDto prepackingEvent = prepackingService.rejectPrepack(prepackingEventId);
     return new ResponseEntity<>(prepackingEvent, OK); 
   }
 

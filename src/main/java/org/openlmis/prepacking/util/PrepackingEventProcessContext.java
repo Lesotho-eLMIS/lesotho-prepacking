@@ -22,7 +22,7 @@ import org.openlmis.prepacking.dto.referencedata.FacilityDto;
 
 
 /**
- * Before processing a pod event, one instance of this class will be created to hold all things
+ * Before processing a prepacking event, one instance of this class will be created to hold all things
  * needed from ref-data service. By doing this, all network traffic is concentrated in one place,
  * not scattered around in different places. All resources use lazy loading so they are retrieved
  * only when there is a need.

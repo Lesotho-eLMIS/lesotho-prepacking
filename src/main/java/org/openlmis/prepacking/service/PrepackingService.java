@@ -185,7 +185,7 @@ public class PrepackingService {
       dto.setContext(context);
       PrepackingEvent incomingPrepackingEvent = dto.toPrepackingEvent();
 
-      // Update the Existing PodEvent object with values incoming DTO data
+      // Update the Existing PrepackingEvent object with values incoming DTO data
       existingPrepackingEvent = copyAttributes(existingPrepackingEvent, incomingPrepackingEvent);
 
       // save updated prepacking event
@@ -524,6 +524,27 @@ public class PrepackingService {
       // prepackingevent cannot be found
       return null;
     }
+  }
+
+  /**
+   * Reject prepacking event.
+   *
+   * @param prepackingEventId prepacking event id.
+   * @return rejected dto.
+   */
+  public PrepackingEventDto rejectPrepack(UUID prepackingEventId) {
+    //fetch prepacking event
+    Optional<PrepackingEvent> prepackingEventOpt = prepackingEventsRepository
+        .findById(prepackingEventId);
+    
+    if (prepackingEventOpt.isPresent()) {
+      //update status and save
+      PrepackingEvent prepackingEvent = prepackingEventOpt.get();
+      prepackingEvent.setStatus(PrepackingEventStatus.REJECTED);
+      prepackingEventsRepository.save(prepackingEvent);
+      return prepackingToDto(prepackingEvent);
+    }
+    return null;
   }
 
 }
