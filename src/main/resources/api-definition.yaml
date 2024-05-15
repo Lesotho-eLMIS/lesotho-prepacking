@@ -11,10 +11,12 @@ documentation:
       OpenLMIS Prepacking. Prepacking implements CRUD operations for OpenLMIS Prepacking events.
 
       This service provides the following functionality:
-      * Create Prepacking event - receive
-      * Get a list of Prepacking events for a given facility (destination)
+      * Create Prepacking event
+      * Get a Prepacking event
+      * Get a list of Prepacking events for a given facility
       * Edit/update a Prepacking event
       * Delete a Prepacking event
+      *Authorize/Reject a Prepacking event
 
 schemas:
   - program: !include schemas/program.json
@@ -252,6 +254,41 @@ traits:
                       body:
                         application/json:
                             schema: localizedMessage
+    /{id}/reject:
+          uriParameters:
+              id:
+                  displayName: prepacking Id
+                  type: string
+                  required: true
+                  repeat: false
+          post:
+              is: [ secured ]
+              description: Reject prepackingEvent
+              responses:
+                  "200":
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                            schema: prepackingEventDto
+                  "400":
+                      body:
+                        application/json:
+                            schema: localizedMessage
+                  "404":
+                  "403":
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                            schema: localizedMessage
+                  "409":
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                            schema: localizedMessage
+
     /{id}:
       uriParameters:
         id:
