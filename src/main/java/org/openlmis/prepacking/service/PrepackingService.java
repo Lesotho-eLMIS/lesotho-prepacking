@@ -334,15 +334,19 @@ public class PrepackingService {
       // For each prepacking event line item
       for (PrepackingEventLineItem prepackingEventLineItem : prepackingEvent.getLineItems()) {
         // Get SOH - call
-        LotDto bulkLot = lotReferenceDataService
+        LotDto bulkLot = null;
+        if (prepackingEventLineItem.getLotId() != null) {
+          bulkLot = lotReferenceDataService
             .findOne(prepackingEventLineItem.getLotId());
+        }
+        
         List<StockCardSummaryDto> stockCardSummaries = stockCardSummariesStockManagementService
             .search(
                 prepackingEvent.getProgramId(),
                 prepackingEvent.getFacilityId(),
                 Collections.singleton(prepackingEventLineItem.getOrderableId()),
                 LocalDate.now(),
-                bulkLot.getLotCode());
+                bulkLot == null ? null : bulkLot.getLotCode());
         Integer quantityToPrepack = prepackingEventLineItem.getPrepackSize()
             * prepackingEventLineItem.getNumberOfPrepacks();
 
@@ -402,43 +406,47 @@ public class PrepackingService {
               // }
               // To-do handle product creation failure
               
-              //Create child lot
-              childLot = new LotDto();
-              childLot.setTradeItemId(createdTradeItemUuid);
-              childLot.setLotCode(bulkLot.getLotCode() + "-" 
-                  + prepackingEventLineItem.getPrepackSize());
-              childLot.setExpirationDate(bulkLot.getExpirationDate());
-              childLot.setManufactureDate(bulkLot.getManufactureDate());
-              childLot.setActive(bulkLot.isActive());
-              
-              LotDto existingLot = lotReferenceDataService.getLotMatching(childLot);
-              if (null == existingLot) {
-                //create lot
-                childLot = lotReferenceDataService.submit(childLot);
-              } else {
-                childLot = existingLot;
+              if (bulkLot != null) {
+                //Create child lot
+                childLot = new LotDto();
+                childLot.setTradeItemId(createdTradeItemUuid);
+                childLot.setLotCode(bulkLot.getLotCode() + "-" 
+                    + prepackingEventLineItem.getPrepackSize());
+                childLot.setExpirationDate(bulkLot.getExpirationDate());
+                childLot.setManufactureDate(bulkLot.getManufactureDate());
+                childLot.setActive(bulkLot.isActive());
+                
+                LotDto existingLot = lotReferenceDataService.getLotMatching(childLot);
+                if (null == existingLot) {
+                  //create lot
+                  childLot = lotReferenceDataService.submit(childLot);
+                } else {
+                  childLot = existingLot;
+                }
               }
-
             } else {
               // product exists
               prepackOrderable = orderables.get(0);
-              //Create child lot
-              childLot = new LotDto();
-              childLot.setLotCode(bulkLot.getLotCode() + "-" 
-                  + prepackingEventLineItem.getPrepackSize());
-              childLot.setTradeItemId(
-                  UUID.fromString(prepackOrderable.getIdentifiers().get("tradeItem")));
-              childLot.setExpirationDate(bulkLot.getExpirationDate());
-              childLot.setManufactureDate(bulkLot.getManufactureDate());
-              childLot.setActive(bulkLot.isActive());
+              if (bulkLot != null) {
+                //Create child lot
+                childLot = new LotDto();
+                childLot.setLotCode(bulkLot.getLotCode() + "-" 
+                    + prepackingEventLineItem.getPrepackSize());
+                childLot.setTradeItemId(
+                    UUID.fromString(prepackOrderable.getIdentifiers().get("tradeItem")));
+                childLot.setExpirationDate(bulkLot.getExpirationDate());
+                childLot.setManufactureDate(bulkLot.getManufactureDate());
+                childLot.setActive(bulkLot.isActive());
 
-              LotDto existingLot = lotReferenceDataService.getLotMatching(childLot);
-              if (null == existingLot) {
-                //create lot
-                childLot = lotReferenceDataService.submit(childLot);
-              } else {
-                childLot = existingLot;
+                LotDto existingLot = lotReferenceDataService.getLotMatching(childLot);
+                if (null == existingLot) {
+                  //create lot
+                  childLot = lotReferenceDataService.submit(childLot);
+                } else {
+                  childLot = existingLot;
+                }
               }
+    
             }
 
             // Check
@@ -493,13 +501,13 @@ public class PrepackingService {
             stockEventCredit.setUserId(prepackingEvent.getPrepackerUserId());
             StockEventLineItemDto lineItemCredit = new StockEventLineItemDto(
                 prepackOrderable.getId(),
-                childLot.getId(),
+                childLot == null ? null : childLot.getId(),
                 quantityToPrepack,
                 LocalDate.now(),
                 UUID.fromString(prepackingCreditReasonId));
             stockEventCredit.setLineItems(Collections.singletonList(lineItemCredit));
             // submit stock event to stockmanagement service
-            LOGGER.error("Child lot : " + childLot.toString());
+            // LOGGER.error("Child lot : " + childLot.toString());
             LOGGER.error("Submitting stockevent CR : " + stockEventCredit.toString());
             stockEventStockManagementService.submit(stockEventCredit);
             prepackingEventLineItem.setRemarks("Successful");
