@@ -373,6 +373,9 @@ public class PrepackingService {
             if (orderables.isEmpty()) {
               // product does not exist, so create it             
               prepackOrderable = new OrderableDto();
+              Map<String, String> extraData = new HashMap<>();
+              extraData.put("isPrepack", "true");
+              prepackOrderable.setExtraData(extraData);
               prepackOrderable.setId(UUID.randomUUID());
               prepackOrderable.setFullProductName(prepackOrderableName);
               prepackOrderable.setDescription(bulkOrderable.getDescription()
