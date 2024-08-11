@@ -380,6 +380,8 @@ public class PrepackingService {
               prepackOrderable.setProductCode(prepackOrderableCode);
               prepackOrderable.setNetContent((long) prepackingEventLineItem.getPrepackSize());
               prepackOrderable.setPrograms(bulkOrderable.getPrograms());
+              //Make this product non-full supply to hide it from requisition
+              prepackOrderable.getPrograms().stream().findFirst().get().setFullSupply(false);
               prepackOrderable
                   .setPackRoundingThreshold(prepackingEventLineItem.getPrepackSize() / 2);
               Map<String, String> orderableIdentifiers = new HashMap<>();
