@@ -528,6 +528,8 @@ public class PrepackingService {
       }
       // update prepackingevent status here
       prepackingEvent.setStatus(PrepackingEventStatus.AUTHORIZED);
+      //persist prepacking event
+      prepackingEventsRepository.save(prepackingEvent);
       return prepackingToDto(prepackingEvent);
 
     } else {
